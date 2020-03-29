@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  nq-server:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+    environment:
+      - NODE_ENV:development
+      - DEBUG:*
+    volumes:
+      - ./:/usr/src/app/
+      - /node_modules
