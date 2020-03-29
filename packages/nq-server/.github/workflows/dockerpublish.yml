@@ -75,6 +75,8 @@ jobs:
       - uses: azure/docker-login@v1
         with:
           login-server: docker.pkg.github.com/nq-framework/nq-server
+          username: 'any'
+          password: 'any'
       - uses: azure/webapps-container-deploy@v1
         with:
           app-name: 'nq-server'
