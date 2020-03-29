@@ -72,7 +72,13 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: azure/docker-login@v1
+        with:
+          login-server: docker.pkg.github.com/nq-framework/nq-server
       - uses: azure/webapps-container-deploy@v1
         with:
           app-name: 'nq-server'
-          images: 'docker.pkg.github.com/nq-framework/nq-server/nq-server:latest'
+          images: 'nq-server:latest'
+      - name: Azure logout
+        run: |
+          az logout
