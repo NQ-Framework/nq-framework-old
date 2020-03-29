@@ -68,3 +68,11 @@ jobs:
 
           docker tag image $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - uses: azure/webapps-container-deploy@v1
+        with:
+          app-name: 'nq-server'
+          images: 'docker.pkg.github.com/nq-framework/nq-server/nq-server:latest'
