@@ -80,7 +80,7 @@ jobs:
       - uses: azure/webapps-container-deploy@v1
         with:
           app-name: 'nq-server'
-          images: 'nq-server:latest'
+          images: 'docker.pkg.github.com/nq-framework/nq-server/nq-server:latest'
       - name: Azure logout
         run: |
           az logout
