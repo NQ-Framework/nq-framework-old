@@ -1,10 +1,9 @@
 FROM node:12 AS build-env
 WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 RUN npm install -g @nestjs/cli
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 RUN npm install
 COPY . .
-RUN npm run test
 RUN npm run build
 
 FROM node:12-alpine

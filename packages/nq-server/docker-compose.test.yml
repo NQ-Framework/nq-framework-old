@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  nq-server:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.test
+    environment:
+      - NODE_ENV:development
+      - DEBUG:*
