@@ -23,7 +23,7 @@ jobs:
         with:
           login-server: login docker.pkg.github.com
           username: irreal
-          password: ${{ secrets.GH_TOKEN }}
+          password: ${{ secrets.AD_TOKEN }}
       - uses: azure/webapps-container-deploy@v1
         with:
           app-name: 'nq-server'
