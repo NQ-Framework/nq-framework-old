@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { FirebaseAuthMiddleware } from './firebase';
 import configuration from './config/configuration';
 import { ConfiugrationModule } from './config/configuration.module';
+import { ActionsModule } from './actions/actions.module';
 
 const configImport = ConfigModule.forRoot({
   envFilePath: '.development.env',
@@ -13,7 +14,7 @@ const configImport = ConfigModule.forRoot({
 });
 
 @Module({
-  imports: [configImport, ConfiugrationModule],
+  imports: [configImport, ConfiugrationModule, ActionsModule],
   controllers: [AppController],
   providers: [AppService],
 })
@@ -24,6 +25,7 @@ export class AppModule implements NestModule {
         consumer
           .apply(FirebaseAuthMiddleware)
           .exclude('v1/api')
+          .exclude('v1/actions/recieve')
           .forRoutes('*'),
       );
     });
