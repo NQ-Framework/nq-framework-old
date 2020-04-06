@@ -8,7 +8,7 @@ describe('Actions Controller', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ActionsController],
-      providers: [{ provide: AuthConfigService, useValue: {} }]
+      providers: [{ provide: AuthConfigService, useValue: {} }],
     }).compile();
 
     controller = module.get<ActionsController>(ActionsController);
@@ -17,5 +17,4 @@ describe('Actions Controller', () => {
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });
-
 });
