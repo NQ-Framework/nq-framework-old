@@ -20,7 +20,7 @@ const configImport = ConfigModule.forRoot({
 })
 export class AppModule implements NestModule {
   async configure(consumer: MiddlewareConsumer) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       resolve(
         consumer
           .apply(FirebaseAuthMiddleware)

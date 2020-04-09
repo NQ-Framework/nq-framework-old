@@ -16,7 +16,7 @@ export class ActionsController {
     const firebaseUser = await firebase(this.config)
       .auth()
       .verifyIdToken(token)
-      .catch(err => {
+      .catch((err) => {
         this.rejectConnection(res, err);
       });
     console.log('valid firebase user', firebaseUser);

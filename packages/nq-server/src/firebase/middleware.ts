@@ -18,7 +18,7 @@ export class FirebaseAuthMiddleware implements NestMiddleware {
     const user = await firebase(this.config)
       .auth()
       .verifyIdToken(token)
-      .catch(err => {
+      .catch((err) => {
         this.throwError(err);
       });
 
