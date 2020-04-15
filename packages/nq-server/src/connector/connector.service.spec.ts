@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConnectorService } from './connector.service';
-import { Response } from '@irreal/nestjs-sse';
 
 describe('ConnectorService', () => {
   let service: ConnectorService;
@@ -74,6 +73,22 @@ describe('ConnectorService', () => {
   it('should throw when sending data to non existing id', () => {
     expect(() => {
       service.send('test id', 'test');
+    }).toThrowErrorMatchingSnapshot();
+  });
+
+  it('should close the connection', (done) => {
+    const res: any = {
+      end: () => {
+        done();
+      },
+    };
+    service.add('test id', res);
+    service.close('test id');
+  });
+
+  it('should throw error when closing non existing connection', () => {
+    expect(() => {
+      service.close('test id');
     }).toThrowErrorMatchingSnapshot();
   });
 });

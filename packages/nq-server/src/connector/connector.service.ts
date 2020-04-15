@@ -29,4 +29,12 @@ export class ConnectorService {
     }
     res.sse(`data: ${data}\n\n`);
   }
+
+  close(id: string) {
+    const res = this.get(id);
+    if (res === undefined) {
+      throw new Error("Can't close connection to non existing client");
+    }
+    res.end();
+  }
 }
