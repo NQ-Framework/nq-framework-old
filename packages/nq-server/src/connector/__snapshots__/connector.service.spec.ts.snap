@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConnectorService should throw when sending data to non existing id 1`] = `"Can't send data to a non existing client"`;

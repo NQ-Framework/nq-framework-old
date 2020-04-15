@@ -1,4 +1,4 @@
-import firebase from './initialize';
+import { loadFirebase } from './initialize';
 import { Injectable, NestMiddleware, HttpStatus } from '@nestjs/common';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { Request, Response } from 'express';
@@ -15,7 +15,7 @@ export class FirebaseAuthMiddleware implements NestMiddleware {
     }
     const token = authorization.slice(7); // Bearer <token>
 
-    const user = await firebase(this.config)
+    const user = await loadFirebase(this.config)
       .auth()
       .verifyIdToken(token)
       .catch((err) => {

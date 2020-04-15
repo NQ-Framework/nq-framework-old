@@ -1,38 +1,45 @@
-import firebase from '../firebase/initialize';
+import { loadFirebase } from '../firebase/initialize';
 import { Controller, Get, Res, Req } from '@nestjs/common';
-import { Response } from 'nestjs-sse';
+import { Response } from '@irreal/nestjs-sse';
 import { AuthConfigService } from '../config/AuthConfigService';
 import { Request } from 'express';
+import { ConnectorService } from '../connector/connector.service';
 
 @Controller('actions')
 export class ActionsController {
-  constructor(private config: AuthConfigService) {}
+  constructor(
+    private config: AuthConfigService,
+    private connector: ConnectorService,
+  ) {}
   @Get('recieve')
   async ReceiveActions(@Req() req: Request, @Res() res: Response) {
-    const token = req.query.token;
+    const token = req.query.token as string;
     if (!token) {
       this.rejectConnection(res);
     }
-    const firebaseUser = await firebase(this.config)
-      .auth()
-      .verifyIdToken(token)
-      .catch((err) => {
-        this.rejectConnection(res, err);
+    try {
+      const decodedToken = await loadFirebase(this.config)
+        .auth()
+        .verifyIdToken(token);
+
+      this.connector.add(decodedToken.uid, res);
+
+      res.on('close', () => {
+        this.connector.remove(decodedToken.uid);
       });
-    console.log('valid firebase user', firebaseUser);
-
-    res.on('close', () => {
-      console.log('ode ovaj!');
-    });
+    } catch (err) {
+      this.rejectConnection(res, err);
+    }
   }
 
-  private sendData(res: Response, data: string) {
-    res.sse(`data: ${data}\n\n`);
-  }
+  // private sendData(res: Response, data: string) {
+  //   res.sse(`data: ${data}\n\n`);
+  // }
+
   private rejectConnection(res: Response, err?: Error) {
     res.sse(
       `data: Unauthorized. Please supply valid token for authentication as a query parameter. ${
-        err ? JSON.stringify(err) : ''
+        err ? err.message : ''
       }\n\n`,
     );
     res.end();

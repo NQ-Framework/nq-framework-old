@@ -3,16 +3,19 @@ import * as admin from 'firebase-admin';
 import { AuthConfigService } from '../config/AuthConfigService';
 
 let firebaseApp;
-export default (config: AuthConfigService) =>
-  firebaseApp
-    ? firebaseApp
-    : (firebaseApp = admin.initializeApp({
-        credential: admin.credential.cert({
-          projectId: config.projectId,
-          privateKey: config.privateKey.replace(/\\n/g, '\n'),
-          clientEmail: config.clientEmail,
-        }),
-      }));
+export function loadFirebase(config: AuthConfigService): admin.app.App {
+  if (firebaseApp) {
+    return firebaseApp;
+  }
+  firebaseApp = admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: config.projectId,
+      privateKey: config.privateKey.replace(/\\n/g, '\n'),
+      clientEmail: config.clientEmail,
+    }),
+  });
+  return firebaseApp;
+}
 
 declare global {
   namespace Express {
