@@ -6,7 +6,6 @@ import { FirebaseAuthMiddleware } from './firebase';
 import configuration from './config/configuration';
 import { ConfiugrationModule } from './config/configuration.module';
 import { ActionsModule } from './actions/actions.module';
-import { ConnectorService } from './connector/connector.service';
 
 const configImport = ConfigModule.forRoot({
   envFilePath: '.development.env',
@@ -17,7 +16,7 @@ const configImport = ConfigModule.forRoot({
 @Module({
   imports: [configImport, ConfiugrationModule, ActionsModule],
   controllers: [AppController],
-  providers: [AppService, ConnectorService],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
   async configure(consumer: MiddlewareConsumer) {
