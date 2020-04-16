@@ -35,11 +35,25 @@ export class ActionsController {
   }
 
   @Post('ping')
-  ping(@Req() req: any): string {
+  ping(@Req() req: any): { message: string } {
     const user = req.firebaseUser as auth.DecodedIdToken;
     if (this.connector.has(user.uid)) {
       this.connector.send(user.uid, 'pong!');
-      return 'ping request successful';
+      return { message: 'ping request successful' };
+    } else {
+      throw new HttpException(
+        { message: 'Supplied user id has no active connector session' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+
+  @Post('terminate')
+  terminate(@Req() req: any): { message: string } {
+    const user = req.firebaseUser as auth.DecodedIdToken;
+    if (this.connector.has(user.uid)) {
+      this.connector.close(user.uid);
+      return { message: 'termination request successful' };
     } else {
       throw new HttpException(
         { message: 'Supplied user id has no active connector session' },
