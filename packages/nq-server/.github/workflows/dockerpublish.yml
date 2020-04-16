@@ -12,22 +12,7 @@ env:
       SERVICE_NAME: nq-server
 
 jobs:
-  # Run tests.
-  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Run tests
-        run: |
-            docker-compose --file docker-compose.test.yml build
-
-  # Push image to GitHub Packages.
-  # See also https://docs.docker.com/docker-hub/builds/
   setup-build-deploy:
-    needs: test
     name: Setup, Build, and Deploy
     runs-on: ubuntu-latest
 
