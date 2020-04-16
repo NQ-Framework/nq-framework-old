@@ -47,7 +47,7 @@ describe('Actions Controller', () => {
   it('should reject connections without a token', (done) => {
     const reqWithoutToken: any = { query: {} };
     const resWithoutToken: any = {
-      sse: (data) => {
+      sse: (data: any) => {
         expect(data).toEqual(expect.stringContaining('Unauthorized'));
       },
       end: () => {
@@ -60,7 +60,7 @@ describe('Actions Controller', () => {
   it('should reject connections with invalid tokens', (done) => {
     const reqWithInvalidToken: any = { query: { token: 'invalid token' } };
     const resWithInvalidToken: any = {
-      sse: (data) => {
+      sse: (data: any) => {
         expect(data).toEqual(expect.stringContaining('Unauthorized'));
         expect(data).toEqual(expect.stringContaining('invalid token'));
       },
@@ -77,7 +77,7 @@ describe('Actions Controller', () => {
   it('should allow connections with valid token', (done) => {
     const reqWithValidToken: any = { query: { token: 'valid token' } };
     const resWithValidToken: any = {
-      sse: (data) => {
+      sse: (data: any) => {
         throw new Error(`should not send any data. Got: ${data}`);
       },
       end: () => {
@@ -97,7 +97,7 @@ describe('Actions Controller', () => {
     const spyAdd = jest.spyOn(mockConnector, 'add');
     const spyRemove = jest.spyOn(mockConnector, 'remove');
     let cb: any = undefined;
-    mockResponse.on = (event, callback) => {
+    mockResponse.on = (event: any, callback: any) => {
       expect(event).toEqual('close');
       cb = callback;
     };

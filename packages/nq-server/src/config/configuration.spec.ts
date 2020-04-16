@@ -7,5 +7,9 @@ describe('confiugration helper', () => {
     process.env.PORT = 'asd';
     config = configuration();
     expect(config.port).toEqual(80);
+
+    process.env.PORT = undefined;
+    config = configuration();
+    expect(config.port).toEqual(80);
   });
 });

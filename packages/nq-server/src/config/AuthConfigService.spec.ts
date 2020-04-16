@@ -29,4 +29,17 @@ describe('AuthConfigService', () => {
     expect(service.privateKey).toEqual('test value');
     expect(service.clientEmail).toEqual('test value');
   });
+
+  it('should throw on missing configuration', () => {
+    mockConfigService.get.mockReturnValue(undefined);
+    expect(() => {
+      service.projectId;
+    }).toThrowErrorMatchingSnapshot();
+    expect(() => {
+      service.privateKey;
+    }).toThrowErrorMatchingSnapshot();
+    expect(() => {
+      service.clientEmail;
+    }).toThrowErrorMatchingSnapshot();
+  });
 });

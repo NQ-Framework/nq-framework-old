@@ -10,7 +10,7 @@ export class AppController {
     return this.appService.getHello();
   }
   @Get('profile')
-  getProfile(@Req() req): string {
+  getProfile(@Req() req: any): string {
     return req.firebaseUser;
   }
 }

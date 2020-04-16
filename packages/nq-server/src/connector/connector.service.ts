@@ -3,7 +3,7 @@ import { Response } from '@irreal/nestjs-sse';
 
 @Injectable()
 export class ConnectorService {
-  responseMap = {};
+  responseMap: any = {};
   add(id: string, res: Response) {
     this.responseMap[id] = res;
   }

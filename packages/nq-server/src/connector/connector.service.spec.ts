@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConnectorService } from './connector.service';
+import { Response } from '@irreal/nestjs-sse';
 
 describe('ConnectorService', () => {
   let service: ConnectorService;
@@ -31,11 +32,11 @@ describe('ConnectorService', () => {
     service.add('test id', res);
     service.add('test id 2', res2);
 
-    const resReturned = service.get('test id');
+    const resReturned = (service.get('test id') as any) as Response;
     expect(resReturned.sse('')).toEqual('sse');
     expect(resReturned).toEqual(res);
 
-    const resReturned2 = service.get('test id 2');
+    const resReturned2 = (service.get('test id 2') as any) as Response;
     expect(resReturned2).toEqual(res2);
     expect(resReturned2.sse('')).toEqual('sse 2');
   });
@@ -46,9 +47,13 @@ describe('ConnectorService', () => {
 
   it('should replace the object if added twice with same id', () => {
     service.add('test id', { sse: () => 'test 1' } as any);
-    expect(service.get('test id').sse('')).toEqual('test 1');
+    expect(((service.get('test id') as any) as Response).sse('')).toEqual(
+      'test 1',
+    );
     service.add('test id', { sse: () => 'test 2' } as any);
-    expect(service.get('test id').sse('')).toEqual('test 2');
+    expect(((service.get('test id') as any) as Response).sse('')).toEqual(
+      'test 2',
+    );
   });
 
   it('should check if response is present', () => {
@@ -61,7 +66,7 @@ describe('ConnectorService', () => {
 
   it('should send data to response object', (done) => {
     const res: any = {
-      sse: (data) => {
+      sse: (data: any) => {
         expect(data).toEqual('data: test\n\n');
         done();
       },

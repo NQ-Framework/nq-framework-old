@@ -2,7 +2,7 @@
 import * as admin from 'firebase-admin';
 import { AuthConfigService } from '../config/AuthConfigService';
 
-let firebaseApp;
+let firebaseApp: any;
 export function loadFirebase(config: AuthConfigService): admin.app.App {
   if (firebaseApp) {
     return firebaseApp;
