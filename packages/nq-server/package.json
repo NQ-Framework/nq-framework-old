@@ -1,6 +1,6 @@
 {
   "name": "nq-server",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "The cloud server that powers the NQ Framework",
   "author": "NQ Framework",
   "private": true,
