@@ -1,5 +1,4 @@
 import { loadFirebase } from './initialize';
-import { AuthConfigService } from '../config/AuthConfigService';
 jest.mock('firebase-admin', () => ({
   __esModule: true,
   credential: {
@@ -9,7 +8,6 @@ jest.mock('firebase-admin', () => ({
 }));
 
 import * as admin from 'firebase-admin';
-import { config } from 'rxjs';
 
 describe('firebase', () => {
   it('should create or return a firebase instance', () => {

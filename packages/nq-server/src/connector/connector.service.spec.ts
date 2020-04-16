@@ -70,6 +70,9 @@ describe('ConnectorService', () => {
         expect(data).toEqual('data: test\n\n');
         done();
       },
+      end: () => {
+        // this is a hack until google cloud run enables http streaming
+      },
     };
     service.add('test id', res);
     service.send('test id', 'test');

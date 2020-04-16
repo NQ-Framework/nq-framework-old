@@ -28,6 +28,7 @@ export class ConnectorService {
       throw new Error("Can't send data to a non existing client");
     }
     res.sse(`data: ${data}\n\n`);
+    res.end(); //awful workaround to support running on google cloud run until HTTP Streaming is enabled
   }
 
   close(id: string) {
