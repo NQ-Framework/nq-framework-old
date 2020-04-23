@@ -6,6 +6,7 @@ import { FirebaseAuthMiddleware } from './firebase';
 import configuration from './config/configuration';
 import { ConfiugrationModule } from './config/configuration.module';
 import { ActionsModule } from './actions/actions.module';
+import { WorkOrderModule } from './business/work-order/work-order.module';
 
 const configImport = ConfigModule.forRoot({
   envFilePath: '.development.env',
@@ -14,7 +15,7 @@ const configImport = ConfigModule.forRoot({
 });
 
 @Module({
-  imports: [configImport, ConfiugrationModule, ActionsModule],
+  imports: [configImport, ConfiugrationModule, ActionsModule, WorkOrderModule],
   controllers: [AppController],
   providers: [AppService],
 })
