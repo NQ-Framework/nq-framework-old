@@ -2,7 +2,7 @@
   <img src="https://user-images.githubusercontent.com/1223799/50992071-73562500-1516-11e9-99fa-9f73b0f0eee2.png" width="597" alt="nqframework-models">
 </p>
 
-# @nq-framework/models
+# @nqframework/models
 
 > Data Transfer Objects for NQ Framework
 
@@ -16,7 +16,7 @@
 ## 🔧 Installation
 
 ```sh
-npm install @nq-framework/models --save
+npm install @nqframework/models --save
 ```
 
 ## 🎬 Getting started
