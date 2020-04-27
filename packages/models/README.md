@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/1223799/50992071-73562500-1516-11e9-99fa-9f73b0f0eee2.png" width="597" alt="darex-models">
+  <img src="https://user-images.githubusercontent.com/1223799/50992071-73562500-1516-11e9-99fa-9f73b0f0eee2.png" width="597" alt="nqframework-models">
 </p>
 
-# darex-models
+# @nq-framework/models
 
-> Data Transfer Objects for the Darex API
+> Data Transfer Objects for NQ Framework
 
 ---
 
@@ -16,7 +16,7 @@
 ## 🔧 Installation
 
 ```sh
-npm install @irreal/darex-models --save
+npm install @nq-framework/models --save
 ```
 
 ## 🎬 Getting started
