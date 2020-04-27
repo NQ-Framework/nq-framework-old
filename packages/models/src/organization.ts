@@ -7,4 +7,5 @@ export interface Organization {
   address2: string;
   country: string;
   members: OrganizationMember[];
+  memberIds: string[];
 }
