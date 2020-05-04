@@ -45,7 +45,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "@irreal/decorator-mapper": "^1.0.8",
+    "@irreal/decorator-mapper": "^1.0.11",
     "reflect-metadata": "^0.1.13"
   }
 }
