@@ -2,6 +2,4 @@
 
 exports[`ConnectorService kasot 1`] = `"Can't close connection to non existing client"`;
 
-exports[`ConnectorService should throw error when closing non existing connection 1`] = `"Can't close connection to non existing client"`;
-
 exports[`ConnectorService should throw when sending data to non existing id 1`] = `"Can't send data to a non existing client"`;
