@@ -94,7 +94,7 @@ describe('ConnectorService', () => {
     service.close('test id');
   });
 
-  it('should throw error when closing non existing connection', () => {
+  it('kasot', () => {
     expect(() => {
       service.close('test id');
     }).toThrowErrorMatchingSnapshot();
