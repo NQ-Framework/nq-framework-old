@@ -1,6 +1,6 @@
 {
   "name": "@nqframework/models",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "Data Transfer Objects for the NQ Framework",
   "main": "build/index.js",
   "module": "build/index.es.js",
