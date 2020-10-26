@@ -97,10 +97,14 @@ describe('ConnectorService', () => {
 
   it ('should not close the connection if res was updated', ()=>{
     const res: any = {
-      end: () => {},
+      end: () => {
+        //empty
+      },
     };
     const res2: any = {
-      end:()=>{},
+      end:()=>{
+        //empty
+      },
     }
     service.add('test id', res);
     service.add('test id', res2);

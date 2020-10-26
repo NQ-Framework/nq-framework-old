@@ -26,7 +26,7 @@ export class AppModule implements NestModule {
         consumer
           .apply(FirebaseAuthMiddleware)
           .exclude('v1/api')
-          .exclude('v1/actions/recieve')
+          .exclude('v1/actions/receive')
           .forRoutes('*'),
       );
     });

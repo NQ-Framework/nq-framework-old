@@ -10,6 +10,6 @@ import { ConnectorModule } from '../connector/connector.module';
 })
 export class ActionsModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(SSEMiddleware).forRoutes('actions/recieve');
+    consumer.apply(SSEMiddleware).forRoutes('actions/receive');
   }
 }

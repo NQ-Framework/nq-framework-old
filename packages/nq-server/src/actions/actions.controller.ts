@@ -13,7 +13,7 @@ export class ActionsController {
     private config: AuthConfigService,
     private connector: ConnectorService,
   ) {}
-  @Get('recieve')
+  @Get('receive')
   async ReceiveActions(@Req() req: Request, @Res() res: Response) {
     const token = req.query.token as string;
     if (!token) {
