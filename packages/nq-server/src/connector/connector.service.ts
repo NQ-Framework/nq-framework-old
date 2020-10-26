@@ -36,8 +36,8 @@ export class ConnectorService {
       throw new Error("Can't close connection to non existing client");
     }
     if (storedRes === res) {
-    res.end();
-    delete this.responseMap[id];
+      res.end();
+      delete this.responseMap[id];
     }
   }
 }

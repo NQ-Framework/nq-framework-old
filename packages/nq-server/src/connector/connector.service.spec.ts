@@ -46,7 +46,7 @@ describe('ConnectorService', () => {
   });
 
   it('should replace the object if added twice with same id, ending the stored one', () => {
-    const mockResponse = { sse: () => 'test 1', end:jest.fn() };
+    const mockResponse = { sse: () => 'test 1', end: jest.fn() };
     service.add('test id', mockResponse as any);
     expect(((service.get('test id') as any) as Response).sse('')).toEqual(
       'test 1',
@@ -59,7 +59,7 @@ describe('ConnectorService', () => {
   });
 
   it('should check if response is present', () => {
-    const mockResponse : any = {end:jest.fn()};
+    const mockResponse: any = { end: jest.fn() };
     expect(service.has('test id')).toEqual(false);
     service.add('test id', mockResponse);
     expect(service.has('test id')).toEqual(true);
@@ -95,17 +95,17 @@ describe('ConnectorService', () => {
     expect(service.has('test id')).toBeFalsy();
   });
 
-  it ('should not close the connection if res was updated', ()=>{
+  it('should not close the connection if res was updated', () => {
     const res: any = {
       end: () => {
         //empty
       },
     };
     const res2: any = {
-      end:()=>{
+      end: () => {
         //empty
       },
-    }
+    };
     service.add('test id', res);
     service.add('test id', res2);
     service.close('test id', res);
@@ -114,7 +114,7 @@ describe('ConnectorService', () => {
 
   it('should throw when closing a non existing connection', () => {
     expect(() => {
-      service.close('test id',{} as any);
+      service.close('test id', {} as any);
     }).toThrowErrorMatchingSnapshot();
   });
 });

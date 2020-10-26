@@ -21,7 +21,7 @@ const mockRequest: any = {
   },
 };
 
-const mockConnector = { add: jest.fn(),close: jest.fn()};
+const mockConnector = { add: jest.fn(), close: jest.fn() };
 const mockAuth = {};
 describe('Actions Controller', () => {
   let controller: ActionsController;

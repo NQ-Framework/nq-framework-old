@@ -53,7 +53,7 @@ export class ActionsController {
     const user = req.firebaseUser as auth.DecodedIdToken;
     const existing = this.connector.get(user.uid);
     if (existing) {
-      this.connector.close(user.uid,existing);
+      this.connector.close(user.uid, existing);
       return { message: 'termination request successful' };
     } else {
       throw new HttpException(
