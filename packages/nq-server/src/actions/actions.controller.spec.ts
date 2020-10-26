@@ -21,7 +21,7 @@ const mockRequest: any = {
   },
 };
 
-const mockConnector = { add: jest.fn(), remove: jest.fn() };
+const mockConnector = { add: jest.fn(),close: jest.fn()};
 const mockAuth = {};
 describe('Actions Controller', () => {
   let controller: ActionsController;
@@ -93,9 +93,9 @@ describe('Actions Controller', () => {
     }, 10);
   });
 
-  it('should add response to connector, and remove on discoonnect', async () => {
+  it('should add response to connector, and close on disconnect', async () => {
     const spyAdd = jest.spyOn(mockConnector, 'add');
-    const spyRemove = jest.spyOn(mockConnector, 'remove');
+    const spyClose = jest.spyOn(mockConnector, 'close');
     let cb: any = undefined;
     mockResponse.on = (event: any, callback: any) => {
       expect(event).toEqual('close');
@@ -105,6 +105,6 @@ describe('Actions Controller', () => {
     expect(cb).toBeDefined();
     expect(spyAdd).toHaveBeenCalledWith('test user id', mockResponse);
     cb();
-    expect(spyRemove).toHaveBeenCalledWith('test user id');
+    expect(spyClose).toHaveBeenCalledWith('test user id', mockResponse);
   });
 });

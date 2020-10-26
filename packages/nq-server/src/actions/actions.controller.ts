@@ -27,7 +27,7 @@ export class ActionsController {
       this.connector.add(decodedToken.uid, res);
 
       res.on('close', () => {
-        this.connector.remove(decodedToken.uid);
+        this.connector.close(decodedToken.uid, res);
       });
     } catch (err) {
       this.rejectConnection(res, err);
@@ -51,8 +51,9 @@ export class ActionsController {
   @Post('terminate')
   terminate(@Req() req: any): { message: string } {
     const user = req.firebaseUser as auth.DecodedIdToken;
-    if (this.connector.has(user.uid)) {
-      this.connector.close(user.uid);
+    const existing = this.connector.get(user.uid);
+    if (existing) {
+      this.connector.close(user.uid,existing);
       return { message: 'termination request successful' };
     } else {
       throw new HttpException(

@@ -5,6 +5,10 @@ import { Response } from '@irreal/nestjs-sse';
 export class ConnectorService {
   responseMap: any = {};
   add(id: string, res: Response) {
+    const existing = this.get(id);
+    if (existing) {
+      this.close(id, existing);
+    }
     this.responseMap[id] = res;
   }
   get(id: string): Response | undefined {
@@ -18,24 +22,22 @@ export class ConnectorService {
     return this.responseMap[id] !== undefined;
   }
 
-  remove(id: string) {
-    delete this.responseMap[id];
-  }
-
   send(id: string, data: any) {
     const res = this.get(id);
     if (res === undefined) {
       throw new Error("Can't send data to a non existing client");
     }
     res.sse(`data: ${data}\n\n`);
-    res.end(); //awful workaround to support running on google cloud run until HTTP Streaming is enabled
   }
 
-  close(id: string) {
-    const res = this.get(id);
-    if (res === undefined) {
+  close(id: string, res: Response) {
+    const storedRes = this.get(id);
+    if (storedRes === undefined) {
       throw new Error("Can't close connection to non existing client");
     }
+    if (storedRes === res) {
     res.end();
+    delete this.responseMap[id];
+    }
   }
 }
