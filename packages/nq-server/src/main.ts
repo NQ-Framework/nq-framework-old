@@ -12,5 +12,6 @@ async function bootstrap() {
   app.setGlobalPrefix('v1');
   const port = configService.get<number>('port');
   await app.listen(port ?? 8080);
+  console.log('app now listening on port ', port ?? 8080);
 }
 bootstrap();
