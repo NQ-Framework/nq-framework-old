@@ -25,5 +25,9 @@ resources:
   cpu: 1
   memory_gb: 0.5
   disk_size_gb: 10
+env_variables:
+  PROJECT_ID: "nq-framework"
+  CLIENT_EMAIL: "firebase-adminsdk-6116k@nq-framework.iam.gserviceaccount.com"
+  GCLOUD_SECRETS: "yes"
 
 # [END gae_flex_quickstart_yaml]
