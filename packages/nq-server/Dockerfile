@@ -8,7 +8,6 @@ RUN npm run build
 
 FROM node:12-alpine
 ENV NODE_ENV production
-ENV PORT 80
 WORKDIR /app
 COPY --from=build-env /usr/src/app/package.json .
 COPY --from=build-env /usr/src/app/dist ./dist
