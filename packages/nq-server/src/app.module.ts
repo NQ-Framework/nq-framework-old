@@ -7,6 +7,7 @@ import configuration from './config/configuration';
 import { ConfiugrationModule } from './config/configuration.module';
 import { ActionsModule } from './actions/actions.module';
 import { WorkOrderModule } from './business/work-order/work-order.module';
+// import { GatewayModule } from './gateway/gateway.module';
 
 const configImport = ConfigModule.forRoot({
   envFilePath: '.development.env',
