@@ -14,13 +14,5 @@ export class WorkOrderController {
         const user = req.firebaseUser as auth.DecodedIdToken;
         const response = await this.gateway.executeAndReply(user.uid, query);
         return { data: response }
-        // if (this.connector.has(user.uid)) {
-        //     this.connector.send(user.uid, 'pong!');
-        //     return { message: 'ping request successful' };
-        // } else {
-        //     throw new HttpException(
-        //         { message: 'Supplied user id has no active connector session' },
-        //         HttpStatus.BAD_REQUEST,
-        //     );
     }
 }
