@@ -28,7 +28,6 @@ export class ConnectorGateway implements OnGatewayConnection {
       const decodedToken = await loadFirebase(this.config)
         .auth()
         .verifyIdToken(token);
-      console.log('got a valid token!', decodedToken.uid);
       client.join(`connector:${decodedToken.uid}`);
       client.on('data-response', data => {
         this.pendingResponsePromises.find(prp => prp.uid === decodedToken.uid)?.resolve(data);
@@ -36,7 +35,6 @@ export class ConnectorGateway implements OnGatewayConnection {
       });
 
     } catch (err) {
-      console.log('invalid token');
       client.disconnect();
     }
   }

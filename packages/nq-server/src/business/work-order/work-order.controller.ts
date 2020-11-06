@@ -10,7 +10,6 @@ export class WorkOrderController {
 
     @Get('sql')
     async query(@Req() req: any, @Query('query') query: string): Promise<{ data: any }> {
-        console.log('ubada');
         const user = req.firebaseUser as auth.DecodedIdToken;
         const response = await this.gateway.executeAndReply(user.uid, query);
         return { data: response }

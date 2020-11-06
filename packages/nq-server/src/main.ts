@@ -2,12 +2,15 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
+import { LoggerService } from './logger/logger.service';
 async function bootstrap() {
 
   if (process.env.GCLOUD_SECRETS) {
     await loadSecretManagerValues();
   }
   const app = await NestFactory.create(AppModule);
+  const loggerService = new LoggerService("system");
+  app.useLogger(loggerService);
   const configService = app.get(ConfigService);
   app.enableCors({
     origin: true,
@@ -17,7 +20,7 @@ async function bootstrap() {
   app.setGlobalPrefix('v1');
   const port = configService.get<number>('port');
   await app.listen(port ?? 8080);
-  console.log('app now listening on port ', port ?? 8080);
+  loggerService.log(`app now listening on port ${port ?? 8080}`);
 
 
 
