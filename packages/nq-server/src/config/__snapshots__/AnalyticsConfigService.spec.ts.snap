@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AnalyticsConfigService should throw on missing configuration 1`] = `"missing configuration item: measurement id"`;
+
+exports[`AnalyticsConfigService should throw on missing configuration 2`] = `"missing configuration item: api secret"`;

@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 import { LoggerService } from './logger/logger.service';
+import { loadSecretManagerValues } from './secretLoader';
 async function bootstrap() {
 
   if (process.env.GCLOUD_SECRETS) {
@@ -24,18 +24,6 @@ async function bootstrap() {
 
 
 
-  async function loadSecretManagerValues() {
-    const client = new SecretManagerServiceClient();
-    const name = 'projects/nq-framework/secrets/server_firebase_private_key/versions/latest';
-    const [version] = await client.accessSecretVersion({ name });
-    if (version && version.payload && version.payload.data) {
-      const secretValue = version.payload.data.toString();
-      process.env.PRIVATE_KEY = secretValue;
-      console.log('Loaded secret values from secret manager');
-    }
-    else {
-      console.error('Tried to load secret values from secret manager but failed.')
-    }
-  }
 }
-bootstrap();
+
+  bootstrap();

@@ -6,4 +6,8 @@ export default () => ({
     projectId: process.env.PROJECT_ID,
   },
   db: {},
+  analytics: {
+    measurementId: process.env.GA_MEASUREMENT_ID,
+    apiSecret: process.env.GA_API_SECRET
+  }
 });

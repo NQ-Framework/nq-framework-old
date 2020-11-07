@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthConfigService } from './AuthConfigService';
+import { AnalyticsConfigService } from './AnalyticsConfigService';
 import { ConfigService } from '@nestjs/config';
 
-describe('AuthConfigService', () => {
-  let service: AuthConfigService;
+describe('AnalyticsConfigService', () => {
+  let service: AnalyticsConfigService;
 
   const mockConfigService = {
     get: jest.fn(),
@@ -12,12 +12,12 @@ describe('AuthConfigService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        AuthConfigService,
+        AnalyticsConfigService,
         { provide: ConfigService, useValue: mockConfigService },
       ],
     }).compile();
 
-    service = module.get<AuthConfigService>(AuthConfigService);
+    service = module.get<AnalyticsConfigService>(AnalyticsConfigService);
   });
 
   it('should be defined', () => {
@@ -25,21 +25,17 @@ describe('AuthConfigService', () => {
   });
   it('should get settings from config service', () => {
     mockConfigService.get.mockReturnValue('test value');
-    expect(service.projectId).toEqual('test value');
-    expect(service.privateKey).toEqual('test value');
-    expect(service.clientEmail).toEqual('test value');
+    expect(service.measurementId).toEqual('test value');
+    expect(service.apiSecret).toEqual('test value');
   })
 
   it('should throw on missing configuration', () => {
     mockConfigService.get.mockReturnValue(undefined);
     expect(() => {
-      service.projectId;
+      service.measurementId;
     }).toThrowErrorMatchingSnapshot();
     expect(() => {
-      service.privateKey;
-    }).toThrowErrorMatchingSnapshot();
-    expect(() => {
-      service.clientEmail;
+      service.apiSecret;
     }).toThrowErrorMatchingSnapshot();
   });
 });
