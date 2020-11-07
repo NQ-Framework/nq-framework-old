@@ -6,6 +6,6 @@ import { AnalyticsService } from './analytics.service';
 @Module({
   imports: [HttpModule, ConfiugrationModule, LoggerModule],
   providers: [AnalyticsService],
-  exports: [AnalyticsService]
+  exports: [AnalyticsService],
 })
-export class AnalyticsModule { }
+export class AnalyticsModule {}

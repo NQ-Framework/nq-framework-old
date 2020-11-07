@@ -27,7 +27,7 @@ describe('AnalyticsConfigService', () => {
     mockConfigService.get.mockReturnValue('test value');
     expect(service.measurementId).toEqual('test value');
     expect(service.apiSecret).toEqual('test value');
-  })
+  });
 
   it('should throw on missing configuration', () => {
     mockConfigService.get.mockReturnValue(undefined);

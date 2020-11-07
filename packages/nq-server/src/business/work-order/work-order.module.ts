@@ -4,6 +4,6 @@ import { WorkOrderController } from './work-order.controller';
 
 @Module({
   controllers: [WorkOrderController],
-  imports: [GatewayModule]
+  imports: [GatewayModule],
 })
 export class WorkOrderModule {}

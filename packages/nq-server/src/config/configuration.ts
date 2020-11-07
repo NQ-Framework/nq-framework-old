@@ -8,6 +8,6 @@ export default () => ({
   db: {},
   analytics: {
     measurementId: process.env.GA_MEASUREMENT_ID,
-    apiSecret: process.env.GA_API_SECRET
-  }
+    apiSecret: process.env.GA_API_SECRET,
+  },
 });

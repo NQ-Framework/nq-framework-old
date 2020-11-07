@@ -7,8 +7,10 @@ describe('ConnectorGatewayGateway', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ConnectorGateway,
-        { provide: AuthConfigService, useValue: {} }],
+      providers: [
+        ConnectorGateway,
+        { provide: AuthConfigService, useValue: {} },
+      ],
     }).compile();
 
     gateway = module.get<ConnectorGateway>(ConnectorGateway);

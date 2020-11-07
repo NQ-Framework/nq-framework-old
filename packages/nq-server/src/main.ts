@@ -4,12 +4,11 @@ import { ConfigService } from '@nestjs/config';
 import { LoggerService } from './logger/logger.service';
 import { loadSecretManagerValues } from './secretLoader';
 async function bootstrap() {
-
   if (process.env.GCLOUD_SECRETS) {
     await loadSecretManagerValues();
   }
   const app = await NestFactory.create(AppModule);
-  const loggerService = new LoggerService("system");
+  const loggerService = new LoggerService('system');
   app.useLogger(loggerService);
   const configService = app.get(ConfigService);
   app.enableCors({
@@ -21,9 +20,6 @@ async function bootstrap() {
   const port = configService.get<number>('port');
   await app.listen(port ?? 8080);
   loggerService.log(`app now listening on port ${port ?? 8080}`);
-
-
-
 }
 
-  bootstrap();
+bootstrap();

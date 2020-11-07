@@ -1,22 +1,28 @@
-import { ConnectedSocket, MessageBody, OnGatewayConnection, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import {
+  ConnectedSocket,
+  MessageBody,
+  OnGatewayConnection,
+  SubscribeMessage,
+  WebSocketGateway,
+  WebSocketServer,
+} from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { AuthConfigService } from '../config/AuthConfigService';
 import { loadFirebase } from '../firebase/initialize';
 
 @WebSocketGateway()
 export class ConnectorGateway implements OnGatewayConnection {
-
   @WebSocketServer()
   socketServer: Server | undefined;
-  pendingResponsePromises: { uid: string, resolve: Function }[] = [];
+  pendingResponsePromises: { uid: string; resolve: Function }[] = [];
 
-  constructor(private config: AuthConfigService) { }
+  constructor(private config: AuthConfigService) {}
   @SubscribeMessage('data-response')
   handleEvent(
     @MessageBody() data: string,
     @ConnectedSocket() client: Socket,
   ): string {
-    return "ok";
+    return 'ok';
   }
 
   async handleConnection(client: Socket, ...args: any[]) {
@@ -29,11 +35,14 @@ export class ConnectorGateway implements OnGatewayConnection {
         .auth()
         .verifyIdToken(token);
       client.join(`connector:${decodedToken.uid}`);
-      client.on('data-response', data => {
-        this.pendingResponsePromises.find(prp => prp.uid === decodedToken.uid)?.resolve(data);
-        this.pendingResponsePromises = this.pendingResponsePromises.filter(prp => prp.uid !== decodedToken.uid);
+      client.on('data-response', (data) => {
+        this.pendingResponsePromises
+          .find((prp) => prp.uid === decodedToken.uid)
+          ?.resolve(data);
+        this.pendingResponsePromises = this.pendingResponsePromises.filter(
+          (prp) => prp.uid !== decodedToken.uid,
+        );
       });
-
     } catch (err) {
       client.disconnect();
     }

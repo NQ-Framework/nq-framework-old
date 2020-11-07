@@ -16,7 +16,13 @@ const configImport = ConfigModule.forRoot({
 });
 
 @Module({
-  imports: [configImport, ConfiugrationModule, WorkOrderModule, LoggerModule, AnalyticsModule],
+  imports: [
+    configImport,
+    ConfiugrationModule,
+    WorkOrderModule,
+    LoggerModule,
+    AnalyticsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
@@ -24,10 +30,7 @@ export class AppModule implements NestModule {
   async configure(consumer: MiddlewareConsumer) {
     return new Promise((resolve) => {
       resolve(
-        consumer
-          .apply(FirebaseAuthMiddleware)
-          .exclude('v1/api')
-          .forRoutes('*'),
+        consumer.apply(FirebaseAuthMiddleware).exclude('v1/api').forRoutes('*'),
       );
     });
   }

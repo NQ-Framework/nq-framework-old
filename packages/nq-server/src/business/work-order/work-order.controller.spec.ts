@@ -8,7 +8,7 @@ describe('WorkOrder Controller', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [WorkOrderController],
-      providers: [{ provide: ConnectorGateway, useValue: {} }]
+      providers: [{ provide: ConnectorGateway, useValue: {} }],
     }).compile();
 
     controller = module.get<WorkOrderController>(WorkOrderController);

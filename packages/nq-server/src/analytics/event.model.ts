@@ -1,3 +1,3 @@
 export type AnalyticsEvent = {
-    events: { name: string }[],
+  events: { name: string }[];
 };

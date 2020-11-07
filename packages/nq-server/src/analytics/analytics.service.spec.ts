@@ -21,9 +21,17 @@ describe('AnalyticsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AnalyticsService, { provide: AnalyticsConfigService, useValue: { measurementId: 'test id' } }, {
-        provide: LoggerService, useClass: LoggerService
-      }],
+      providers: [
+        AnalyticsService,
+        {
+          provide: AnalyticsConfigService,
+          useValue: { measurementId: 'test id' },
+        },
+        {
+          provide: LoggerService,
+          useClass: LoggerService,
+        },
+      ],
       imports: [HttpModule],
     }).compile();
 
@@ -39,7 +47,11 @@ describe('AnalyticsService', () => {
     const spy = jest.spyOn(httpService, 'post');
     const event = { events: [{ name: 'item_view' }] };
     const response = service.trackEvent('asd', event);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('google-analytics'), expect.objectContaining({ events: [{ name: 'item_view' }] }), expect.objectContaining({ params: { 'measurement_id': 'test id' } }));
+    expect(spy).toHaveBeenCalledWith(
+      expect.stringContaining('google-analytics'),
+      expect.objectContaining({ events: [{ name: 'item_view' }] }),
+      expect.objectContaining({ params: { measurement_id: 'test id' } }),
+    );
     expect(response.then).toBeDefined();
   });
 });

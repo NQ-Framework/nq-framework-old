@@ -4,7 +4,9 @@ import { ConfigServiceBase } from './ConfigServiceBase';
 
 @Injectable()
 export class AuthConfigService extends ConfigServiceBase {
-  constructor(private config: ConfigService) { super(); }
+  constructor(private config: ConfigService) {
+    super();
+  }
 
   get projectId(): string {
     return this.config.get('auth.projectId') ?? this.throwError('project id');
