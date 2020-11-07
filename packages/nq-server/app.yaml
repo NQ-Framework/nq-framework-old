@@ -29,6 +29,6 @@ env_variables:
   PROJECT_ID: "nq-framework"
   CLIENT_EMAIL: "firebase-adminsdk-6116k@nq-framework.iam.gserviceaccount.com"
   GCLOUD_SECRETS: "yes"
-  GA_TRACKING_ID: "G-NT325BYFZK"
+  GA_MEASUREMENT_ID: "G-NT325BYFZK"
 
 # [END gae_flex_quickstart_yaml]

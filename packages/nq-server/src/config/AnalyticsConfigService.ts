@@ -10,8 +10,7 @@ export class AnalyticsConfigService extends ConfigServiceBase {
 
   get measurementId(): string {
     return (
-      this.config.get('analytics.measurementId') ??
-      this.throwError('measurement id')
+      this.config.get('analytics.measurementId') ?? this.throwError('measurement id')
     );
   }
   get apiSecret(): string {
