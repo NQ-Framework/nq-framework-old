@@ -36,6 +36,8 @@
     "@nestjs/platform-socket.io": "^7.5.1",
     "@nestjs/swagger": "^4.7.0",
     "@nestjs/websockets": "^7.5.1",
+    "@nqframework/models": "^2.1.0",
+    "@nqframework/data-fetcher": "^1.0.0",
     "firebase-admin": "^9.3.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

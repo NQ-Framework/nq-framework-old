@@ -9,11 +9,11 @@ export class WorkOrderController {
   @Get('')
   async documents(
     @Req() req: any,
-    @Query('companyId') companyId: string,
+    @Query('organizationId') organizationId: string,
     @Query('dataSource') dataSource: string,
   ): Promise<{ data: any }> {
     const user = req.firebaseUser as auth.DecodedIdToken;
-    const response = await this.router.getDataFetcher(user.uid, companyId, dataSource);
+    const response = await this.router.getDataFetcher(user.uid, organizationId, dataSource);
     const data = await response.getData();
     return { data };
   }

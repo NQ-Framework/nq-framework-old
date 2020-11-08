@@ -1,23 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { getFirebaseApp } from '../../firebase/initialize';
 import { LoggerService } from '../../logger/logger.service';
+import { OrganizationMember, DataSource } from "@nqframework/models"
 
 @Injectable()
 export class DataSourceService {
     constructor(private logger: LoggerService) { }
 
-    async getCompanyConfiguration(companyId: string) {
-        this.logger.debug(`Getting Company Configuration for ${companyId}`)
+    async getDataSourceConfigurations(organizationId: string): Promise<{ members: OrganizationMember[], dataSources: DataSource[] }> {
+        this.logger.debug(`Getting Data Source Configuration for ${organizationId}`)
         const app = await getFirebaseApp();
-        const snapshot = await app.firestore().collection('companies').get();
-        return snapshot.docs;
-        // return {
-        //     name: 'NQ Framework',
-        //     id: companyId,
-        //     dataSources: [
-        //         { type: 'sql', handles: ['main-db'], cloudAccessible: true, connectionString: 'sample-conn-string' }
-        //     ],
-        //     employeeIds: ['sQGC1KffuyW9d3tDv6SoaeMo2uc2']
-        // };
+        const document = await app.firestore().doc(`organizations/${organizationId}`).get();
+        if (!document.exists) {
+            this.logger.warn(`Looking up configuration for non existant organization: ${organizationId}`)
+            throw new Error('Invalid organization id');
+        }
+        const data = document.data() as FirebaseFirestore.DocumentData;
+        return { members: data.members, dataSources: data.dataSources };
     }
 }
