@@ -1,3 +1,2 @@
-export type testType = {
-
-}
+export { SqlFetcher } from "./sql/sql-fetcher";
+export { DataFetcherFactory } from "./dataFetcherFactory";
