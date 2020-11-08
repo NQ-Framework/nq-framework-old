@@ -1,4 +1,4 @@
 export type ApiConfiguration = {
-    type: "api",
-    baseUrl: string;
-}
+  type: "api";
+  baseUrl: string;
+};

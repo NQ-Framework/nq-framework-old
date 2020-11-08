@@ -1,4 +1,4 @@
 export type SqlConfiguration = {
-    type: "sql",
-    connectionString: string;
-}
+  type: "sql";
+  connectionString: string;
+};
