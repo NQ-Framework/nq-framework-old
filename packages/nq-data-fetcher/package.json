@@ -1,18 +1,17 @@
 {
-  "name": "nq-module-template",
+  "name": "@nqframework/data-fetcher",
   "version": "1.0.0",
-  "description": "This is a template repository for adding new NQ framework modules",
+  "description": "A data fetcher component for the server and the connector client",
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "initialize": "npm install --prefix ./initialize/ && node initialize/initialize.js",
     "dev": "ts-node-dev ./src/index.ts",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
     "release": "standard-version"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nq-framework/nq-local-connector.git"
+    "url": "git+https://github.com/nq-framework/@nqframework/data-fetcher.git"
   },
   "keywords": [],
   "author": "",

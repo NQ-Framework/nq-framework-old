@@ -1,19 +1,23 @@
-# nq-module-template
-This is a template repository for adding new NQ Framework modules
+# @nqframework/data-fetcher
+A data fetcher component for the server and the connector client
 
-This sets up the project to use the following:
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
--Typescript
--ESLint & Prettier
--Auto lint on commit using Husky
--standard-version for changelog and sem versioning
--Jest for unit tests
+Here's what this module is about:
+* List 
+* Some
+* Things
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
 
 
-Usage:
-*Click the "Use this temaplte" button on github or simply clone into a new repo
-* run `npm run initialize`
-* input the project name (defaults to name of current folder)
-* input a short description
-* update README.md with relevant project info
-* done! you can commit the changes.
+<!-- CONTACT -->
+## Contact
+
+Miloš Spasojević - [@irreal_s](https://twitter.com/irreal_s) - milos@nqframework.com
+
+Project Link: [https://github.com/nq-framework/@nqframework/data-fetcher](https://github.com/nq-framework/@nqframework/data-fetcher)
