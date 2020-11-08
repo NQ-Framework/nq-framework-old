@@ -8,6 +8,8 @@ import { ConfiugrationModule } from './config/configuration.module';
 import { WorkOrderModule } from './business/work-order/work-order.module';
 import { LoggerModule } from './logger/logger.module';
 import { AnalyticsModule } from './analytics/analytics.module';
+import { DbConnectionModule } from './db-connection/db-connection.module';
+import { CompanyModule } from './company/company.module';
 
 const configImport = ConfigModule.forRoot({
   envFilePath: '.development.env',
@@ -22,6 +24,8 @@ const configImport = ConfigModule.forRoot({
     WorkOrderModule,
     LoggerModule,
     AnalyticsModule,
+    DbConnectionModule,
+    CompanyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

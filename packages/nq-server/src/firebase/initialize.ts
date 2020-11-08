@@ -17,6 +17,10 @@ export function loadFirebase(config: AuthConfigService): admin.app.App {
   return firebaseApp;
 }
 
+export function getFirebaseApp(): admin.app.App {
+  return firebaseApp;
+}
+
 declare global {
   namespace Express {
     interface Request {

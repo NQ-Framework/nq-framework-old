@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { GatewayModule } from '../../gateway/gateway.module';
+import { DbConnectionModule } from '../../db-connection/db-connection.module';
 import { WorkOrderController } from './work-order.controller';
 
 @Module({
   controllers: [WorkOrderController],
-  imports: [GatewayModule],
+  imports: [DbConnectionModule],
 })
 export class WorkOrderModule {}

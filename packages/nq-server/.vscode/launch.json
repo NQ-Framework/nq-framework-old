@@ -1,24 +1,23 @@
 {
     "configurations": [
         {
-            "name": "Docker Node.js Launch",
-            "type": "docker",
-            "request": "launch",
-            "preLaunchTask": "docker-run: debug",
-            "platform": "node"
-        },
-        {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": [
-                "<node_internals>/**"
+            "name": "Debug Nest Framework",
+            "args": [
+                "${workspaceFolder}/src/main.ts"
             ],
-            "program": "${workspaceFolder}/src/main.ts",
-            "preLaunchTask": "tsc: build - tsconfig.json",
-            "outFiles": [
-                "${workspaceFolder}/dist/**/*.js"
-            ]
+            "runtimeArgs": [
+                "--nolazy",
+                "-r",
+                "ts-node/register",
+                "-r",
+                "tsconfig-paths/register"
+            ],
+            "sourceMaps": true,
+            "cwd": "${workspaceRoot}",
+            "console": "integratedTerminal",
+            "protocol": "inspector"
         }
     ]
 }

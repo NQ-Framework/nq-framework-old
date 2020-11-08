@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ConnectorGateway } from '../../gateway/connector.gateway';
+import { RequestRouterService } from '../../db-connection/request-router/request-router.service';
 import { WorkOrderController } from './work-order.controller';
 
 describe('WorkOrder Controller', () => {
@@ -8,7 +8,7 @@ describe('WorkOrder Controller', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [WorkOrderController],
-      providers: [{ provide: ConnectorGateway, useValue: {} }],
+      providers: [{ provide: RequestRouterService, useValue: {} }],
     }).compile();
 
     controller = module.get<WorkOrderController>(WorkOrderController);
