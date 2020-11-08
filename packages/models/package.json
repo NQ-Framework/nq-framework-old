@@ -21,7 +21,7 @@
   },
   "files": [
     "build",
-    "LICENCE.md"
+    "LICENCE"
   ],
   "repository": {
     "type": "git",
