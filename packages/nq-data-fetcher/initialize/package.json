@@ -1,0 +1,16 @@
+{
+  "name": "initialize",
+  "version": "1.0.0",
+  "description": "",
+  "main": "initialize.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "prompt-sync": "^4.2.0"
+  }
+}
