@@ -2,14 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { DataSourceService } from '../../organization/data-source/data-source.service';
 import { AnalyticsService } from '../../analytics/analytics.service';
 import { LoggerService } from '../../logger/logger.service';
-
+import { DataFetcherFactory } from "@nqframework/data-fetcher"
+import { DataFetcher } from '@nqframework/data-fetcher/build/dataFetcherInterface';
 @Injectable()
 export class RequestRouterService {
 
     constructor(private logger: LoggerService, private analytics: AnalyticsService, private dataSourceConfig: DataSourceService) {
     }
 
-    async getDataFetcher(userId: string, organizationId: string, dataSource: string): Promise<{ getData: () => Promise<string> }> {
+    async getDataFetcher(userId: string, organizationId: string, dataSource: string): Promise<DataFetcher> {
         this.logger.debug(`getting data fetcher for ${userId} ${organizationId} ${dataSource}`)
         if (!dataSource) {
             dataSource = 'main-db';
@@ -27,17 +28,10 @@ export class RequestRouterService {
         }
 
         if (dataSourceConfig.directAccess) {
-
+            const fetcher = new DataFetcherFactory().create(dataSourceConfig);
+            return fetcher;
         }
 
-        const fetcher = await this.createFetcher(dataSourceConfig);
-
-        return fetcher;
-    }
-
-    async createFetcher(config: any): Promise<{ getData(): Promise<string> }> {
-        return {
-            getData: () => Promise.resolve('sample data')
-        }
+        throw new Error('An appropriate fetcher could not be obtained.');
     }
 }

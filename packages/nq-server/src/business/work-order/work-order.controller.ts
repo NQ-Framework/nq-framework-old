@@ -14,7 +14,7 @@ export class WorkOrderController {
   ): Promise<{ data: any }> {
     const user = req.firebaseUser as auth.DecodedIdToken;
     const response = await this.router.getDataFetcher(user.uid, organizationId, dataSource);
-    const data = await response.getData();
+    const data = await response.get({ version: "v1", values: [] as any });
     return { data };
   }
 }
