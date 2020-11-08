@@ -1,3 +1,4 @@
+import { DataSource } from "../data-fetching/data-source";
 import { OrganizationMember } from "./organization-member";
 
 export interface Organization {
@@ -8,4 +9,5 @@ export interface Organization {
   country: string;
   members: OrganizationMember[];
   memberIds: string[];
+  dataSources: DataSource[];
 }
