@@ -4,10 +4,10 @@ import { ConnectorGatewayGateway } from './gateway/connector-gateway.gateway';
 import { ConnectorServerService } from './connector-server/connector-server.service';
 import { LoggerModule } from '../logger/logger.module';
 import { AnalyticsModule } from '../analytics/analytics.module';
-import { CompanyModule } from 'src/company/company.module';
+import { Organization } from '../organization/organization.module';
 
 @Module({
-  imports: [LoggerModule, AnalyticsModule, CompanyModule],
+  imports: [LoggerModule, AnalyticsModule, Organization],
   providers: [RequestRouterService, ConnectorGatewayGateway, ConnectorServerService],
   exports: [RequestRouterService]
 })

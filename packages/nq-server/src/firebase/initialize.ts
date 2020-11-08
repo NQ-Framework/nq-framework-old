@@ -3,6 +3,10 @@ import * as admin from 'firebase-admin';
 import { AuthConfigService } from '../config/AuthConfigService';
 
 let firebaseApp: any;
+let resolveFn: any;
+const firebaseAppPromise: Promise<admin.app.App> = new Promise((resolve, reject) => {
+  resolveFn = resolve;
+});
 export function loadFirebase(config: AuthConfigService): admin.app.App {
   if (firebaseApp) {
     return firebaseApp;
@@ -14,11 +18,12 @@ export function loadFirebase(config: AuthConfigService): admin.app.App {
       clientEmail: config.clientEmail,
     }),
   });
+  resolveFn(firebaseApp);
   return firebaseApp;
 }
 
-export function getFirebaseApp(): admin.app.App {
-  return firebaseApp;
+export function getFirebaseApp(): Promise<admin.app.App> {
+  return firebaseAppPromise;
 }
 
 declare global {
