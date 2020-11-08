@@ -23,14 +23,14 @@ export class AnalyticsService {
         this.config.measurementId,
     );
     const data = {
-        'client_id': userId,
+      client_id: userId,
       events: event.events,
     };
     return this.httpService
       .post('https://www.google-analytics.com/mp/collect', data, {
         params: {
-              'measurement_id': this.config.measurementId,
-              'api_secret': this.config.apiSecret,
+          measurement_id: this.config.measurementId,
+          api_secret: this.config.apiSecret,
         },
         headers: {
           'content-type': 'application/json',

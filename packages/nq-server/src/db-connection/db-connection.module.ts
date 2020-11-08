@@ -8,7 +8,11 @@ import { Organization } from '../organization/organization.module';
 
 @Module({
   imports: [LoggerModule, AnalyticsModule, Organization],
-  providers: [RequestRouterService, ConnectorGatewayGateway, ConnectorServerService],
-  exports: [RequestRouterService]
+  providers: [
+    RequestRouterService,
+    ConnectorGatewayGateway,
+    ConnectorServerService,
+  ],
+  exports: [RequestRouterService],
 })
-export class DbConnectionModule { }
+export class DbConnectionModule {}

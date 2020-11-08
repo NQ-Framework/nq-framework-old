@@ -4,7 +4,7 @@ import { RequestRouterService } from '../../db-connection/request-router/request
 
 @Controller('work-order')
 export class WorkOrderController {
-  constructor(private router: RequestRouterService) { }
+  constructor(private router: RequestRouterService) {}
 
   @Get('')
   async documents(
@@ -13,8 +13,12 @@ export class WorkOrderController {
     @Query('dataSource') dataSource: string,
   ): Promise<{ data: any }> {
     const user = req.firebaseUser as auth.DecodedIdToken;
-    const response = await this.router.getDataFetcher(user.uid, organizationId, dataSource);
-    const data = await response.get({ version: "v1", values: [] as any });
+    const response = await this.router.getDataFetcher(
+      user.uid,
+      organizationId,
+      dataSource,
+    );
+    const data = await response.get({ version: 'v1', values: [] as any });
     return { data };
   }
 }

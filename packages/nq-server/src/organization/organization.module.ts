@@ -5,6 +5,6 @@ import { DataSourceService } from './data-source/data-source.service';
 @Module({
   imports: [LoggerModule],
   providers: [DataSourceService],
-  exports: [DataSourceService]
+  exports: [DataSourceService],
 })
-export class Organization { }
+export class Organization {}

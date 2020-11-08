@@ -4,9 +4,11 @@ import { AuthConfigService } from '../config/AuthConfigService';
 
 let firebaseApp: any;
 let resolveFn: any;
-const firebaseAppPromise: Promise<admin.app.App> = new Promise((resolve, reject) => {
-  resolveFn = resolve;
-});
+const firebaseAppPromise: Promise<admin.app.App> = new Promise(
+  (resolve, reject) => {
+    resolveFn = resolve;
+  },
+);
 export function loadFirebase(config: AuthConfigService): admin.app.App {
   if (firebaseApp) {
     return firebaseApp;

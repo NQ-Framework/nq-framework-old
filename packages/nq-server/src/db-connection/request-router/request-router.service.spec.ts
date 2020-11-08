@@ -9,7 +9,12 @@ describe('RequestRouterService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RequestRouterService, { provide: LoggerService, useValue: {} }, { provide: AnalyticsService, useValue: {} }, { provide: DataSourceService, useValue: {} }],
+      providers: [
+        RequestRouterService,
+        { provide: LoggerService, useValue: {} },
+        { provide: AnalyticsService, useValue: {} },
+        { provide: DataSourceService, useValue: {} },
+      ],
     }).compile();
 
     service = module.get<RequestRouterService>(RequestRouterService);
