@@ -2,39 +2,60 @@
   "name": "@nqframework/data-fetcher",
   "version": "1.0.0",
   "description": "A data fetcher component for the server and the connector client",
-  "main": "index.js",
+  "main": "build/index.js",
+  "module": "build/index.es.js",
+  "jsnext:main": "build/index.es.js",
   "scripts": {
+    "build": "rollup -c",
     "test": "jest",
     "dev": "ts-node-dev ./src/index.ts",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
-    "release": "standard-version"
+    "release": "standard-version",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
+  "files": [
+    "build",
+    "LICENCE"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nq-framework/@nqframework/data-fetcher.git"
+    "url": "git+https://github.com/nq-framework/nq-framework/nq-data-fetcher.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Milos Spasojevic",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nq-framework/nq-local-connector/issues"
+    "url": "https://github.com/nq-framework/nq-framework/nq-data-fetcher/issues"
   },
-  "homepage": "https://github.com/nq-framework/nq-local-connector#readme",
+  "homepage": "https://github.com/nq-framework/nq-framework/nq-data-fetcher#readme",
   "devDependencies": {
     "@types/jest": "^26.0.15",
-    "@types/node": "^14.14.3",
-    "@typescript-eslint/eslint-plugin": "^4.6.0",
-    "@typescript-eslint/parser": "^4.6.0",
-    "eslint": "^7.12.0",
-    "eslint-config-prettier": "^6.14.0",
+    "@types/node": "^14.14.6",
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
+    "eslint": "^7.13.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-standard": "^16.0.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
     "husky": "^4.3.0",
-    "jest": "^26.6.1",
-    "lint-staged": "^10.5.0",
+    "jest": "^26.6.3",
+    "lint-staged": "^10.5.1",
     "prettier": "^2.1.2",
+    "rollup": "^2.33.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-typescript2": "^0.29.0",
     "standard-version": "^9.0.0",
     "ts-node-dev": "^1.0.0",
-    "typescript": "^4.0.3"
+    "typescript": "^4.0.5"
   },
   "husky": {
     "hooks": {

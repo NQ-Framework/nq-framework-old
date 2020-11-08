@@ -1,1 +1,3 @@
-console.log(process.argv);
+export type testType = {
+
+}
