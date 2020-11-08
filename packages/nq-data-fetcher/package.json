@@ -59,7 +59,7 @@
     ]
   },
   "dependencies": {
-    "@nqframework/models": "^2.1.0",
+    "@nqframework/models": "^2.1.1",
     "mssql": "^6.2.3"
   }
 }
