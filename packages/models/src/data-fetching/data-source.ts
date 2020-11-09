@@ -1,8 +1,8 @@
 import { ApiConfiguration } from "./api-configuration";
-import { SqlConfiguration } from "./sql-configuration";
+import { MsSqlConfiguration } from "./ms-sql-configuration";
 
 export type DataSource = {
   handles: string[];
   directAccess: boolean;
-  configuration: SqlConfiguration | ApiConfiguration;
+  configuration: MsSqlConfiguration | ApiConfiguration;
 };
