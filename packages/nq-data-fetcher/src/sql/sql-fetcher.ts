@@ -1,7 +1,7 @@
 import { MsSqlConfiguration } from "@nq-framework/models";
-import { DataFetcher } from "../dataFetcherInterface";
+import { DataFetcherInterface } from "../dataFetcherInterface";
 
-export class SqlFetcher implements DataFetcher {
+export class SqlFetcher implements DataFetcherInterface {
     constructor(private config: MsSqlConfiguration) { }
     async get(props: any): Promise<{ data: any; }> {
         console.log('props ', props);

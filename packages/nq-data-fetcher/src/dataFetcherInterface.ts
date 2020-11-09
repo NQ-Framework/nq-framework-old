@@ -1,4 +1,4 @@
 
-export interface DataFetcher {
+export interface DataFetcherInterface {
     get(props: any): Promise<{ data: any }>
 }
