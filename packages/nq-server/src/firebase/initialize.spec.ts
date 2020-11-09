@@ -1,4 +1,4 @@
-import { loadFirebase } from './initialize';
+import { getFirebaseApp, loadFirebase } from './initialize';
 jest.mock('firebase-admin', () => ({
   __esModule: true,
   credential: {
@@ -24,5 +24,8 @@ describe('firebase', () => {
 
     loadFirebase(configObj);
     expect(admin.initializeApp).toHaveBeenCalledTimes(1);
+
+    const app = getFirebaseApp();
+    expect(app).toBeDefined();
   });
 });

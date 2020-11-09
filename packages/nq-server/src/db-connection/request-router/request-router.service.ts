@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { DataSourceService } from '../../organization/data-source/data-source.service';
-import { AnalyticsService } from '../../analytics/analytics.service';
 import { LoggerService } from '../../logger/logger.service';
 import { DataFetcherFactory } from '@nqframework/data-fetcher';
 import { DataFetcher } from '@nqframework/data-fetcher/build/dataFetcherInterface';
@@ -8,9 +7,8 @@ import { DataFetcher } from '@nqframework/data-fetcher/build/dataFetcherInterfac
 export class RequestRouterService {
   constructor(
     private logger: LoggerService,
-    private analytics: AnalyticsService,
     private dataSourceConfig: DataSourceService,
-  ) {}
+  ) { }
 
   async getDataFetcher(
     userId: string,
@@ -20,13 +18,10 @@ export class RequestRouterService {
     this.logger.debug(
       `getting data fetcher for ${userId} ${organizationId} ${dataSource}`,
     );
-    if (!dataSource) {
-      dataSource = 'main-db';
-    }
     const configuration = await this.dataSourceConfig.getDataSourceConfigurations(
       organizationId,
     );
-    if (!configuration.members.find((m) => m.uid === userId)) {
+    if (!configuration || !configuration.members.find((m) => m.uid === userId)) {
       this.logger.warn(
         `Unauthorized attempt to read organization data. Organization Id: ${organizationId} User id: ${userId} data source: ${dataSource} `,
       );
