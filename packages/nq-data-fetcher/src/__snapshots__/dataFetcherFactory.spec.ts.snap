@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DataFetcherFactory should throw for invalid configurations 1`] = `"Could not create Fetcher for request {\\"configuration\\":{\\"type\\":\\"non-sql\\"}}"`;
