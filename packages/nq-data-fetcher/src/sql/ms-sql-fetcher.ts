@@ -59,7 +59,7 @@ async function connect(config: MsSqlConfiguration): Promise<Connection> {
                     userName: config.username,
                     password: config.password,
                 },
-                type: config.type
+                type: 'default'
             },
             options
                 : {
