@@ -10,6 +10,9 @@ import { LoggerModule } from './logger/logger.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { DbConnectionModule } from './db-connection/db-connection.module';
 import { Organization } from './organization/organization.module';
+import { SchedulerModule } from './scheduler/scheduler.module';
+import { ScheduleModule } from "@nestjs/schedule"
+
 
 const configImport = ConfigModule.forRoot({
   envFilePath: '.development.env',
@@ -26,6 +29,8 @@ const configImport = ConfigModule.forRoot({
     AnalyticsModule,
     DbConnectionModule,
     Organization,
+    SchedulerModule,
+    ScheduleModule.forRoot()
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,12 +1,11 @@
-import { loadFirebase } from './initialize';
+import { getFirebaseApp } from './initialize';
 import { Injectable, NestMiddleware, HttpStatus } from '@nestjs/common';
 import { HttpException } from '@nestjs/common/exceptions/http.exception';
 import { Request, Response } from 'express';
-import { AuthConfigService } from '../config/AuthConfigService';
 
 @Injectable()
 export class FirebaseAuthMiddleware implements NestMiddleware {
-  constructor(private config: AuthConfigService) {}
+  constructor() { }
 
   async use(req: Request, _: Response, next: Function) {
     const { authorization } = req.headers;
@@ -14,8 +13,8 @@ export class FirebaseAuthMiddleware implements NestMiddleware {
       this.throwError();
     }
     const token = authorization.slice(7); // Bearer <token>
-
-    const user = await loadFirebase(this.config)
+    const app = await getFirebaseApp();
+    const user = await app
       .auth()
       .verifyIdToken(token)
       .catch((err) => {
