@@ -44,13 +44,17 @@ describe('AnalyticsService', () => {
     expect(service).toBeDefined();
   });
   it('should send events', async () => {
-    const spy = jest.spyOn(httpService, 'post').mockImplementation(() => of({ status: 200, data: 'response data' } as any));
+    const spy = jest
+      .spyOn(httpService, 'post')
+      .mockImplementation(() =>
+        of({ status: 200, data: 'response data' } as any),
+      );
     const event = { events: [{ name: 'item_view' }] };
     const response = service.trackEvent('asd', event);
     expect(spy).toHaveBeenCalledWith(
       expect.stringContaining('google-analytics'),
       expect.objectContaining({ events: [{ name: 'item_view' }] }),
-      expect.objectContaining({ params: { 'measurement_id': 'test id' } }),
+      expect.objectContaining({ params: { measurement_id: 'test id' } }),
     );
     expect(response.then).toBeDefined();
   });

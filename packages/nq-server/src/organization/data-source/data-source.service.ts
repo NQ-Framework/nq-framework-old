@@ -5,7 +5,7 @@ import { OrganizationMember, DataSource } from '@nq-framework/models';
 
 @Injectable()
 export class DataSourceService {
-  constructor(private logger: LoggerService) { }
+  constructor(private logger: LoggerService) {}
 
   async getDataSourceConfigurations(
     organizationId: string,
