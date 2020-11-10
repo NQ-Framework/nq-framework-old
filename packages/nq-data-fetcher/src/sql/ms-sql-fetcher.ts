@@ -1,6 +1,7 @@
 import { MsSqlConfiguration } from "@nq-framework/models";
 import { DataFetcherInterface } from "../dataFetcherInterface";
-import { Request, Connection, TediousType } from "tedious"
+import { TediousType } from "tedious"
+import { connect, execute } from "./ms-sql-util"
 
 export class MsSqlFetcher implements DataFetcherInterface {
     constructor(private config: MsSqlConfiguration) { }
@@ -14,66 +15,20 @@ export interface MsSqlFetcherProps {
     query: string
     isProcedure: boolean
     params?: MsSqlParameterType[]
+    outParams?: MsSqlOutParameter[]
 }
 export type MsSqlParameterType = {
     name: string,
     value: any,
     type: TediousType
 }
+export type MsSqlOutParameter = {
+    name: string,
+    type: TediousType
+}
 
 export type MsSqlDataResult = {
     rowCount: number,
-    rows: any[]
-}
-
-async function execute(props: MsSqlFetcherProps, connection: Connection): Promise<MsSqlDataResult> {
-    return new Promise((resolve, reject) => {
-
-        const request = new Request(props.query, (err, rowCount, rows) => {
-            console.log('omg ', err, rowCount, rows);
-            if (err) {
-                reject(err);
-                return;
-            }
-            resolve({ rowCount, rows })
-        });
-        if (props.params) {
-            props.params.forEach(p => { request.addParameter(p.name, p.type, p.value) });
-        }
-        if (props.isProcedure) {
-            connection.callProcedure(request);
-        }
-        else {
-            connection.execSql(request);
-        }
-    });
-
-
-}
-
-async function connect(config: MsSqlConfiguration): Promise<Connection> {
-    return new Promise((resolve, reject) => {
-        var connection = new Connection({
-            server: config.serverIp,
-            authentication: {
-                options: {
-                    userName: config.username,
-                    password: config.password,
-                },
-                type: 'default'
-            },
-            options: {
-                trustServerCertificate: config.trustServerCertificate,
-                database: config.database,
-                rowCollectionOnRequestCompletion: true
-            }
-        });
-        connection.connect((err) => {
-            if (!err) {
-                resolve(connection);
-                return;
-            }
-            reject(err);
-        });
-    });
+    rows: any[],
+    outParams: any
 }

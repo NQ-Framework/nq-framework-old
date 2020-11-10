@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MsSqlUtils should reject if sql returns error 1`] = `"invalid sql"`;
+
+exports[`MsSqlUtils should throw error received from db 1`] = `"Invalid credentials"`;
