@@ -30,6 +30,7 @@ async function execute(props: MsSqlFetcherProps, connection: Connection): Promis
     return new Promise((resolve, reject) => {
 
         const request = new Request(props.query, (err, rowCount, rows) => {
+            console.log('omg ', err, rowCount, rows);
             if (err) {
                 reject(err);
                 return;
@@ -61,8 +62,7 @@ async function connect(config: MsSqlConfiguration): Promise<Connection> {
                 },
                 type: 'default'
             },
-            options
-                : {
+            options: {
                 trustServerCertificate: config.trustServerCertificate,
                 database: config.database,
                 rowCollectionOnRequestCompletion: true
