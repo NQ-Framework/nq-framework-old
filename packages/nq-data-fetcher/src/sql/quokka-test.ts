@@ -1,6 +1,5 @@
 import { MsSqlFetcher } from "./ms-sql-fetcher";
 import { TYPES } from "tedious";
-import { types } from "util";
 const fetcher = new MsSqlFetcher({
     serverIp: 'localhost',
     username: 'sa',
