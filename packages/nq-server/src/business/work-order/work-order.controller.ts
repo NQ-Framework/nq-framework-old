@@ -6,7 +6,7 @@ import { TYPES } from 'tedious';
 
 @Controller('work-order')
 export class WorkOrderController {
-  constructor(private router: RequestRouterService) { }
+  constructor(private router: RequestRouterService) {}
 
   @Get('')
   async documents(
@@ -23,12 +23,8 @@ export class WorkOrderController {
     const data = await response.get({
       isProcedure: true,
       query: 'testProc',
-      params: [
-        { name: 'TestParam', type: TYPES.Int, value: 10 }
-      ],
-      outParams: [
-        { name: "TestOut", type: TYPES.Int }
-      ]
+      params: [{ name: 'TestParam', type: TYPES.Int, value: 10 }],
+      outParams: [{ name: 'TestOut', type: TYPES.Int }],
     });
     return { data };
   }
@@ -39,7 +35,7 @@ export class WorkOrderController {
     @Query('organizationId') organizationId: string,
     @Query('dataSource') dataSource: string,
     @Query('isProcedure') isProcedure: string,
-    @Query('query') query: string
+    @Query('query') query: string,
   ): Promise<{ data: any }> {
     const user = req.firebaseUser as auth.DecodedIdToken;
     const response = (await this.router.getDataFetcher(
@@ -48,12 +44,10 @@ export class WorkOrderController {
       dataSource,
     )) as MsSqlFetcher;
     const data = await response.get({
-      isProcedure: isProcedure === "yes" || isProcedure === "true",
+      isProcedure: isProcedure === 'yes' || isProcedure === 'true',
       query,
-      params: [
-      ],
-      outParams: [
-      ]
+      params: [],
+      outParams: [],
     });
     return { data };
   }
