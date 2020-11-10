@@ -1,7 +1,7 @@
 import { MsSqlConfiguration } from "@nq-framework/models";
 import { DataFetcherFactory } from "./dataFetcherFactory"
-import { SqlFetcher } from "./sql/sql-fetcher"
-jest.mock('./sql/sql-fetcher');
+import { MsSqlFetcher } from "./sql/ms-sql-fetcher"
+jest.mock('./sql/ms-sql-fetcher');
 const mockConnectionConfiguration: MsSqlConfiguration = {
     type: 'mssql',
     username: 'username',
@@ -19,7 +19,7 @@ describe('DataFetcherFactory', () => {
             configuration: mockConnectionConfiguration,
         } as any)
         expect(fetcher).toBeDefined();
-        const mockFetcher = SqlFetcher as jest.Mock;
+        const mockFetcher = MsSqlFetcher as jest.Mock;
         expect(mockFetcher.mock.instances.length).toEqual(1);
         expect(mockFetcher).toHaveBeenCalledWith(mockConnectionConfiguration);
     });

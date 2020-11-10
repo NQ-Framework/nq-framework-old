@@ -1,4 +1,4 @@
 
 export interface DataFetcherInterface {
-    get(props: any): Promise<{ data: any }>
+    get(props: any): Promise<any>
 }
