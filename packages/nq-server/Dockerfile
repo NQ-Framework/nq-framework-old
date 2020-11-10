@@ -1,7 +1,7 @@
 FROM node:12 AS build-env
 WORKDIR /usr/src/app
 RUN npm install -g @nestjs/cli
-COPY [".npmrc", "package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 RUN echo '//npm.pkg.github.com/:_authToken=9758de7c8824d876ac5c70bfdfa920a4de854cab' >> .npmrc
 RUN echo 'registry=https://npm.pkg.github.com/NQ-Framework' >> .npmrc
 RUN npm install
