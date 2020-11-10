@@ -65,6 +65,7 @@ async function connect(config: MsSqlConfiguration): Promise<Connection> {
                 : {
                 trustServerCertificate: config.trustServerCertificate,
                 database: config.database,
+                rowCollectionOnRequestCompletion: true
             }
         });
         connection.connect((err) => {
