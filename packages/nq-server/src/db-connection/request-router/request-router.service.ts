@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DataSourceService } from '../../organization/data-source/data-source.service';
 import { LoggerService } from '../../logger/logger.service';
-import { DataFetcherFactory } from '@nqframework/data-fetcher';
-import { DataFetcher } from '@nqframework/data-fetcher/build/dataFetcherInterface';
+import { DataFetcherFactory, DataFetcherInterface } from '@nq-framework/data-fetcher';
 @Injectable()
 export class RequestRouterService {
   constructor(
@@ -14,7 +13,7 @@ export class RequestRouterService {
     userId: string,
     organizationId: string,
     dataSource: string,
-  ): Promise<DataFetcher> {
+  ): Promise<DataFetcherInterface> {
     this.logger.debug(
       `getting data fetcher for ${userId} ${organizationId} ${dataSource}`,
     );

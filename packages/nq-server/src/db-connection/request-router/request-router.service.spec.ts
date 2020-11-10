@@ -1,11 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DataSourceService } from '../../organization/data-source/data-source.service';
-import { AnalyticsService } from '../../analytics/analytics.service';
 import { RequestRouterService } from './request-router.service';
 import { LoggerModule } from '../../logger/logger.module';
 
 
-jest.mock('@nqframework/data-fetcher');
+jest.mock('@nq-framework/data-fetcher');
 
 const mockMembers = [
   {

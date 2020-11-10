@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { getFirebaseApp } from '../../firebase/initialize';
 import { LoggerService } from '../../logger/logger.service';
-import { OrganizationMember, DataSource } from '@nqframework/models';
+import { OrganizationMember, DataSource } from '@nq-framework/models';
 
 @Injectable()
 export class DataSourceService {
