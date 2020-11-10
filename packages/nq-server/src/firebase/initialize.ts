@@ -5,7 +5,7 @@ import { AuthConfigService } from '../config/AuthConfigService';
 let firebaseApp: any;
 let resolveFn: any;
 const firebaseAppPromise: Promise<admin.app.App> = new Promise(
-  (resolve, reject) => {
+  (resolve) => {
     resolveFn = resolve;
   },
 );
