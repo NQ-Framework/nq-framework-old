@@ -3,6 +3,7 @@ import { SchedulerRegistry } from '@nestjs/schedule';
 import { LoggerService } from '../../logger/logger.service';
 import { getFirebaseApp } from "../../firebase/initialize";
 import { CronJob } from 'cron';
+import { ScheduledJob, ConfigurationInterface } from "@nqframework/models"
 
 @Injectable()
 export class SchedulerService {
@@ -41,21 +42,12 @@ export class SchedulerService {
 
             this.logger.warn("creating scheduled job " + newJob.name + " : " + JSON.stringify(newJob));
             const job = new CronJob(newJob.cronInterval, () => {
-                if (newJob.actionType === "log") {
-                    this.logger.debug(newJob.parameter);
+                if (newJob.configuration.type === "log") {
+                    this.logger.debug(newJob.configuration.message);
                 }
             });
             this.registry.addCronJob(newJob.name, job);
             job.start();
         });
     }
-}
-
-export type ScheduledJob = {
-    name: string,
-    active: boolean,
-    actionType: string,
-    cronInterval: string,
-    organizationId: string,
-    parameter: string
 }

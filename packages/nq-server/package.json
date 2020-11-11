@@ -38,7 +38,7 @@
     "@nestjs/swagger": "^4.7.0",
     "@nestjs/websockets": "^7.5.1",
     "@nq-framework/data-fetcher": "^1.0.14",
-    "@nq-framework/models": "^3.0.2",
+    "@nqframework/models": "^3.0.4",
     "@types/cron": "^1.7.2",
     "cron": "^1.8.2",
     "firebase-admin": "^9.3.0",

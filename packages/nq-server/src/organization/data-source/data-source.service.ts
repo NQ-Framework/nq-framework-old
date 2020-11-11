@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { getFirebaseApp } from '../../firebase/initialize';
 import { LoggerService } from '../../logger/logger.service';
-import { OrganizationMember, DataSource } from '@nq-framework/models';
+import { OrganizationMember, DataSource } from '@nqframework/models';
 
 @Injectable()
 export class DataSourceService {
-  constructor(private logger: LoggerService) {}
+  constructor(private logger: LoggerService) { }
 
   async getDataSourceConfigurations(
     organizationId: string,
