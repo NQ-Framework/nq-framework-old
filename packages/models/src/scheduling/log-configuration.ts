@@ -1,4 +1,4 @@
 export type LogConfiguration = {
-    type: "log",
-    message: string
-}
+  type: "log";
+  message: string;
+};
