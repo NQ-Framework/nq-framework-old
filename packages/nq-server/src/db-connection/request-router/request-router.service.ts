@@ -4,13 +4,13 @@ import { LoggerService } from '../../logger/logger.service';
 import {
   DataFetcherFactory,
   DataFetcherInterface,
-} from '@nq-framework/data-fetcher';
+} from '@nqframework/data-fetcher';
 @Injectable()
 export class RequestRouterService {
   constructor(
     private logger: LoggerService,
     private dataSourceConfig: DataSourceService,
-  ) {}
+  ) { }
 
   async getDataFetcher(
     userId: string,

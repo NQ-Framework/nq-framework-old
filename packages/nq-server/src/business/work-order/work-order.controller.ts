@@ -1,12 +1,12 @@
 import { Controller, Get, Query, Req } from '@nestjs/common';
 import { auth } from 'firebase-admin';
 import { RequestRouterService } from '../../db-connection/request-router/request-router.service';
-import { MsSqlFetcher } from '@nq-framework/data-fetcher';
+import { MsSqlFetcher } from '@nqframework/data-fetcher';
 import { TYPES } from 'tedious';
 
 @Controller('work-order')
 export class WorkOrderController {
-  constructor(private router: RequestRouterService) {}
+  constructor(private router: RequestRouterService) { }
 
   @Get('')
   async documents(

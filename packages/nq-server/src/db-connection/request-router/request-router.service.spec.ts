@@ -3,7 +3,7 @@ import { DataSourceService } from '../../organization/data-source/data-source.se
 import { RequestRouterService } from './request-router.service';
 import { LoggerModule } from '../../logger/logger.module';
 
-jest.mock('@nq-framework/data-fetcher');
+jest.mock('@nqframework/data-fetcher');
 
 const mockMembers = [
   {
