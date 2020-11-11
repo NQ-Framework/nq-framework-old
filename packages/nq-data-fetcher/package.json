@@ -1,5 +1,5 @@
 {
-  "name": "@nq-framework/data-fetcher",
+  "name": "@nqframework/data-fetcher",
   "version": "1.0.14",
   "description": "A data fetcher component for the server and the connector client",
   "main": "build/index.js",
