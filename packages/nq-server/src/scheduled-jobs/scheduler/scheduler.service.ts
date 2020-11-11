@@ -3,11 +3,12 @@ import { SchedulerRegistry } from '@nestjs/schedule';
 import { LoggerService } from '../../logger/logger.service';
 import { getFirebaseApp } from "../../firebase/initialize";
 import { CronJob } from 'cron';
-import { ScheduledJob, ConfigurationInterface } from "@nqframework/models"
+import { ScheduledJob } from "@nqframework/models"
+import { HandlerService } from '../handler/handler.service';
 
 @Injectable()
 export class SchedulerService {
-    constructor(private logger: LoggerService, private registry: SchedulerRegistry) {
+    constructor(private logger: LoggerService, private registry: SchedulerRegistry, private handler: HandlerService) {
         this.logger.setContext("Scheduler");
     }
     async initialize() {
@@ -30,7 +31,7 @@ export class SchedulerService {
             if (!newData) {
                 return;
             }
-            this.logger.warn("removing scheduled job " + name);
+            this.logger.log(`removing scheduled job '${name}'`);
             job.stop();
             this.registry.deleteCronJob(name);
         });
@@ -40,14 +41,18 @@ export class SchedulerService {
                 return;
             }
 
-            this.logger.warn("creating scheduled job " + newJob.name + " : " + JSON.stringify(newJob));
+            this.logger.log(`creating scheduled job '${newJob.name}' as ${JSON.stringify(newJob)}`);
+            const handler = this.handler.GetJobHandler(newJob.configuration);
+            if (!handler) {
+                this.logger.error(`Could not load job handler. Job will not be created. requested job type: '${newJob.configuration.type}'`);
+                return;
+            }
             const job = new CronJob(newJob.cronInterval, () => {
-                if (newJob.configuration.type === "log") {
-                    this.logger.debug(newJob.configuration.message);
-                }
+                handler.ExecuteJob(newJob.configuration);
             });
             this.registry.addCronJob(newJob.name, job);
             job.start();
+            this.logger.log(`Started job: '${newJob.name}'`);
         });
     }
 }

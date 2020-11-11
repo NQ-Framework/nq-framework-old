@@ -10,7 +10,7 @@ import { LoggerModule } from './logger/logger.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { DbConnectionModule } from './db-connection/db-connection.module';
 import { Organization } from './organization/organization.module';
-import { SchedulerModule } from './scheduler/scheduler.module';
+import { ScheduledJobsModule } from './scheduled-jobs/scheduled-jobs.module';
 import { ScheduleModule } from "@nestjs/schedule"
 
 
@@ -29,7 +29,7 @@ const configImport = ConfigModule.forRoot({
     AnalyticsModule,
     DbConnectionModule,
     Organization,
-    SchedulerModule,
+    ScheduledJobsModule,
     ScheduleModule.forRoot()
   ],
   controllers: [AppController],
