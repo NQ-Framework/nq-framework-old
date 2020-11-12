@@ -3,10 +3,13 @@ import { auth } from 'firebase-admin';
 import { RequestRouterService } from '../../db-connection/request-router/request-router.service';
 import { MsSqlFetcher } from '@nqframework/data-fetcher';
 import { TYPES } from 'tedious';
+import { LoggerService } from '../../logger/logger.service';
 
 @Controller('work-order')
 export class WorkOrderController {
-  constructor(private router: RequestRouterService) { }
+  constructor(private router: RequestRouterService, private logger: LoggerService) {
+    logger.setContext('Work Order');
+  }
 
   @Get('')
   async documents(
@@ -14,6 +17,7 @@ export class WorkOrderController {
     @Query('organizationId') organizationId: string,
     @Query('dataSource') dataSource: string,
   ): Promise<{ data: any }> {
+    this.logger.debug(req.subdomains);
     const user = req.firebaseUser as auth.DecodedIdToken;
     const response = (await this.router.getDataFetcher(
       user.uid,
