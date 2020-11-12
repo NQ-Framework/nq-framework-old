@@ -8,7 +8,13 @@ import { JobsService } from './jobs/jobs.service';
 
 @Module({
   imports: [LoggerModule],
-  providers: [SchedulerService, LogJobService, StoredProcedureJobService, HandlerService, JobsService],
-  exports: [SchedulerService]
+  providers: [
+    SchedulerService,
+    LogJobService,
+    StoredProcedureJobService,
+    HandlerService,
+    JobsService,
+  ],
+  exports: [SchedulerService],
 })
-export class ScheduledJobsModule { }
+export class ScheduledJobsModule {}

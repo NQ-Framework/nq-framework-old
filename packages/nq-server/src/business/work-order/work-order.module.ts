@@ -7,4 +7,4 @@ import { WorkOrderController } from './work-order.controller';
   controllers: [WorkOrderController],
   imports: [DbConnectionModule, LoggerModule],
 })
-export class WorkOrderModule { }
+export class WorkOrderModule {}

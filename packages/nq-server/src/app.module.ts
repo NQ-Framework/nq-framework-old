@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { FirebaseAuthMiddleware } from './firebase';
-import { OrganizationMiddleware } from "./organization/middleware/organization.middleware"
+import { OrganizationMiddleware } from './organization/middleware/organization.middleware';
 import configuration from './config/configuration';
 import { ConfiugrationModule } from './config/configuration.module';
 import { WorkOrderModule } from './business/work-order/work-order.module';
@@ -12,8 +12,7 @@ import { AnalyticsModule } from './analytics/analytics.module';
 import { DbConnectionModule } from './db-connection/db-connection.module';
 import { Organization } from './organization/organization.module';
 import { ScheduledJobsModule } from './scheduled-jobs/scheduled-jobs.module';
-import { ScheduleModule } from "@nestjs/schedule"
-
+import { ScheduleModule } from '@nestjs/schedule';
 
 const configImport = ConfigModule.forRoot({
   envFilePath: '.development.env',
@@ -31,7 +30,7 @@ const configImport = ConfigModule.forRoot({
     DbConnectionModule,
     Organization,
     ScheduledJobsModule,
-    ScheduleModule.forRoot()
+    ScheduleModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -40,7 +39,12 @@ export class AppModule implements NestModule {
   async configure(consumer: MiddlewareConsumer) {
     return new Promise((resolve) => {
       resolve(
-        consumer.apply(FirebaseAuthMiddleware).exclude('v1/api').forRoutes('*').apply(OrganizationMiddleware).forRoutes('*')
+        consumer
+          .apply(FirebaseAuthMiddleware)
+          .exclude('v1/api')
+          .forRoutes('*')
+          .apply(OrganizationMiddleware)
+          .forRoutes('*'),
       );
     });
   }

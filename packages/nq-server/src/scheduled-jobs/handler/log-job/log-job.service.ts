@@ -4,7 +4,7 @@ import { BaseJobService } from '../base-job/base-job.service';
 
 @Injectable()
 export class LogJobService extends BaseJobService {
-    ExecuteJob(config: LogConfiguration): void {
-        console.log(config.message);
-    }
+  ExecuteJob(config: LogConfiguration): void {
+    console.log(config.message);
+  }
 }

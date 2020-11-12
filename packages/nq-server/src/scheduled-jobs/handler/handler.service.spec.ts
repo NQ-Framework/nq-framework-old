@@ -8,10 +8,12 @@ describe('HandlerService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [HandlerService,
+      providers: [
+        HandlerService,
         { provide: LogJobService, useValue: {} },
         { provide: LogJobService, useValue: {} },
-        { provide: StoredProcedureJobService, useValue: {} }],
+        { provide: StoredProcedureJobService, useValue: {} },
+      ],
     }).compile();
 
     service = module.get<HandlerService>(HandlerService);

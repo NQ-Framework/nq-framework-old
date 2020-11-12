@@ -4,18 +4,19 @@ import { RequestRouterService } from '../../db-connection/request-router/request
 import { MsSqlFetcher } from '@nqframework/data-fetcher';
 import { TYPES } from 'tedious';
 import { LoggerService } from '../../logger/logger.service';
-import { Request } from "express"
+import { Request } from 'express';
 
 @Controller('work-order')
 export class WorkOrderController {
-  constructor(private router: RequestRouterService, private logger: LoggerService) {
+  constructor(
+    private router: RequestRouterService,
+    private logger: LoggerService,
+  ) {
     logger.setContext('Work Order');
   }
 
   @Get('')
-  async documents(
-    @Req() req: Request,
-  ): Promise<{ data: any }> {
+  async documents(@Req() req: Request): Promise<{ data: any }> {
     const user = req.firebaseUser as auth.DecodedIdToken;
     const response = (await this.router.getDataFetcher(
       user.uid,

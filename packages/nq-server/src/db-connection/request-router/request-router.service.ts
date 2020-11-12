@@ -10,7 +10,7 @@ export class RequestRouterService {
   constructor(
     private logger: LoggerService,
     private dataSourceConfig: DataSourceService,
-  ) { }
+  ) {}
 
   async getDataFetcher(
     userId: string,

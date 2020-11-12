@@ -1,3 +1,3 @@
 export const getOrganizationIdFromDomain = (domain: string): string => {
-    return domain.toLowerCase().trim();
-}
+  return domain.toLowerCase().trim();
+};
