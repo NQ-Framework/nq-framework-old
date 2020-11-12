@@ -5,6 +5,7 @@ import { getFirebaseApp } from "../../firebase/initialize";
 import { CronJob } from 'cron';
 import { ScheduledJob } from "@nqframework/models"
 import { HandlerService } from '../handler/handler.service';
+import { generateJobName } from "./generate-job-name";
 
 @Injectable()
 export class SchedulerService {
@@ -27,7 +28,7 @@ export class SchedulerService {
     async applyJobData(newJobData: ScheduledJob[]) {
         const jobList = (await this.registry.getCronJobs()) as Map<string, CronJob>;
         jobList.forEach((job, name) => {
-            const newData = newJobData.find(j => j.name === name);
+            const newData = newJobData.find(j => generateJobName(j) === name);
             if (!newData) {
                 return;
             }
@@ -40,19 +41,20 @@ export class SchedulerService {
             if (!newJob.active) {
                 return;
             }
+            const newJobName = generateJobName(newJob);
 
-            this.logger.log(`creating scheduled job '${newJob.name}' as ${JSON.stringify(newJob)}`);
+            this.logger.log(`creating scheduled job '${newJobName}' as ${JSON.stringify(newJob)}`);
             const handler = this.handler.GetJobHandler(newJob.configuration);
             if (!handler) {
-                this.logger.error(`Could not load job handler. Job will not be created. requested job type: '${newJob.configuration.type}'`);
+                this.logger.error(`Could not load job handler. Job will not be created. requested job type: '${newJob.configuration.type}'  details: ${JSON.stringify(newJob)}`);
                 return;
             }
             const job = new CronJob(newJob.cronInterval, () => {
                 handler.ExecuteJob(newJob.configuration);
             });
-            this.registry.addCronJob(newJob.name, job);
+            this.registry.addCronJob(newJobName, job);
             job.start();
-            this.logger.log(`Started job: '${newJob.name}'`);
+            this.logger.log(`Started job: '${newJobName}'`);
         });
     }
 }
