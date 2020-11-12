@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { LoggerModule } from '../../logger/logger.module';
 import { RequestRouterService } from '../../db-connection/request-router/request-router.service';
 import { WorkOrderController } from './work-order.controller';
 
@@ -7,6 +8,7 @@ describe('WorkOrder Controller', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [LoggerModule],
       controllers: [WorkOrderController],
       providers: [{ provide: RequestRouterService, useValue: {} }],
     }).compile();

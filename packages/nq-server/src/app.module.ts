@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { FirebaseAuthMiddleware } from './firebase';
+import { OrganizationMiddleware } from "./organization/middleware/organization.middleware"
 import configuration from './config/configuration';
 import { ConfiugrationModule } from './config/configuration.module';
 import { WorkOrderModule } from './business/work-order/work-order.module';
@@ -39,7 +40,7 @@ export class AppModule implements NestModule {
   async configure(consumer: MiddlewareConsumer) {
     return new Promise((resolve) => {
       resolve(
-        consumer.apply(FirebaseAuthMiddleware).exclude('v1/api').forRoutes('*'),
+        consumer.apply(FirebaseAuthMiddleware).exclude('v1/api').forRoutes('*').apply(OrganizationMiddleware).forRoutes('*')
       );
     });
   }

@@ -5,7 +5,6 @@ import { Request, Response } from 'express';
 
 @Injectable()
 export class FirebaseAuthMiddleware implements NestMiddleware {
-  constructor() { }
 
   async use(req: Request, _: Response, next: Function) {
     const { authorization } = req.headers;

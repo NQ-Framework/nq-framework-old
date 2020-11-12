@@ -22,7 +22,7 @@ async function bootstrap() {
   });
   app.setGlobalPrefix('v1');
   const port = configService.get<number>('port');
-  await app.listen(port ?? 8080);
+  await app.listen(port ?? 8080, '0.0.0.0');
   loadFirebase(authConfigService);
   const schedulerService = app.get<SchedulerService>(SchedulerService);
   schedulerService.initialize().then();

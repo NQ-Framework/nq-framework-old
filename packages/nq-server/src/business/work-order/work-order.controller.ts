@@ -4,6 +4,7 @@ import { RequestRouterService } from '../../db-connection/request-router/request
 import { MsSqlFetcher } from '@nqframework/data-fetcher';
 import { TYPES } from 'tedious';
 import { LoggerService } from '../../logger/logger.service';
+import { Request } from "express"
 
 @Controller('work-order')
 export class WorkOrderController {
@@ -13,16 +14,13 @@ export class WorkOrderController {
 
   @Get('')
   async documents(
-    @Req() req: any,
-    @Query('organizationId') organizationId: string,
-    @Query('dataSource') dataSource: string,
+    @Req() req: Request,
   ): Promise<{ data: any }> {
-    this.logger.debug(req.subdomains);
     const user = req.firebaseUser as auth.DecodedIdToken;
     const response = (await this.router.getDataFetcher(
       user.uid,
-      organizationId,
-      dataSource,
+      req.organizationId,
+      req.dataSource,
     )) as MsSqlFetcher;
     const data = await response.get({
       isProcedure: true,
