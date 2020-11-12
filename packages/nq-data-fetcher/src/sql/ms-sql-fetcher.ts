@@ -1,4 +1,4 @@
-import { MsSqlConfiguration } from "@nq-framework/models";
+import { MsSqlConfiguration } from "@nqframework/models";
 import { DataFetcherInterface } from "../dataFetcherInterface";
 import { TediousType } from "tedious"
 import { connect, execute } from "./ms-sql-util"

@@ -1,4 +1,4 @@
-import { MsSqlConfiguration } from "@nq-framework/models";
+import { MsSqlConfiguration } from "@nqframework/models";
 import { Connection, Request } from "tedious";
 import { MsSqlFetcherProps, MsSqlDataResult } from "./ms-sql-fetcher";
 

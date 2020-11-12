@@ -1,4 +1,4 @@
-import { MsSqlConfiguration } from "@nq-framework/models";
+import { MsSqlConfiguration } from "@nqframework/models";
 import { DataFetcherFactory } from "./dataFetcherFactory"
 import { MsSqlFetcher } from "./sql/ms-sql-fetcher"
 jest.mock('./sql/ms-sql-fetcher');

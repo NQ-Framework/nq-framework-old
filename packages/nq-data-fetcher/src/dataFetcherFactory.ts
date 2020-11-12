@@ -1,5 +1,5 @@
-import { DataSource } from "@nq-framework/models";
-import { MsSqlConfiguration } from "@nq-framework/models";
+import { DataSource } from "@nqframework/models";
+import { MsSqlConfiguration } from "@nqframework/models";
 import { DataFetcherInterface } from "./dataFetcherInterface";
 import { MsSqlFetcher } from "./sql/ms-sql-fetcher";
 

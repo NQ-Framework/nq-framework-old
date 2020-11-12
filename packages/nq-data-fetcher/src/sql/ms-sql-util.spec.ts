@@ -1,4 +1,4 @@
-import { MsSqlConfiguration } from "@nq-framework/models";
+import { MsSqlConfiguration } from "@nqframework/models";
 import { connect, execute } from './ms-sql-util';
 import { Connection, Request, TYPES } from 'tedious';
 
