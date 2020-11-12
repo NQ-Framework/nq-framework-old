@@ -4,10 +4,11 @@ import { SchedulerService } from './scheduler/scheduler.service';
 import { LogJobService } from './handler/log-job/log-job.service';
 import { StoredProcedureJobService } from './handler/stored-procedure-job/stored-procedure-job.service';
 import { HandlerService } from './handler/handler.service';
+import { JobsService } from './jobs/jobs.service';
 
 @Module({
   imports: [LoggerModule],
-  providers: [SchedulerService, LogJobService, StoredProcedureJobService, HandlerService],
+  providers: [SchedulerService, LogJobService, StoredProcedureJobService, HandlerService, JobsService],
   exports: [SchedulerService]
 })
 export class ScheduledJobsModule { }
