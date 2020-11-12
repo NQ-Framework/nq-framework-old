@@ -1,5 +1,5 @@
-import { ConfigurationInterface } from '@nqframework/models';
+import { ScheduledJob, ConfigurationInterface } from '@nqframework/models';
 
 export abstract class BaseJobService {
-    abstract ExecuteJob(config: ConfigurationInterface): void
+    abstract ExecuteJob(config: ConfigurationInterface, job: ScheduledJob): void
 }

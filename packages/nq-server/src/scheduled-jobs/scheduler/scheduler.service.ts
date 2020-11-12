@@ -50,7 +50,7 @@ export class SchedulerService {
                 return;
             }
             const job = new CronJob(newJob.cronInterval, () => {
-                handler.ExecuteJob(newJob.configuration);
+                handler.ExecuteJob(newJob.configuration, newJob);
             });
             this.registry.addCronJob(newJobName, job);
             job.start();
