@@ -60,7 +60,7 @@
     ]
   },
   "dependencies": {
-    "@nq-framework/models": "^3.0.2",
+    "@nqframework/models": "^3.0.2",
     "@types/tedious": "^4.0.2",
     "tedious": "^9.2.1"
   },
