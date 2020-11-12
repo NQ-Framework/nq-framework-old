@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { LoggerService } from '../../logger/logger.service';
-import { getFirebaseApp } from "../../firebase/initialize";
 import { CronJob } from 'cron';
 import { ScheduledJob } from "@nqframework/models"
 import { HandlerService } from '../handler/handler.service';
 import { generateJobName } from "./generate-job-name";
+import { getFirebaseJobsObservable } from './get-firebase-jobs-observable';
 
 @Injectable()
 export class SchedulerService {
@@ -14,47 +14,58 @@ export class SchedulerService {
     }
     async initialize() {
         this.logger.debug('Initializing Scheduling service');
-        const app = await getFirebaseApp();
-        app.firestore().collection('scheduledJobs').onSnapshot(async (snap) => {
-            const changes = snap.docChanges().map(d => {
-                const data = d.doc.data();
-                return { ...data, active: d.type === "removed" ? false : data.active };
-            });
-            await this.applyJobData(changes as ScheduledJob[]);
+
+        const jobs = await getFirebaseJobsObservable();
+        jobs.subscribe(async (changes) => {
+            await this.synchronizeJobsData(changes as ScheduledJob[]);
         });
     }
 
 
-    async applyJobData(newJobData: ScheduledJob[]) {
+    async synchronizeJobsData(jobsData: ScheduledJob[]) {
+        await this.deleteExistingJobs(jobsData);
+
+        this.createJobs(jobsData.filter(job => job.active));
+    }
+
+    private createJobs(jobsData: ScheduledJob[]) {
+        jobsData.forEach(job => {
+
+            const jobName = generateJobName(job);
+            const configuration = job.configuration;
+
+            this.logger.log(`creating scheduled job '${jobName}' as ${JSON.stringify(job)}`);
+
+            const handler = this.handler.GetHandlerFromConfig(configuration);
+
+            if (handler === null) {
+                this.logger.error(`Could not load job handler. Job will not be created. requested job type: '${configuration.type}'  details: ${JSON.stringify(job)}`);
+                return;
+            }
+
+            const invokeHandler = () => {
+                handler.ExecuteJob(job.configuration, job);
+            }
+
+            const cronJob = new CronJob(job.cronInterval, invokeHandler);
+
+            this.registry.addCronJob(jobName, cronJob);
+
+            cronJob.start();
+            this.logger.log(`Started job: '${jobName}'`);
+        });
+    }
+
+    private async deleteExistingJobs(jobsData: ScheduledJob[]) {
         const jobList = (await this.registry.getCronJobs()) as Map<string, CronJob>;
         jobList.forEach((job, name) => {
-            const newData = newJobData.find(j => generateJobName(j) === name);
+            const newData = jobsData.find(j => generateJobName(j) === name);
             if (!newData) {
                 return;
             }
             this.logger.log(`removing scheduled job '${name}'`);
             job.stop();
             this.registry.deleteCronJob(name);
-        });
-
-        newJobData.forEach(newJob => {
-            if (!newJob.active) {
-                return;
-            }
-            const newJobName = generateJobName(newJob);
-
-            this.logger.log(`creating scheduled job '${newJobName}' as ${JSON.stringify(newJob)}`);
-            const handler = this.handler.GetJobHandler(newJob.configuration);
-            if (!handler) {
-                this.logger.error(`Could not load job handler. Job will not be created. requested job type: '${newJob.configuration.type}'  details: ${JSON.stringify(newJob)}`);
-                return;
-            }
-            const job = new CronJob(newJob.cronInterval, () => {
-                handler.ExecuteJob(newJob.configuration, newJob);
-            });
-            this.registry.addCronJob(newJobName, job);
-            job.start();
-            this.logger.log(`Started job: '${newJobName}'`);
         });
     }
 }

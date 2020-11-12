@@ -13,7 +13,8 @@ export class HandlerService {
         this.map['stored-procedure'] = storedProcedureJob;
     }
 
-    GetJobHandler(config: ConfigurationInterface): BaseJobService {
-        return this.map[config.type];
+    GetHandlerFromConfig(config: ConfigurationInterface): BaseJobService | null {
+        const handler = this.map[config.type];
+        return handler ? handler : null;
     }
 }
