@@ -9,10 +9,10 @@ export class SchedulerService {
   constructor(private logger: LoggerService, private jobs: JobsService) {
     this.logger.setContext('Scheduled Jobs');
   }
-  async initialize() {
+  initialize() {
     this.logger.debug('Initializing Scheduling service');
 
-    const jobs = await getFirebaseJobsObservable();
+    const jobs = getFirebaseJobsObservable();
     jobs.subscribe(async (changes) => {
       await this.synchronizeJobsData(changes as ScheduledJob[]);
     });
