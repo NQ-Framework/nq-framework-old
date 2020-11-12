@@ -1,6 +1,6 @@
 {
   "name": "@nqframework/data-fetcher",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "A data fetcher component for the server and the connector client",
   "main": "build/index.js",
   "module": "build/index.es.js",
