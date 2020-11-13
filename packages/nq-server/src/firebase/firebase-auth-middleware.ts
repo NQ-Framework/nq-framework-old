@@ -18,7 +18,9 @@ export class FirebaseAuthMiddleware implements NestMiddleware {
       .catch((err) => {
         this.throwError(err);
       });
-
+    if (user.jobRunner === true) {
+      this.throwError();
+    }
     req.firebaseUser = user;
     next();
   }
