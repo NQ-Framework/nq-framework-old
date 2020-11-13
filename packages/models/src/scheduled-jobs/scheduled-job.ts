@@ -1,4 +1,4 @@
-import { ConfigurationInterface } from "./configuration-interface";
+import { ConfigurationInterface } from "../jobs/configuration-interface";
 
 export type ScheduledJob = {
   id: string;
