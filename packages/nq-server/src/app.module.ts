@@ -14,6 +14,7 @@ import { Organization } from './organization/organization.module';
 import { ScheduledJobsModule } from './scheduled-jobs/scheduled-jobs.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { JobHandlerModule } from './job-handler/job-handler.module';
+import { TriggeredJobsModule } from './triggered-jobs/triggered-jobs.module';
 
 const configImport = ConfigModule.forRoot({
   envFilePath: '.development.env',
@@ -33,6 +34,7 @@ const configImport = ConfigModule.forRoot({
     ScheduledJobsModule,
     ScheduleModule.forRoot(),
     JobHandlerModule,
+    TriggeredJobsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

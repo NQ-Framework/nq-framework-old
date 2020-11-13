@@ -11,7 +11,7 @@ export const getFirebaseJobsObservable = (): Observable<ScheduledJob[]> => {
       .onSnapshot(async (snap) => {
         const changes = snap.docChanges().map((d) => {
           const data = d.doc.data();
-          return { ...data, active: d.type === 'removed' ? false : data.active };
+          return { ...data, active: d.type === 'removed' ? false : data.active, id: d.doc.id };
         });
         subj.next(changes as ScheduledJob[]);
       });
