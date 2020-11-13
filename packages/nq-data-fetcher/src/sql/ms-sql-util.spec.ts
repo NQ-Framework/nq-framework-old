@@ -11,6 +11,7 @@ const mockConnectionConfiguration: MsSqlConfiguration = {
     username: 'username',
     password: 'password',
     serverIp: 'localhost',
+    port: '321',
     database: 'database',
     trustServerCertificate: true
 }
@@ -39,7 +40,68 @@ describe('MsSqlUtils', () => {
                 },
                 options: {
                     trustServerCertificate: mockConnectionConfiguration.trustServerCertificate,
-                    database: mockConnectionConfiguration.database
+                    database: mockConnectionConfiguration.database,
+                    port: Number.parseInt(mockConnectionConfiguration.port)
+                }
+            }
+        )
+        expect(connection).toEqual({
+            connect: expect.any(Function),
+        })
+    });
+
+    it('should parse port from server ip if provided with comma', async () => {
+        mockConnection.mockImplementation(() => ({
+            connect: (fn: Function) => {
+                fn();
+            },
+        }));
+        const connection = await connect({ ...mockConnectionConfiguration, serverIp: 'localhost,1234', port: undefined });
+        expect(mockConnection).toHaveBeenCalledWith(
+            {
+                server: 'localhost',
+                authentication: {
+                    options: {
+                        userName: mockConnectionConfiguration.username,
+                        password: mockConnectionConfiguration.password
+                    },
+                    type: 'default'
+
+                },
+                options: {
+                    trustServerCertificate: mockConnectionConfiguration.trustServerCertificate,
+                    database: mockConnectionConfiguration.database,
+                    port: 1234
+                }
+            }
+        )
+        expect(connection).toEqual({
+            connect: expect.any(Function),
+        })
+    });
+
+    it('port field in config overrides port in ip address', async () => {
+        mockConnection.mockImplementation(() => ({
+            connect: (fn: Function) => {
+                fn();
+            },
+        }));
+        const connection = await connect({ ...mockConnectionConfiguration, serverIp: 'localhost,1234' });
+        expect(mockConnection).toHaveBeenCalledWith(
+            {
+                server: 'localhost',
+                authentication: {
+                    options: {
+                        userName: mockConnectionConfiguration.username,
+                        password: mockConnectionConfiguration.password
+                    },
+                    type: 'default'
+
+                },
+                options: {
+                    trustServerCertificate: mockConnectionConfiguration.trustServerCertificate,
+                    database: mockConnectionConfiguration.database,
+                    port: Number.parseInt(mockConnectionConfiguration.port)
                 }
             }
         )

@@ -42,8 +42,17 @@ export async function execute(props: MsSqlFetcherProps, connection: Connection):
 
 export async function connect(config: MsSqlConfiguration): Promise<Connection> {
     return new Promise((resolve, reject) => {
+        let ipAddress = config.serverIp;
+        let port = '1433';
+        if (ipAddress.includes(',')) {
+            port = ipAddress.slice(ipAddress.indexOf(',') + 1);
+            ipAddress = ipAddress.slice(0, ipAddress.indexOf(','));
+        }
+        if (config.port) {
+            port = config.port;
+        }
         var connection = new Connection({
-            server: config.serverIp,
+            server: ipAddress,
             authentication: {
                 options: {
                     userName: config.username,
@@ -54,6 +63,7 @@ export async function connect(config: MsSqlConfiguration): Promise<Connection> {
             options: {
                 trustServerCertificate: config.trustServerCertificate,
                 database: config.database,
+                port: Number.parseInt(port)
             }
         });
         connection.connect((err) => {
