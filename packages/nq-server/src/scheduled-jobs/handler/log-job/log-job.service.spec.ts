@@ -14,5 +14,6 @@ describe('LogJobService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+    service.ExecuteJob({ message: 'test' } as any);
   });
 });

@@ -14,5 +14,6 @@ describe('StoredProcedureJobService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+    service.ExecuteJob({} as any, { organizationId: 'test id' } as any);
   });
 });

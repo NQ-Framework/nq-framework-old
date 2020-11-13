@@ -19,7 +19,9 @@ describe('HandlerService', () => {
     service = module.get<HandlerService>(HandlerService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  it('should fetch handlers', () => {
+    expect(service.getHandlerFromConfig({ type: 'log' })).toBeDefined();
+    expect(service.getHandlerFromConfig({ type: 'stored-procedure' })).toBeDefined();
+    expect(service.getHandlerFromConfig({ type: 'invalid' } as any)).toBeNull();
   });
 });

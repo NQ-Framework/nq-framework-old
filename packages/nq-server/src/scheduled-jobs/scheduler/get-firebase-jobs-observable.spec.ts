@@ -5,7 +5,7 @@ jest.mock('../../firebase/initialize');
 const fbMock = getFirebaseApp as jest.Mock;
 
 describe('Get Firebase Jobs Observable', () => {
-  it.only('returns an observable', (done) => {
+  it('returns an observable', (done) => {
     fbMock.mockImplementation(() => {
       return Promise.resolve({
         firestore: () => ({
