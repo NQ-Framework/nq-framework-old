@@ -56,7 +56,7 @@ describe('MsSqlUtils', () => {
                 fn();
             },
         }));
-        const connection = await connect({ ...mockConnectionConfiguration, serverIp: 'localhost,1234', port: undefined });
+        const connection = await connect({ ...mockConnectionConfiguration, serverIp: 'localhost,1234', port: '' });
         expect(mockConnection).toHaveBeenCalledWith(
             {
                 server: 'localhost',
