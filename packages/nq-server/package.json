@@ -37,7 +37,7 @@
     "@nestjs/schedule": "^0.4.1",
     "@nestjs/swagger": "^4.7.2",
     "@nestjs/websockets": "^7.5.1",
-    "@nqframework/data-fetcher": "^1.1.1",
+    "@nqframework/data-fetcher": "^1.2.1",
     "@nqframework/models": "^3.0.5",
     "@types/cron": "^1.7.2",
     "cron": "^1.8.2",

@@ -1,20 +1,15 @@
 import { Module } from '@nestjs/common';
 import { LoggerModule } from '../logger/logger.module';
 import { SchedulerService } from './scheduler/scheduler.service';
-import { LogJobService } from './handler/log-job/log-job.service';
-import { StoredProcedureJobService } from './handler/stored-procedure-job/stored-procedure-job.service';
-import { HandlerService } from './handler/handler.service';
 import { JobsService } from './jobs/jobs.service';
+import { JobHandlerModule } from 'src/job-handler/job-handler.module';
 
 @Module({
-  imports: [LoggerModule],
+  imports: [LoggerModule, JobHandlerModule],
   providers: [
     SchedulerService,
-    LogJobService,
-    StoredProcedureJobService,
-    HandlerService,
     JobsService,
   ],
   exports: [SchedulerService],
 })
-export class ScheduledJobsModule {}
+export class ScheduledJobsModule { }

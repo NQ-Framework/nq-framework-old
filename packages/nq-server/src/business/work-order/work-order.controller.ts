@@ -35,16 +35,14 @@ export class WorkOrderController {
   @Get('anything')
   async getAnything(
     @Req() req: any,
-    @Query('organizationId') organizationId: string,
-    @Query('dataSource') dataSource: string,
     @Query('isProcedure') isProcedure: string,
     @Query('query') query: string,
   ): Promise<{ data: any }> {
     const user = req.firebaseUser as auth.DecodedIdToken;
     const response = (await this.router.getDataFetcher(
       user.uid,
-      organizationId,
-      dataSource,
+      req.organizationId,
+      req.dataSource,
     )) as MsSqlFetcher;
     const data = await response.get({
       isProcedure: isProcedure === 'yes' || isProcedure === 'true',

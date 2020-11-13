@@ -3,7 +3,7 @@ import { SchedulerRegistry } from '@nestjs/schedule';
 import { LoggerService } from '../../logger/logger.service';
 import { CronJob } from 'cron';
 import { ScheduledJob } from '@nqframework/models';
-import { HandlerService } from '../handler/handler.service';
+import { HandlerService } from '../../job-handler/handler.service';
 import { generateJobId } from '../scheduler/generate-job-id';
 
 @Injectable()
@@ -30,8 +30,7 @@ export class JobsService {
 
       if (handler === null) {
         this.logger.error(
-          `Could not load job handler. Job will not be created. requested job type: '${
-            configuration.type
+          `Could not load job handler. Job will not be created. requested job type: '${configuration.type
           }'  details: ${JSON.stringify(job)}`,
         );
         return;

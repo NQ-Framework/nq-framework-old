@@ -13,6 +13,7 @@ import { DbConnectionModule } from './db-connection/db-connection.module';
 import { Organization } from './organization/organization.module';
 import { ScheduledJobsModule } from './scheduled-jobs/scheduled-jobs.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { JobHandlerModule } from './job-handler/job-handler.module';
 
 const configImport = ConfigModule.forRoot({
   envFilePath: '.development.env',
@@ -31,6 +32,7 @@ const configImport = ConfigModule.forRoot({
     Organization,
     ScheduledJobsModule,
     ScheduleModule.forRoot(),
+    JobHandlerModule,
   ],
   controllers: [AppController],
   providers: [AppService],
