@@ -5,6 +5,7 @@ import { MsSqlFetcher } from '@nqframework/data-fetcher';
 import { TYPES } from 'tedious';
 import { LoggerService } from '../../logger/logger.service';
 import { Request } from 'express';
+import { Roles } from '../../guards/roles.decorator';
 
 @Controller('work-order')
 export class WorkOrderController {
@@ -32,6 +33,7 @@ export class WorkOrderController {
     return { data };
   }
 
+  @Roles('user')
   @Get('anything')
   async getAnything(
     @Req() req: any,
