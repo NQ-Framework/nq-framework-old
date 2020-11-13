@@ -7,5 +7,5 @@ export type TriggeredJob = {
   endpointName: string;
   organizationId: string;
   configuration: ConfigurationInterface;
-  allowedServiceAccountIds: string[]
+  allowedServiceAccountIds: string[];
 };
