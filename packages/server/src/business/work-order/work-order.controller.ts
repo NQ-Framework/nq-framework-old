@@ -33,7 +33,6 @@ export class WorkOrderController {
     return { data };
   }
 
-  @Roles('user')
   @Get('anything')
   async getAnything(
     @Req() req: any,

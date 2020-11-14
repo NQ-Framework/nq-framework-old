@@ -1,6 +1,6 @@
 {
   "name": "@nqframework/models",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "description": "Data Transfer Objects for the NQ Framework",
   "main": "build/index.js",
   "module": "build/index.es.js",
@@ -8,11 +8,11 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
-    "start:dev": "tsc --watch",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "lint": "tslint -p tsconfig.json",
+    "start:dev": "tsc --watch",
+    "lint": "",
+    "format": "npm run lint",
     "prepublishOnly": "npm test && npm run lint && npm run build",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
@@ -24,7 +24,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/nq-framework/models"
+    "url": "git+https://github.com/nq-framework/models.git"
   },
   "keywords": [],
   "author": "Milos Spasojevic",
@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@irreal/decorator-mapper": "^1.0.21",
+    "npm-check-updates": "^10.0.0",
     "reflect-metadata": "^0.1.13"
   }
 }

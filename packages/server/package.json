@@ -36,14 +36,16 @@
     "@nestjs/schedule": "^0.4.1",
     "@nestjs/swagger": "^4.7.3",
     "@nestjs/websockets": "^7.5.2",
+    "@nqframework/data-fetcher": "^1.2.2",
+    "@nqframework/models": "^4.0.3",
     "@types/cron": "^1.7.2",
     "cron": "^1.8.2",
     "firebase-admin": "^9.4.0",
+    "npm-check-updates": "^10.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
-    "@nqframework/models": "^4.0.3",
-    "@nqframework/data-fetcher": "^1.2.2"
+    "tedious": "^9.2.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.2",
