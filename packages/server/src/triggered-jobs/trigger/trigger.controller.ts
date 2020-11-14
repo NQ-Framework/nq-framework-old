@@ -1,5 +1,4 @@
 import { Controller, NotFoundException, Param, Post, Req } from '@nestjs/common';
-import { TriggeredJob } from '@nqframework/models';
 import { Request } from "express"
 import { HandlerService } from '../../job-handler/handler.service';
 import { LoggerService } from '../../logger/logger.service';
