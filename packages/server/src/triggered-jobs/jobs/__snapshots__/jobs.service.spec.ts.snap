@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`JobsService should throw for non existing job 1`] = `"job with given id not found"`;
