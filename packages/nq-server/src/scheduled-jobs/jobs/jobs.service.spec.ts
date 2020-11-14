@@ -1,16 +1,19 @@
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { Test, TestingModule } from '@nestjs/testing';
-import { LoggerModule } from '../../logger/logger.module';
 import { HandlerService } from '../../job-handler/handler.service';
 import { JobsService } from './jobs.service';
 import { CronJob } from 'cron';
+import { LoggerService } from '../../logger/logger.service';
 
 jest.mock('cron');
 describe('JobsService', () => {
   let service: JobsService;
   let registry: SchedulerRegistry;
   let handler: HandlerService;
+  let module: TestingModule
   const executeHandlerMock = jest.fn();
+  const executeJobMock = jest.fn();
+  const errorMock = jest.fn();
 
   const mockExistingJobs = new Map<string, any>([
     ['test org id:1', { stop: jest.fn() }],
@@ -37,8 +40,7 @@ describe('JobsService', () => {
 
   beforeEach(async () => {
     jest.clearAllMocks();
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [LoggerModule],
+    module = await Test.createTestingModule({
       providers: [
         JobsService,
         {
@@ -51,8 +53,12 @@ describe('JobsService', () => {
         },
         {
           provide: HandlerService,
-          useValue: { getHandlerFromConfig: jest.fn() },
+          useValue: { executeJob: executeJobMock, getHandlerFromConfig: jest.fn() },
         },
+        {
+          provide: LoggerService,
+          useValue: { error: errorMock, setContext: jest.fn(), log: jest.fn() }
+        }
       ],
     }).compile();
 
@@ -81,10 +87,19 @@ describe('JobsService', () => {
     );
     expect(CronJob).toHaveBeenCalledTimes(1);
     (CronJob as jest.Mock).mock.calls[0][1]();
-    expect(executeHandlerMock).toHaveBeenCalledWith(
-      { type: 'mock type' },
-      expect.objectContaining({ name: 'new mock job' }),
-    );
+    expect(handler.executeJob).toHaveBeenCalledTimes(1);
+  });
+
+  it('should handle error thrown from job', async () => {
+    (handler.getHandlerFromConfig as jest.Mock).mockImplementation(() => ({
+    }));
+    executeJobMock.mockImplementation(() => {
+      throw new Error('test error');
+    });
+    await service.createJobs([mockChanges[1]] as any);
+    (CronJob as jest.Mock).mock.calls[0][1]();
+    expect(handler.executeJob).toHaveBeenCalledTimes(1);
+    expect(errorMock).toHaveBeenCalledTimes(1);
   });
 
   it('should not create a job if no handler is returned', async () => {

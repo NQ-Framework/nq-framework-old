@@ -9,7 +9,7 @@ import { BaseJobService } from '../base-job/base-job.service';
 export class StoredProcedureJobService extends BaseJobService {
   ExecuteJob(config: StoredProcedureConfiguration, job: ScheduledJob): void {
     console.log(
-      'this would execute a sp for org ' + job.organizationId + ' with: ',
+      'this would execute a job called ' + job.name + 'sp for org ' + job.organizationId + ' with: ',
       JSON.stringify(config),
     );
   }

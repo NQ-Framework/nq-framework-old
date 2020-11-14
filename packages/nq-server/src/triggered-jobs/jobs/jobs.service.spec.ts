@@ -16,8 +16,11 @@ getFirebaseMock.mockImplementation(() => {
       doc: (query: string) => {
         return {
           get: () => query === 'triggeredJobs/jobId' ? ({
+            exists: true,
             data: () => mockJob
-          }) : null
+          }) : ({
+            exists: false,
+          })
         }
       }
     })

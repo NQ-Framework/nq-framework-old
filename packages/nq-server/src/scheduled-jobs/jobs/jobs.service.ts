@@ -20,24 +20,27 @@ export class JobsService {
     jobsData.forEach((job) => {
       const jobId = generateJobId(job);
       const jobDescription = job.organizationId + ': ' + job.name;
-      const configuration = job.configuration;
 
       this.logger.log(
         `creating scheduled job '${jobDescription}' as ${JSON.stringify(job)}`,
       );
 
-      const handler = this.handler.getHandlerFromConfig(configuration);
-
-      if (handler === null) {
+      const handler = this.handler.getHandlerFromConfig(job.configuration);
+      if (!handler) {
         this.logger.error(
-          `Could not load job handler. Job will not be created. requested job type: '${configuration.type
+          `Could not load job handler. Job will not be created. requested job type: '${job.configuration.type
           }'  details: ${JSON.stringify(job)}`,
         );
         return;
       }
 
-      const invokeHandler = () => {
-        handler.ExecuteJob(job.configuration, job);
+      const invokeHandler = async () => {
+        try {
+          await this.handler.executeJob(job);
+        }
+        catch (error) {
+          this.logger.error('Error executing scheduled job.', error);
+        }
       };
 
       const cronJob = new CronJob(job.cronInterval, invokeHandler);
