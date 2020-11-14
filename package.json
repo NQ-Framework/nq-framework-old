@@ -1,0 +1,15 @@
+{
+  "name": "root",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap --hoist --no-ci",
+    "build": "lerna exec npm run build",
+    "dev": "lerna exec npm run start:dev --parallel",
+    "clean:dist": "lerna exec -- rimraf ./dist",
+    "start": "lerna run start",
+    "test": "lerna run test"
+  }
+}

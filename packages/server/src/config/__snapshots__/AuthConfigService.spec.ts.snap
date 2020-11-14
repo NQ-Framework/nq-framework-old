@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthConfigService should throw on missing configuration 1`] = `"missing configuration item: project id"`;
+
+exports[`AuthConfigService should throw on missing configuration 2`] = `"missing configuration item: private key"`;
+
+exports[`AuthConfigService should throw on missing configuration 3`] = `"missing configuration item: cl email"`;
