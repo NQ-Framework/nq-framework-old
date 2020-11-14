@@ -19,8 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
+    "prepublishOnly": "npm test && npm run lint && npm run build",
     "preversion": "npm run lint && npm test",
     "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags"
@@ -37,14 +36,14 @@
     "@nestjs/schedule": "^0.4.1",
     "@nestjs/swagger": "^4.7.3",
     "@nestjs/websockets": "^7.5.2",
-    "@nqframework/data-fetcher": "^1.2.2",
-    "@nqframework/models": "^4.0.3",
     "@types/cron": "^1.7.2",
     "cron": "^1.8.2",
     "firebase-admin": "^9.4.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.6.3"
+    "rxjs": "^6.6.3",
+    "@nqframework/models": "^4.0.3",
+    "@nqframework/data-fetcher": "^1.2.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.2",
