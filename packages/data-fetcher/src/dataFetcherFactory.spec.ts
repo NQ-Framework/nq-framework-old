@@ -7,6 +7,7 @@ const mockConnectionConfiguration: MsSqlConfiguration = {
     username: 'username',
     password: 'password',
     serverIp: 'localhost',
+    port: '1234',
     database: 'database',
     trustServerCertificate: true
 }
