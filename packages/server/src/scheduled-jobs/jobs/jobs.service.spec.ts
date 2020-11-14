@@ -10,7 +10,7 @@ describe('JobsService', () => {
   let service: JobsService;
   let registry: SchedulerRegistry;
   let handler: HandlerService;
-  let module: TestingModule
+  let module: TestingModule;
   const executeHandlerMock = jest.fn();
   const executeJobMock = jest.fn();
   const errorMock = jest.fn();
@@ -53,12 +53,15 @@ describe('JobsService', () => {
         },
         {
           provide: HandlerService,
-          useValue: { executeJob: executeJobMock, getHandlerFromConfig: jest.fn() },
+          useValue: {
+            executeJob: executeJobMock,
+            getHandlerFromConfig: jest.fn(),
+          },
         },
         {
           provide: LoggerService,
-          useValue: { error: errorMock, setContext: jest.fn(), log: jest.fn() }
-        }
+          useValue: { error: errorMock, setContext: jest.fn(), log: jest.fn() },
+        },
       ],
     }).compile();
 
@@ -91,8 +94,7 @@ describe('JobsService', () => {
   });
 
   it('should handle error thrown from job', async () => {
-    (handler.getHandlerFromConfig as jest.Mock).mockImplementation(() => ({
-    }));
+    (handler.getHandlerFromConfig as jest.Mock).mockImplementation(() => ({}));
     executeJobMock.mockImplementation(() => {
       throw new Error('test error');
     });

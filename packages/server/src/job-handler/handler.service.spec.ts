@@ -14,9 +14,10 @@ describe('HandlerService', () => {
       providers: [
         HandlerService,
         {
-          provide: LogJobService, useValue: {
-            ExecuteJob: executeJobMock
-          }
+          provide: LogJobService,
+          useValue: {
+            ExecuteJob: executeJobMock,
+          },
         },
         { provide: StoredProcedureJobService, useValue: {} },
       ],
@@ -27,19 +28,32 @@ describe('HandlerService', () => {
 
   it('should fetch handlers', () => {
     expect(service.getHandlerFromConfig({ type: 'log' })).toBeDefined();
-    expect(service.getHandlerFromConfig({ type: 'stored-procedure' })).toBeDefined();
+    expect(
+      service.getHandlerFromConfig({ type: 'stored-procedure' }),
+    ).toBeDefined();
     expect(service.getHandlerFromConfig({ type: 'invalid' } as any)).toBeNull();
   });
 
   it('should execute jobs', async () => {
-    const data = await service.executeJob({ configuration: { type: 'log' }, name: 'mock job' } as any);
-    expect(executeJobMock).toHaveBeenCalledWith({ type: "log" }, expect.objectContaining({
-      name: 'mock job'
-    }));
+    const data = await service.executeJob({
+      configuration: { type: 'log' },
+      name: 'mock job',
+    } as any);
+    expect(executeJobMock).toHaveBeenCalledWith(
+      { type: 'log' },
+      expect.objectContaining({
+        name: 'mock job',
+      }),
+    );
     expect(data).toEqual({ data: 'return data' });
   });
 
   it('should throw on invalid job configuration', async () => {
-    await expect(service.executeJob({ configuration: { type: 'invalid type' }, name: 'mock job' } as any)).rejects.toThrowErrorMatchingSnapshot();
+    await expect(
+      service.executeJob({
+        configuration: { type: 'invalid type' },
+        name: 'mock job',
+      } as any),
+    ).rejects.toThrowErrorMatchingSnapshot();
   });
 });

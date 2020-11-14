@@ -1,5 +1,5 @@
 import { getFirebaseJobsObservable } from './get-firebase-jobs-observable';
-import { getFirebaseApp } from "../../firebase/initialize";
+import { getFirebaseApp } from '../../firebase/initialize';
 
 jest.mock('../../firebase/initialize');
 const fbMock = getFirebaseApp as jest.Mock;
@@ -12,14 +12,14 @@ describe('Get Firebase Jobs Observable', () => {
           collection: () => ({
             onSnapshot: (cb: Function) => {
               cb({
-                docChanges: () => ([
+                docChanges: () => [
                   {
                     doc: {
                       data: () => ({
                         active: true,
                       }),
                     },
-                    type: "added"
+                    type: 'added',
                   },
                   {
                     doc: {
@@ -27,19 +27,19 @@ describe('Get Firebase Jobs Observable', () => {
                         active: true,
                       }),
                     },
-                    type: "removed"
+                    type: 'removed',
                   },
-                ])
+                ],
               });
               cb({
-                docChanges: () => ([
+                docChanges: () => [
                   {
                     doc: {
                       data: () => ({
                         active: true,
                       }),
                     },
-                    type: "added"
+                    type: 'added',
                   },
                   {
                     doc: {
@@ -47,21 +47,21 @@ describe('Get Firebase Jobs Observable', () => {
                         active: false,
                       }),
                     },
-                    type: "modified"
+                    type: 'modified',
                   },
-                ])
+                ],
               });
-            }
-          })
-        })
+            },
+          }),
+        }),
       });
-    })
+    });
     const observable = getFirebaseJobsObservable();
     let index = 0;
     const expectedData = [
       [{ active: true }, { active: false }],
       [{ active: true }, { active: false }],
-    ]
+    ];
     observable.subscribe((data) => {
       expect(data).toEqual(expectedData[index]);
       index++;

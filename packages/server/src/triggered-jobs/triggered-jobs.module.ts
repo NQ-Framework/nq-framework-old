@@ -9,4 +9,4 @@ import { JobHandlerModule } from '../job-handler/job-handler.module';
   controllers: [TriggerController],
   providers: [JobsService],
 })
-export class TriggeredJobsModule { }
+export class TriggeredJobsModule {}

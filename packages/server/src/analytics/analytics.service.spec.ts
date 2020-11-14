@@ -54,7 +54,7 @@ describe('AnalyticsService', () => {
     expect(spy).toHaveBeenCalledWith(
       expect.stringContaining('google-analytics'),
       expect.objectContaining({ events: [{ name: 'item_view' }] }),
-      expect.objectContaining({ params: { 'measurement_id': 'test id' } }),
+      expect.objectContaining({ params: { measurement_id: 'test id' } }),
     );
     expect(response.then).toBeDefined();
   });

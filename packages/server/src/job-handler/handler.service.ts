@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigurationInterface, ScheduledJob, TriggeredJob } from '@nqframework/models';
+import {
+  ConfigurationInterface,
+  ScheduledJob,
+  TriggeredJob,
+} from '@nqframework/models';
 import { LoggerService } from '../logger/logger.service';
 import { BaseJobService } from './base-job/base-job.service';
 import { LogJobService } from './log-job/log-job.service';
@@ -22,12 +26,11 @@ export class HandlerService {
     return handler ? handler : null;
   }
 
-
   async executeJob(job: ScheduledJob | TriggeredJob): Promise<{ data: any }> {
     const handler = await this.getHandlerFromConfig(job.configuration);
     if (!handler) {
-      this.logger.error(`Handler not found for job ${JSON.stringify(job)}`)
-      throw new Error(`handler not found for job`)
+      this.logger.error(`Handler not found for job ${JSON.stringify(job)}`);
+      throw new Error(`handler not found for job`);
     }
     const result = await handler.ExecuteJob(job.configuration, job);
     return { data: result };

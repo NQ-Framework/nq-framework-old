@@ -3,9 +3,11 @@ import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './roles.guard';
 
 @Module({
-    providers: [{
-        provide: APP_GUARD,
-        useClass: RolesGuard,
-    }]
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
 })
-export class GuardsModule { }
+export class GuardsModule {}

@@ -6,10 +6,7 @@ import { JobHandlerModule } from 'src/job-handler/job-handler.module';
 
 @Module({
   imports: [LoggerModule, JobHandlerModule],
-  providers: [
-    SchedulerService,
-    JobsService,
-  ],
+  providers: [SchedulerService, JobsService],
   exports: [SchedulerService],
 })
-export class ScheduledJobsModule { }
+export class ScheduledJobsModule {}

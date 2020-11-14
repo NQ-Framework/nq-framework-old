@@ -13,8 +13,8 @@ describe('TriggerController', () => {
       controllers: [TriggerController],
       providers: [
         { provide: JobsService, useValue: {} },
-        { provide: HandlerService, useValue: {} }
-      ]
+        { provide: HandlerService, useValue: {} },
+      ],
     }).compile();
 
     controller = module.get<TriggerController>(TriggerController);

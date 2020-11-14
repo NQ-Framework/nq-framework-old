@@ -5,9 +5,8 @@ import { LogJobService } from './log-job/log-job.service';
 import { StoredProcedureJobService } from './stored-procedure-job/stored-procedure-job.service';
 
 @Module({
-    imports: [LoggerModule],
-    providers: [HandlerService, LogJobService, StoredProcedureJobService],
-    exports: [HandlerService]
+  imports: [LoggerModule],
+  providers: [HandlerService, LogJobService, StoredProcedureJobService],
+  exports: [HandlerService],
 })
-export class JobHandlerModule {
-}
+export class JobHandlerModule {}
