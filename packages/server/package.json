@@ -44,9 +44,9 @@
     "npm-check-updates": "^10.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "riot-tmpl": "^3.0.8",
     "rxjs": "^6.6.3",
-    "tedious": "^9.2.1"
+    "tedious": "^9.2.1",
+    "vm2": "^3.9.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.2",

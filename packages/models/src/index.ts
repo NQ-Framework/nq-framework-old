@@ -20,3 +20,4 @@ export { Workflow } from "./workflow/workflow";
 export { WorkflowExecutionData } from "./workflow/workflow-execution-data";
 export { WorkflowExecutionResult } from "./workflow/workflow-execution-result";
 export { WorkflowExecutionContext } from "./workflow/workflow-execution-context";
+export { PropertyValue } from "./workflow/property/property-value"

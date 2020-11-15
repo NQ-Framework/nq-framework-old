@@ -13,6 +13,7 @@ export class WorkflowExecutionService {
                 data: [] as any
             },
             isRunning: true,
+            startTime: new Date(),
             stack: []
         }
         if (!workflow.actionInstances) {
@@ -38,10 +39,13 @@ export class WorkflowExecutionService {
     }
 
     private async executeStack(context: WorkflowExecutionContext, workflow: Workflow): Promise<WorkflowExecutionResult> {
+        const previousOutputData: any = {};
         while (context.stack.length > 0) {
             const instance = context.stack[context.stack.length - 1];
             const result = await this.actionService.executeAction(instance, context);
-            context.data = result.data;
+            if (result.data) {
+                context.data = result.data;
+            }
             context.stack.pop();
             if (workflow.actionLinks) {
                 const nextActions = workflow.actionLinks.filter(al => al.fromId === instance.id).map(al => workflow.actionInstances!.find(ai => ai.id === al.toId));

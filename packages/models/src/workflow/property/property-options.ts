@@ -1,3 +1,3 @@
 export interface PropertyOptions {
-    visible?: boolean
+    visible?: boolean | string
 }

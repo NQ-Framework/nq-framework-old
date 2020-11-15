@@ -5,4 +5,5 @@ export interface WorkflowExecutionContext {
     isRunning: boolean;
     data: WorkflowExecutionData;
     stack: ActionInstance[];
+    startTime: Date;
 }
