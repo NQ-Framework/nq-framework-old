@@ -1,4 +1,4 @@
 export interface PropertyValue {
-    propertyName: string;
+    name: string;
     value: any;
 }
