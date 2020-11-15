@@ -1,4 +1,4 @@
 export interface WorkflowExecutionData {
-    data: [{ [key: string]: any }];
-    binaryData?: [];
+    data: any[]
+    binaryData?: any[];
 }

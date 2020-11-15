@@ -1,11 +1,9 @@
-import { PropertyValue } from "../property/property-value";
 import { Action } from "./action";
+import { ActionInstanceConfiguration } from "./action-instance-configuration";
 
 export interface ActionInstance {
-    id: string,
-    action: Action,
-    configuration: {
-        input: PropertyValue[]
-        output: PropertyValue[]
-    }
+    id: string;
+    action: Action;
+    configuration: ActionInstanceConfiguration;
+    isEnabled: boolean;
 }

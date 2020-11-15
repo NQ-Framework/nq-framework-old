@@ -12,8 +12,10 @@ export {
   ProcedureParameter,
 } from "./jobs/stored-procedure-configuration";
 export { Action } from "./workflow/actions/action";
+export { ActionInstance } from "./workflow/actions/action-instance";
 export { ActionResult } from "./workflow/actions/action-result";
 export { ActionHandler } from "./workflow/actions/action-handler";
+export { ActionLink } from "./workflow/actions/action-link";
 export { Workflow } from "./workflow/workflow";
 export { WorkflowExecutionData } from "./workflow/workflow-execution-data";
 export { WorkflowExecutionResult } from "./workflow/workflow-execution-result";

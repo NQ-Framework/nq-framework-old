@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { Action } from '@nqframework/models';
+import { ActionInstance } from '@nqframework/models';
 import { WorkflowExecutionContext } from '@nqframework/models/build/workflow/workflow-execution-context';
 import { ActionService } from './action.service';
 import { getHandler } from "./get-handler";
@@ -8,15 +8,26 @@ const getHandlerMock = getHandler as jest.Mock;
 
 describe('ActionService', () => {
   let service: ActionService;
-  const mockAction: Action = {
-    id: "1",
-    name: "mock action",
-    inputFields: [],
-    outputFields: [],
-    path: "test-path",
+  const mockActionInstance: ActionInstance = {
+    action: {
+      id: "1",
+      isEnabled: true,
+      version: 1,
+      name: "mock action",
+      inputFields: [],
+      outputFields: [],
+      path: "test-path",
+    },
+    id: "test id",
+    configuration: {
+      input: [],
+      output: []
+    }
   }
 
   const mockWorkflowExecution: WorkflowExecutionContext = {
+    isRunning: true,
+    stack: [],
     data: {
       data: [],
       binaryData: []
@@ -35,8 +46,8 @@ describe('ActionService', () => {
     getHandlerMock.mockImplementation(() => ({
       handle: () => ({ test: "ok" })
     }));
-    const result = await service.executeAction(mockAction, mockWorkflowExecution);
-    expect(getHandlerMock).toHaveBeenCalledWith(mockAction);
+    const result = await service.executeAction(mockActionInstance, mockWorkflowExecution);
+    expect(getHandlerMock).toHaveBeenCalledWith(mockActionInstance.action);
     expect(result).toEqual({ test: "ok" });
   });
 });

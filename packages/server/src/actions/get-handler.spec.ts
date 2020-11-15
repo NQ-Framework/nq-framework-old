@@ -1,14 +1,16 @@
 import { Action } from '@nqframework/models';
 import { getHandler } from "./get-handler";
-import { ActionService } from "./action.service";
+import { handler } from "./action-handlers/log"
 jest.mock('./action.service');
 
 const mockAction: Action = {
+  version: 1,
+  isEnabled: true,
   id: "1",
   name: "mock action",
   inputFields: [],
   outputFields: [],
-  path: "./action.service",
+  path: "./action-handlers/log",
 }
 
 

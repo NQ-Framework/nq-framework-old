@@ -1,9 +1,14 @@
 import { Property } from "../property/property";
+import { ActionPort } from "./action-port";
 
 export interface Action {
     name: string;
     id: string;
     path: string;
-    inputFields: Property[];
-    outputFields: Property[];
+    version: number;
+    inputFields?: Property[];
+    outputFields?: Property[];
+    isEnabled: boolean;
+    hasDefaultPort: boolean;
+    additionalPorts?: ActionPort[];
 }
