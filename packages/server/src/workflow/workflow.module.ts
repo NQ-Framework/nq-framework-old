@@ -6,7 +6,7 @@ import { WorkflowExecutionService } from './workflow-execution/workflow-executio
 
 @Module({
   imports: [ActionsModule, LoggerModule],
-  providers: [WorkflowService, WorkflowExecutionService,],
-  exports: [WorkflowService, WorkflowExecutionService]
+  providers: [WorkflowService, WorkflowExecutionService],
+  exports: [WorkflowService, WorkflowExecutionService],
 })
-export class WorkflowModule { }
+export class WorkflowModule {}

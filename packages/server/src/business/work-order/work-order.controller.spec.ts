@@ -12,11 +12,17 @@ describe('WorkOrder Controller', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [LoggerModule],
       controllers: [WorkOrderController],
-      providers: [{ provide: RequestRouterService, useValue: {} }, {
-        provide: WorkflowService, useValue: {}
-      }, {
-        provide: WorkflowExecutionService, useValue: {}
-      }],
+      providers: [
+        { provide: RequestRouterService, useValue: {} },
+        {
+          provide: WorkflowService,
+          useValue: {},
+        },
+        {
+          provide: WorkflowExecutionService,
+          useValue: {},
+        },
+      ],
     }).compile();
 
     controller = module.get<WorkOrderController>(WorkOrderController);

@@ -14,15 +14,17 @@ export class WorkOrderController {
     private router: RequestRouterService,
     private logger: LoggerService,
     private workflow: WorkflowService,
-    private workflowExecution: WorkflowExecutionService
+    private workflowExecution: WorkflowExecutionService,
   ) {
     logger.setContext('Work Order');
   }
 
   @Get('')
   async documents(@Req() req: Request): Promise<WorkflowExecutionResult> {
-    const workflows = await this.workflow.getWorkflowsForOrganization(req.organizationId);
-    const workflow = workflows.find(w => w.isActive);
+    const workflows = await this.workflow.getWorkflowsForOrganization(
+      req.organizationId,
+    );
+    const workflow = workflows.find((w) => w.isActive);
     if (!workflow) {
       throw new NotFoundException();
     }

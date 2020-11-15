@@ -3,6 +3,6 @@ import { ActionService } from './action.service';
 
 @Module({
   providers: [ActionService],
-  exports: [ActionService]
+  exports: [ActionService],
 })
-export class ActionsModule { }
+export class ActionsModule {}

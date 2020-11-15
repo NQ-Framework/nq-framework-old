@@ -8,4 +8,4 @@ import { WorkflowModule } from '../../workflow/workflow.module';
   controllers: [WorkOrderController],
   imports: [DbConnectionModule, LoggerModule, WorkflowModule],
 })
-export class WorkOrderModule { }
+export class WorkOrderModule {}
