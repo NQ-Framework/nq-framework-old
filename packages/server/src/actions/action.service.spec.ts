@@ -9,8 +9,10 @@ const getHandlerMock = getHandler as jest.Mock;
 describe('ActionService', () => {
   let service: ActionService;
   const mockActionInstance: ActionInstance = {
+    isEnabled: true,
     action: {
       id: '1',
+      hasDefaultPort: true,
       isEnabled: true,
       version: 1,
       name: 'mock action',
@@ -26,6 +28,7 @@ describe('ActionService', () => {
   };
 
   const mockWorkflowExecution: WorkflowExecutionContext = {
+    startTime: new Date(),
     isRunning: true,
     stack: [],
     data: {

@@ -5,6 +5,7 @@ jest.mock('./action.service');
 
 const mockAction: Action = {
   version: 1,
+  hasDefaultPort: true,
   isEnabled: true,
   id: '1',
   name: 'mock action',
