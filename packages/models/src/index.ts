@@ -11,3 +11,10 @@ export {
   StoredProcedureConfiguration,
   ProcedureParameter,
 } from "./jobs/stored-procedure-configuration";
+export { Action } from "./workflow/actions/action";
+export { ActionResult } from "./workflow/actions/action-result";
+export { ActionHandler } from "./workflow/actions/action-handler";
+export { Workflow } from "./workflow/workflow";
+export { WorkflowExecutionData } from "./workflow/workflow-execution-data";
+export { WorkflowExecutionResult } from "./workflow/workflow-execution-result";
+export { WorkflowExecutionContext } from "./workflow/workflow-execution-context";

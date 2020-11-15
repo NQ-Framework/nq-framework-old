@@ -1,4 +1,4 @@
-import { Organization } from "../organization/organization";
+import { Organization } from "./organization";
 
 describe("Organization", () => {
   it("compiles", () => {

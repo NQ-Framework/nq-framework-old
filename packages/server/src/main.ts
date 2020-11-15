@@ -24,8 +24,8 @@ async function bootstrap() {
   const port = configService.get<number>('port');
   await app.listen(port ?? 8080, '0.0.0.0');
   loadFirebase(authConfigService);
-  const schedulerService = app.get<SchedulerService>(SchedulerService);
-  schedulerService.initialize();
+  // const schedulerService = app.get<SchedulerService>(SchedulerService);
+  // schedulerService.initialize();
   loggerService.log(`app now listening on port ${port ?? 8080}`);
 }
 

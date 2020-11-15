@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { LoggerModule } from '../../logger/logger.module';
 import { RequestRouterService } from '../../db-connection/request-router/request-router.service';
 import { WorkOrderController } from './work-order.controller';
+import { WorkflowService } from '../../workflow/workflow.service';
+import { WorkflowExecutionService } from '../../workflow/workflow-execution/workflow-execution.service';
 
 describe('WorkOrder Controller', () => {
   let controller: WorkOrderController;
@@ -10,7 +12,11 @@ describe('WorkOrder Controller', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [LoggerModule],
       controllers: [WorkOrderController],
-      providers: [{ provide: RequestRouterService, useValue: {} }],
+      providers: [{ provide: RequestRouterService, useValue: {} }, {
+        provide: WorkflowService, useValue: {}
+      }, {
+        provide: WorkflowExecutionService, useValue: {}
+      }],
     }).compile();
 
     controller = module.get<WorkOrderController>(WorkOrderController);

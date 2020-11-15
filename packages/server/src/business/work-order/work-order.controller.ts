@@ -1,36 +1,33 @@
-import { Controller, Get, Query, Req } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Query, Req } from '@nestjs/common';
 import { auth } from 'firebase-admin';
 import { RequestRouterService } from '../../db-connection/request-router/request-router.service';
 import { MsSqlFetcher } from '@nqframework/data-fetcher';
-import { TYPES } from 'tedious';
 import { LoggerService } from '../../logger/logger.service';
 import { Request } from 'express';
-import { Roles } from '../../guards/roles.decorator';
+import { WorkflowService } from '../../workflow/workflow.service';
+import { WorkflowExecutionService } from '../../workflow/workflow-execution/workflow-execution.service';
+import { WorkflowExecutionResult } from '@nqframework/models';
 
 @Controller('work-order')
 export class WorkOrderController {
   constructor(
     private router: RequestRouterService,
     private logger: LoggerService,
+    private workflow: WorkflowService,
+    private workflowExecution: WorkflowExecutionService
   ) {
     logger.setContext('Work Order');
   }
 
   @Get('')
-  async documents(@Req() req: Request): Promise<{ data: any }> {
-    const user = req.firebaseUser as auth.DecodedIdToken;
-    const response = (await this.router.getDataFetcher(
-      user.uid,
-      req.organizationId,
-      req.dataSource,
-    )) as MsSqlFetcher;
-    const data = await response.get({
-      isProcedure: true,
-      query: 'testProc',
-      params: [{ name: 'TestParam', type: TYPES.Int, value: 10 }],
-      outParams: [{ name: 'TestOut', type: TYPES.Int }],
-    });
-    return { data };
+  async documents(@Req() req: Request): Promise<WorkflowExecutionResult> {
+    const workflows = await this.workflow.getWorkflowsForOrganization(req.organizationId);
+    const workflow = workflows.find(w => w.isActive);
+    if (!workflow) {
+      throw new NotFoundException();
+    }
+    const data = await this.workflowExecution.executeWorkflow(workflow);
+    return data;
   }
 
   @Get('anything')
