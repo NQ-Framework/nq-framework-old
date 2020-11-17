@@ -1,8 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import {
-  ActionResult,
-  Workflow,
-} from '@nqframework/models';
+import { ActionResult, Workflow } from '@nqframework/models';
 import { ActionService } from '../../actions/action.service';
 import { WorkflowExecutionService } from './workflow-execution.service';
 
@@ -75,40 +72,51 @@ describe('WorkflowExecutionService', () => {
   it('should execute the workflow', async () => {
     executeActionMock.mockImplementation(
       (): ActionResult => {
-        return ({
-          propertyValues:
-            [{
-              name: 'message', value: 'test value'
-            }],
-          outputValues: [{ name: 'message', value: 'test value' }]
-        }
-        );
+        return {
+          propertyValues: [
+            {
+              name: 'message',
+              value: 'test value',
+            },
+          ],
+          outputValues: [{ name: 'message', value: 'test value' }],
+        };
       },
     );
     const result = await service.executeWorkflow(mockWorkflow);
-    expect(executeActionMock).toHaveBeenNthCalledWith(1,
+    expect(executeActionMock).toHaveBeenNthCalledWith(
+      1,
       mockWorkflow.actionInstances![0],
       expect.objectContaining({
         isRunning: true,
       }),
     );
     expect(result).toEqual({
-      finalData:
-        { 'mock action instance id': { values: { message: 'test value' }, properties: { message: 'test value' } }, 'mock action instance id 2': { values: { message: 'test value' }, properties: { message: 'test value' } } }
-      ,
+      finalData: {
+        'mock action instance id': {
+          values: { message: 'test value' },
+          properties: { message: 'test value' },
+        },
+        'mock action instance id 2': {
+          values: { message: 'test value' },
+          properties: { message: 'test value' },
+        },
+      },
     });
   });
 
   it('should handle having undefined action links', async () => {
     executeActionMock.mockImplementation(
       (): ActionResult => {
-        return ({
-          propertyValues:
-            [{
-              name: 'message', value: 'test value'
-            }],
-          outputValues: []
-        });
+        return {
+          propertyValues: [
+            {
+              name: 'message',
+              value: 'test value',
+            },
+          ],
+          outputValues: [],
+        };
       },
     );
     const result = await service.executeWorkflow({
@@ -122,9 +130,16 @@ describe('WorkflowExecutionService', () => {
       }),
     );
     expect(result).toEqual({
-      finalData:
-        { 'mock action instance id': { values: {}, properties: { message: 'test value' } }, 'mock action instance id 2': { values: {}, properties: { message: 'test value' } } }
-      ,
+      finalData: {
+        'mock action instance id': {
+          values: {},
+          properties: { message: 'test value' },
+        },
+        'mock action instance id 2': {
+          values: {},
+          properties: { message: 'test value' },
+        },
+      },
     });
   });
 

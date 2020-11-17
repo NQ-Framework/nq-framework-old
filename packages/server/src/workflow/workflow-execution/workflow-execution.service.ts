@@ -11,7 +11,7 @@ import { ActionService } from '../../actions/action.service';
 
 @Injectable()
 export class WorkflowExecutionService {
-  constructor(private actionService: ActionService) { }
+  constructor(private actionService: ActionService) {}
 
   async executeWorkflow(workflow: Workflow): Promise<WorkflowExecutionResult> {
     let context: WorkflowExecutionContext = {
@@ -20,7 +20,7 @@ export class WorkflowExecutionService {
       stack: [],
       actions: {},
       input: {},
-      workflow: workflow
+      workflow: workflow,
     };
     if (!workflow.actionInstances) {
       workflow.actionInstances = [];
@@ -31,8 +31,7 @@ export class WorkflowExecutionService {
 
     if (!workflow.actionInstances || workflow.actionInstances.length === 0) {
       return {
-        finalData: {} as any
-        ,
+        finalData: {} as any,
       };
     }
 
@@ -61,7 +60,19 @@ export class WorkflowExecutionService {
     while (context.stack.length > 0) {
       const instance = context.stack[context.stack.length - 1];
       const result = await this.actionService.executeAction(instance, context);
-      context.actions[instance.id as any] = { properties: result.propertyValues.reduce((obj: any, prop: PropertyValue) => { obj[prop.name] = prop.value; return obj; }, {}), values: result.outputValues.reduce((obj: any, prop: PropertyValue) => { obj[prop.name] = prop.value; return obj; }, {}) };
+      context.actions[instance.id as any] = {
+        properties: result.propertyValues.reduce(
+          (obj: any, prop: PropertyValue) => {
+            obj[prop.name] = prop.value;
+            return obj;
+          },
+          {},
+        ),
+        values: result.outputValues.reduce((obj: any, prop: PropertyValue) => {
+          obj[prop.name] = prop.value;
+          return obj;
+        }, {}),
+      };
       context.input = result.outputValues;
       context.stack.pop();
       if (workflow.actionLinks) {
@@ -78,7 +89,7 @@ export class WorkflowExecutionService {
       }
     }
     return {
-      finalData: context.actions
+      finalData: context.actions,
     };
   }
 

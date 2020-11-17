@@ -18,16 +18,18 @@ export const handler: ActionHandler = {
     }
     console.log(
       'Log action instance says :' +
-      message +
-      ' instance: ' +
-      JSON.stringify(actionInstance) +
-      '  context: ' +
-      JSON.stringify(workflowExecution),
+        message +
+        ' instance: ' +
+        JSON.stringify(actionInstance) +
+        '  context: ' +
+        JSON.stringify(workflowExecution),
     );
 
-    return [{
-      name: 'message',
-      value: message
-    }];
+    return [
+      {
+        name: 'message',
+        value: message,
+      },
+    ];
   },
 };

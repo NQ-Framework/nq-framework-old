@@ -32,7 +32,7 @@ describe('ActionService', () => {
     workflow: {} as any,
     stack: [],
     input: [],
-    actions: {}
+    actions: {},
   };
 
   beforeEach(async () => {
@@ -45,7 +45,7 @@ describe('ActionService', () => {
 
   it('should execute passed action', async () => {
     getHandlerMock.mockImplementation(() => ({
-      handle: () => ([{ name: 'test', value: 'ok' }]),
+      handle: () => [{ name: 'test', value: 'ok' }],
     }));
     const result = await service.executeAction(
       mockActionInstance,
@@ -53,10 +53,8 @@ describe('ActionService', () => {
     );
     expect(getHandlerMock).toHaveBeenCalledWith(mockActionInstance.action);
     expect(result).toEqual({
-      outputValues: [
-        { name: 'test', value: 'ok' }
-      ],
-      propertyValues: []
+      outputValues: [{ name: 'test', value: 'ok' }],
+      propertyValues: [],
     });
   });
 
@@ -67,11 +65,19 @@ describe('ActionService', () => {
     }));
     const result = await service.executeAction(
       {
-        ...mockActionInstance, configuration: { ...mockActionInstance.configuration, input: [{ name: 'test prop', value: '' }] }
+        ...mockActionInstance,
+        configuration: {
+          ...mockActionInstance.configuration,
+          input: [{ name: 'test prop', value: '' }],
+        },
       },
       mockWorkflowExecution,
     );
-    expect(executeMock).toHaveBeenCalledWith([], expect.any(Object), expect.any(Object))
+    expect(executeMock).toHaveBeenCalledWith(
+      [],
+      expect.any(Object),
+      expect.any(Object),
+    );
   });
 
   it('should include fixed input values', async () => {
@@ -81,11 +87,19 @@ describe('ActionService', () => {
     }));
     const result = await service.executeAction(
       {
-        ...mockActionInstance, configuration: { ...mockActionInstance.configuration, input: [{ name: 'test prop', value: 'test value' }] }
+        ...mockActionInstance,
+        configuration: {
+          ...mockActionInstance.configuration,
+          input: [{ name: 'test prop', value: 'test value' }],
+        },
       },
       mockWorkflowExecution,
     );
-    expect(executeMock).toHaveBeenCalledWith([{ name: 'test prop', value: 'test value' }], expect.any(Object), expect.any(Object))
+    expect(executeMock).toHaveBeenCalledWith(
+      [{ name: 'test prop', value: 'test value' }],
+      expect.any(Object),
+      expect.any(Object),
+    );
   });
 
   it('should evaluate input expressions', async () => {
@@ -95,10 +109,18 @@ describe('ActionService', () => {
     }));
     const result = await service.executeAction(
       {
-        ...mockActionInstance, configuration: { ...mockActionInstance.configuration, input: [{ name: 'test prop', value: '="test value".toUpperCase();' }] }
+        ...mockActionInstance,
+        configuration: {
+          ...mockActionInstance.configuration,
+          input: [{ name: 'test prop', value: '="test value".toUpperCase();' }],
+        },
       },
       mockWorkflowExecution,
     );
-    expect(executeMock).toHaveBeenCalledWith([{ name: 'test prop', value: 'TEST VALUE' }], expect.any(Object), expect.any(Object))
+    expect(executeMock).toHaveBeenCalledWith(
+      [{ name: 'test prop', value: 'TEST VALUE' }],
+      expect.any(Object),
+      expect.any(Object),
+    );
   });
 });
