@@ -3,5 +3,5 @@ import { WorkflowExecutionContext } from "../workflow-execution-context";
 import { ActionInstance } from "./action-instance";
 
 export interface ActionHandler {
-    handle(propertyValues: PropertyValue[], actionInstance: ActionInstance, workflowExecution: WorkflowExecutionContext): Promise<PropertyValue[]>
+    handle(propertyValues: PropertyValue[], actionInstance: ActionInstance, workflowExecution: WorkflowExecutionContext, moduleRef: any): Promise<PropertyValue[]>
 }

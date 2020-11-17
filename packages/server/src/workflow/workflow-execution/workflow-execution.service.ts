@@ -15,7 +15,7 @@ import { ActionService } from '../../actions/action.service';
 
 @Injectable()
 export class WorkflowExecutionService {
-  constructor(private actionService: ActionService) {}
+  constructor(private actionService: ActionService) { }
 
   async executeWorkflow(
     workflow: Workflow,
@@ -31,6 +31,7 @@ export class WorkflowExecutionService {
       workflow: workflow,
     };
 
+
     context.input = reducePropertyValuesToObject(
       await evaluateProperties(input, context),
     );
@@ -43,7 +44,8 @@ export class WorkflowExecutionService {
 
     if (!workflow.actionInstances || workflow.actionInstances.length === 0) {
       return {
-        finalData: {} as any,
+        data: {} as any,
+        finalOutput: {} as any,
       };
     }
 
@@ -92,7 +94,8 @@ export class WorkflowExecutionService {
       }
     }
     return {
-      finalData: context.actions,
+      data: context.actions,
+      finalOutput: context.input
     };
   }
 

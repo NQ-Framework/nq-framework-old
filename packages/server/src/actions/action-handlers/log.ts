@@ -4,7 +4,6 @@ import {
   PropertyValue,
   WorkflowExecutionContext,
 } from '@nqframework/models';
-import { exception } from 'console';
 
 export const handler: ActionHandler = {
   handle: async (
@@ -18,11 +17,7 @@ export const handler: ActionHandler = {
     }
     console.log(
       'Log action instance says :' +
-        message +
-        ' instance: ' +
-        JSON.stringify(actionInstance) +
-        '  context: ' +
-        JSON.stringify(workflowExecution),
+      message
     );
 
     return [

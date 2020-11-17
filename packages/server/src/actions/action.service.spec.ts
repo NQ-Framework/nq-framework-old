@@ -20,7 +20,7 @@ describe('ActionService', () => {
       outputFields: [],
       path: 'test-path',
     },
-    id: 'test id',
+    name: 'test id',
     configuration: {
       input: [],
     },
@@ -32,6 +32,7 @@ describe('ActionService', () => {
     workflow: {} as any,
     stack: [],
     input: [],
+    triggerInput: [],
     actions: {},
   };
 
@@ -77,6 +78,7 @@ describe('ActionService', () => {
       [],
       expect.any(Object),
       expect.any(Object),
+      expect.any(Object)
     );
   });
 
@@ -99,6 +101,7 @@ describe('ActionService', () => {
       [{ name: 'test prop', value: 'test value' }],
       expect.any(Object),
       expect.any(Object),
+      expect.any(Object)
     );
   });
 
@@ -121,6 +124,7 @@ describe('ActionService', () => {
       [{ name: 'test prop', value: 'TEST VALUE' }],
       expect.any(Object),
       expect.any(Object),
+      expect.any(Object)
     );
   });
 });

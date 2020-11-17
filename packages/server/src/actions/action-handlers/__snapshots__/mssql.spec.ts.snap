@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mssql action should throw when required params are not present 1`] = `"Missing required parameter query"`;
+
+exports[`mssql action should throw when required params are not present 2`] = `"Missing required parameter dataSource"`;
+
+exports[`mssql action should throw when required params are not present 3`] = `"Missing required parameter userId"`;

@@ -1,15 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { ModuleRef } from '@nestjs/core';
 import {
   ActionInstance,
   ActionResult,
-  PropertyValue,
   WorkflowExecutionContext,
 } from '@nqframework/models';
-import { evaluateExpression, evaluateProperties } from '../core/utils';
+import { evaluateProperties } from '../core/utils';
 import { getHandler } from './get-handler';
 
 @Injectable()
 export class ActionService {
+  constructor(private moduleRef: ModuleRef) { }
   async executeAction(
     instance: ActionInstance,
     workflowExecution: WorkflowExecutionContext,
@@ -23,6 +24,7 @@ export class ActionService {
       actionProperties,
       instance,
       workflowExecution,
+      this.moduleRef
     );
     return { propertyValues: actionProperties, outputValues: result };
   }

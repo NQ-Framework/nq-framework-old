@@ -93,7 +93,7 @@ describe('WorkflowExecutionService', () => {
       }),
     );
     expect(result).toEqual({
-      finalData: {
+      data: {
         'mock action instance id': {
           values: { message: 'test value' },
           properties: { message: 'test value' },
@@ -103,6 +103,9 @@ describe('WorkflowExecutionService', () => {
           properties: { message: 'test value' },
         },
       },
+      finalOutput: {
+        message: "test value"
+      }
     });
   });
 
@@ -134,7 +137,7 @@ describe('WorkflowExecutionService', () => {
       }),
     );
     expect(result).toEqual({
-      finalData: {
+      data: {
         'mock action instance id': {
           values: {},
           properties: { message: 'test value' },
@@ -144,6 +147,7 @@ describe('WorkflowExecutionService', () => {
           properties: { message: 'test value' },
         },
       },
+      finalOutput: {}
     });
   });
 
@@ -156,6 +160,6 @@ describe('WorkflowExecutionService', () => {
       [],
     );
     expect(executeActionMock).not.toHaveBeenCalled();
-    expect(result).toEqual({ finalData: {} });
+    expect(result).toEqual({ data: {}, finalOutput: {} });
   });
 });
