@@ -6,7 +6,7 @@ export interface Action {
     id: string;
     path: string;
     version: number;
-    inputFields?: Property[];
+    properties?: Property[];
     outputFields?: Property[];
     isEnabled: boolean;
     hasDefaultPort: boolean;

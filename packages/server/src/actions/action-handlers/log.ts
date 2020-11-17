@@ -1,30 +1,33 @@
 import {
   ActionHandler,
   ActionInstance,
-  ActionResult,
   PropertyValue,
   WorkflowExecutionContext,
 } from '@nqframework/models';
+import { exception } from 'console';
 
 export const handler: ActionHandler = {
   handle: async (
-    inputValues: PropertyValue[],
+    propertyValues: PropertyValue[],
     actionInstance: ActionInstance,
     workflowExecution: WorkflowExecutionContext,
-  ): Promise<ActionResult> => {
-    const message = inputValues.find((i) => i.name === 'message')?.value;
+  ): Promise<PropertyValue[]> => {
+    const message = propertyValues.find((i) => i.name === 'message')?.value;
+    if (!message) {
+      throw new Error('Missing required parameter message');
+    }
     console.log(
       'Log action instance says :' +
-        message +
-        ' instance: ' +
-        JSON.stringify(actionInstance) +
-        '  context: ' +
-        JSON.stringify(workflowExecution.data),
+      message +
+      ' instance: ' +
+      JSON.stringify(actionInstance) +
+      '  context: ' +
+      JSON.stringify(workflowExecution),
     );
-    return {
-      data: {
-        data: [...workflowExecution.data.data, { message }],
-      },
-    };
+
+    return [{
+      name: 'message',
+      value: message
+    }];
   },
 };

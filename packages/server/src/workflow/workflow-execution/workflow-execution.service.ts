@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {
   ActionInstance,
   ActionLink,
+  PropertyValue,
   Workflow,
   WorkflowExecutionContext,
   WorkflowExecutionResult,
@@ -10,16 +11,16 @@ import { ActionService } from '../../actions/action.service';
 
 @Injectable()
 export class WorkflowExecutionService {
-  constructor(private actionService: ActionService) {}
+  constructor(private actionService: ActionService) { }
 
   async executeWorkflow(workflow: Workflow): Promise<WorkflowExecutionResult> {
     let context: WorkflowExecutionContext = {
-      data: {
-        data: [] as any,
-      },
       isRunning: true,
       startTime: new Date(),
       stack: [],
+      actions: {},
+      input: {},
+      workflow: workflow
     };
     if (!workflow.actionInstances) {
       workflow.actionInstances = [];
@@ -30,9 +31,8 @@ export class WorkflowExecutionService {
 
     if (!workflow.actionInstances || workflow.actionInstances.length === 0) {
       return {
-        finalData: {
-          data: [],
-        },
+        finalData: {} as any
+        ,
       };
     }
 
@@ -58,13 +58,11 @@ export class WorkflowExecutionService {
     context: WorkflowExecutionContext,
     workflow: Workflow,
   ): Promise<WorkflowExecutionResult> {
-    const previousOutputData: any = {};
     while (context.stack.length > 0) {
       const instance = context.stack[context.stack.length - 1];
       const result = await this.actionService.executeAction(instance, context);
-      if (result.data) {
-        context.data = result.data;
-      }
+      context.actions[instance.id as any] = { properties: result.propertyValues.reduce((obj: any, prop: PropertyValue) => { obj[prop.name] = prop.value; return obj; }, {}), values: result.outputValues.reduce((obj: any, prop: PropertyValue) => { obj[prop.name] = prop.value; return obj; }, {}) };
+      context.input = result.outputValues;
       context.stack.pop();
       if (workflow.actionLinks) {
         const nextActions = workflow.actionLinks
@@ -80,7 +78,7 @@ export class WorkflowExecutionService {
       }
     }
     return {
-      finalData: context.data,
+      finalData: context.actions
     };
   }
 

@@ -1,9 +1,11 @@
 import { ActionInstance } from "./actions/action-instance";
-import { WorkflowExecutionData } from "./workflow-execution-data";
+import { Workflow } from "./workflow";
 
 export interface WorkflowExecutionContext {
     isRunning: boolean;
-    data: WorkflowExecutionData;
+    actions: { [key: string]: { properties: any, values: any } };
+    input: any;
     stack: ActionInstance[];
     startTime: Date;
+    workflow: Workflow;
 }

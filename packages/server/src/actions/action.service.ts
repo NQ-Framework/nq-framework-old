@@ -15,48 +15,48 @@ export class ActionService {
     workflowExecution: WorkflowExecutionContext,
   ): Promise<ActionResult> {
     const actionHandler = getHandler(instance.action);
-    const inputValues = await this.evaluateInputValues(
+    const actionProperties = await this.evaluateProperties(
       instance,
       workflowExecution,
     );
     const result = await actionHandler.handle(
-      inputValues,
+      actionProperties,
       instance,
       workflowExecution,
     );
-    return result;
+    return { propertyValues: actionProperties, outputValues: result };
   }
 
-  private async evaluateInputValues(
+  private async evaluateProperties(
     instance: ActionInstance,
     execution: WorkflowExecutionContext,
   ): Promise<PropertyValue[]> {
-    if (!Boolean(instance.configuration.input?.length)) {
+    if (!Boolean(instance.configuration.input.length)) {
       return [];
     }
-    const inputValues: PropertyValue[] = [];
+    const propertyValues: PropertyValue[] = [];
     for (let i = 0; i < instance.configuration.input.length; i++) {
-      const inputProperty = instance.configuration.input[i];
-      if (!inputProperty.value) {
+      const property = instance.configuration.input[i];
+      if (!property.value) {
         continue;
       }
       if (
-        typeof inputProperty.value === 'string' &&
-        inputProperty.value.startsWith('=')
+        typeof property.value === 'string' &&
+        property.value.startsWith('=')
       ) {
         const result = await this.evaluateExpression(
-          `return ${inputProperty.value.slice(1)}`,
+          `return ${property.value.slice(1)}`,
           execution,
         );
-        inputValues.push({ name: inputProperty.name, value: result });
+        propertyValues.push({ name: property.name, value: result });
       } else {
-        inputValues.push({
-          name: inputProperty.name,
-          value: inputProperty.value,
+        propertyValues.push({
+          name: property.name,
+          value: property.value,
         });
       }
     }
-    return inputValues;
+    return propertyValues;
   }
 
   private async evaluateExpression(

@@ -9,7 +9,7 @@ const mockAction: Action = {
   isEnabled: true,
   id: '1',
   name: 'mock action',
-  inputFields: [],
+  properties: [],
   outputFields: [],
   path: './action-handlers/log',
 };
