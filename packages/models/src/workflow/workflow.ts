@@ -10,4 +10,5 @@ export interface Workflow {
     actionInstances?: ActionInstance[];
     actionLinks?: ActionLink[];
     triggers: WorkflowTriggerBase[];
+    endpoints?: string[];
 }

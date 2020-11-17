@@ -7,7 +7,7 @@ import {
   WorkflowExecutionContext,
   WorkflowExecutionResult,
 } from '@nqframework/models';
-import { reducePropertyValuesToObject } from '../../core/utils';
+import { evaluateProperties, reducePropertyValuesToObject } from '../../core/utils';
 import { ActionService } from '../../actions/action.service';
 
 @Injectable()
@@ -24,6 +24,8 @@ export class WorkflowExecutionService {
       triggerInput: input,
       workflow: workflow,
     };
+
+    context.input = reducePropertyValuesToObject(await evaluateProperties(input, context));
     if (!workflow.actionInstances) {
       workflow.actionInstances = [];
     }

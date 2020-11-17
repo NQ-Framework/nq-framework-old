@@ -24,4 +24,23 @@ export class WorkflowService {
       id: d.id,
     })) as Workflow[];
   }
+
+  async getWorkflowsByOrganizationEndpoint(
+    organizationId: string,
+    endpoint: string,
+  ): Promise<Workflow[]> {
+    this.logger.debug('Getting workflows for org id ' + organizationId);
+    const app = await getFirebaseApp();
+    const workflowDocuments = await app
+      .firestore()
+      .collection('workflows')
+      .where('isActive', '==', true)
+      .where('organizationId', '==', organizationId)
+      .where('endpoints', 'array-contains', endpoint)
+      .get();
+    return workflowDocuments.docs.map((d) => ({
+      ...d.data(),
+      id: d.id,
+    })) as Workflow[];
+  }
 }

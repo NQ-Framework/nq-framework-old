@@ -1,6 +1,5 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { FirebaseAuthMiddleware } from './firebase';
 import { OrganizationMiddleware } from './organization/middleware/organization.middleware';
@@ -43,18 +42,17 @@ const configImport = ConfigModule.forRoot({
     WorkflowModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [],
 })
 export class AppModule implements NestModule {
   async configure(consumer: MiddlewareConsumer) {
     return new Promise((resolve) => {
       resolve(
         consumer
-          .apply(FirebaseAuthMiddleware)
-          .exclude('v1/api')
-          .forRoutes('*')
           .apply(OrganizationMiddleware)
-          .forRoutes('*'),
+          .forRoutes('*')
+          .apply(FirebaseAuthMiddleware)
+          .forRoutes('*')
       );
     });
   }
