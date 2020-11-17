@@ -11,4 +11,4 @@ import { Organization } from '../organization/organization.module';
   providers: [RequestRouterService, ConnectorGateway, ConnectorServerService],
   exports: [RequestRouterService],
 })
-export class DbConnectionModule { }
+export class DbConnectionModule {}

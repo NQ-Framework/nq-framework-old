@@ -7,4 +7,4 @@ import { DataSourceService } from './data-source/data-source.service';
   providers: [DataSourceService],
   exports: [DataSourceService],
 })
-export class Organization { }
+export class Organization {}

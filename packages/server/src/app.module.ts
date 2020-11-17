@@ -52,7 +52,7 @@ export class AppModule implements NestModule {
           .apply(OrganizationMiddleware)
           .forRoutes('*')
           .apply(FirebaseAuthMiddleware)
-          .forRoutes('*')
+          .forRoutes('*'),
       );
     });
   }

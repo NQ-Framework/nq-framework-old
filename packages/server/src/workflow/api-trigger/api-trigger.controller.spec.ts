@@ -13,8 +13,8 @@ describe('ApiTriggerController', () => {
       providers: [
         { provide: LoggerService, useValue: { setContext: jest.fn() } },
         { provide: WorkflowService, useValue: {} },
-        { provide: WorkflowExecutionService, useValue: {} }
-      ]
+        { provide: WorkflowExecutionService, useValue: {} },
+      ],
     }).compile();
 
     controller = module.get<ApiTriggerController>(ApiTriggerController);

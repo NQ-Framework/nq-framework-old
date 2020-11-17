@@ -28,7 +28,8 @@ export class JobsService {
       const handler = this.handler.getHandlerFromConfig(job.configuration);
       if (!handler) {
         this.logger.error(
-          `Could not load job handler. Job will not be created. requested job type: '${job.configuration.type
+          `Could not load job handler. Job will not be created. requested job type: '${
+            job.configuration.type
           }'  details: ${JSON.stringify(job)}`,
         );
         return;

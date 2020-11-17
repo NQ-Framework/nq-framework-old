@@ -11,4 +11,4 @@ import { ApiTriggerController } from './api-trigger/api-trigger.controller';
   exports: [WorkflowService, WorkflowExecutionService],
   controllers: [ApiTriggerController],
 })
-export class WorkflowModule { }
+export class WorkflowModule {}

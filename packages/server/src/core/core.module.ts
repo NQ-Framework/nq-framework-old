@@ -5,4 +5,4 @@ import { LoggerService } from './logger.service';
   providers: [LoggerService],
   exports: [LoggerService],
 })
-export class CoreModule { }
+export class CoreModule {}

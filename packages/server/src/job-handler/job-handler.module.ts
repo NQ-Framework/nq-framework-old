@@ -9,4 +9,4 @@ import { StoredProcedureJobService } from './stored-procedure-job/stored-procedu
   providers: [HandlerService, LogJobService, StoredProcedureJobService],
   exports: [HandlerService],
 })
-export class JobHandlerModule { }
+export class JobHandlerModule {}

@@ -7,14 +7,20 @@ import {
   WorkflowExecutionContext,
   WorkflowExecutionResult,
 } from '@nqframework/models';
-import { evaluateProperties, reducePropertyValuesToObject } from '../../core/utils';
+import {
+  evaluateProperties,
+  reducePropertyValuesToObject,
+} from '../../core/utils';
 import { ActionService } from '../../actions/action.service';
 
 @Injectable()
 export class WorkflowExecutionService {
-  constructor(private actionService: ActionService) { }
+  constructor(private actionService: ActionService) {}
 
-  async executeWorkflow(workflow: Workflow, input: PropertyValue[]): Promise<WorkflowExecutionResult> {
+  async executeWorkflow(
+    workflow: Workflow,
+    input: PropertyValue[],
+  ): Promise<WorkflowExecutionResult> {
     let context: WorkflowExecutionContext = {
       isRunning: true,
       startTime: new Date(),
@@ -25,7 +31,9 @@ export class WorkflowExecutionService {
       workflow: workflow,
     };
 
-    context.input = reducePropertyValuesToObject(await evaluateProperties(input, context));
+    context.input = reducePropertyValuesToObject(
+      await evaluateProperties(input, context),
+    );
     if (!workflow.actionInstances) {
       workflow.actionInstances = [];
     }

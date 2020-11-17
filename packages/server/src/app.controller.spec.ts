@@ -16,7 +16,6 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-
   it('should return user profile', () => {
     expect(
       appController.getProfile({ firebaseUser: { name: 'test' } }),

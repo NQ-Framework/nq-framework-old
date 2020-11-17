@@ -9,4 +9,4 @@ import { JobHandlerModule } from 'src/job-handler/job-handler.module';
   providers: [SchedulerService, JobsService],
   exports: [SchedulerService],
 })
-export class ScheduledJobsModule { }
+export class ScheduledJobsModule {}

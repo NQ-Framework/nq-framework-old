@@ -47,7 +47,7 @@ const mockWorkflow: Workflow = {
       isEnabled: true,
     },
   ],
-  triggers: []
+  triggers: [],
 };
 
 const executeActionMock = jest.fn();
@@ -120,10 +120,13 @@ describe('WorkflowExecutionService', () => {
         };
       },
     );
-    const result = await service.executeWorkflow({
-      ...mockWorkflow,
-      actionLinks: undefined,
-    }, []);
+    const result = await service.executeWorkflow(
+      {
+        ...mockWorkflow,
+        actionLinks: undefined,
+      },
+      [],
+    );
     expect(executeActionMock).toHaveBeenCalledWith(
       mockWorkflow.actionInstances![0],
       expect.objectContaining({
@@ -145,10 +148,13 @@ describe('WorkflowExecutionService', () => {
   });
 
   it('workflow without actions should return empty data', async () => {
-    const result = await service.executeWorkflow({
-      ...mockWorkflow,
-      actionInstances: undefined,
-    }, []);
+    const result = await service.executeWorkflow(
+      {
+        ...mockWorkflow,
+        actionInstances: undefined,
+      },
+      [],
+    );
     expect(executeActionMock).not.toHaveBeenCalled();
     expect(result).toEqual({ finalData: {} });
   });
