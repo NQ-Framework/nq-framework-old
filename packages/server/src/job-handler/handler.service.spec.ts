@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { LoggerModule } from '../logger/logger.module';
+import { CoreModule } from '../core/core.module';
 import { HandlerService } from './handler.service';
 import { LogJobService } from './log-job/log-job.service';
 import { StoredProcedureJobService } from './stored-procedure-job/stored-procedure-job.service';
@@ -10,7 +10,7 @@ describe('HandlerService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [LoggerModule],
+      imports: [CoreModule],
       providers: [
         HandlerService,
         {

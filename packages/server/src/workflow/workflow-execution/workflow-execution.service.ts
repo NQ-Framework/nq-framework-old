@@ -11,15 +11,16 @@ import { ActionService } from '../../actions/action.service';
 
 @Injectable()
 export class WorkflowExecutionService {
-  constructor(private actionService: ActionService) {}
+  constructor(private actionService: ActionService) { }
 
-  async executeWorkflow(workflow: Workflow): Promise<WorkflowExecutionResult> {
+  async executeWorkflow(workflow: Workflow, input: PropertyValue[]): Promise<WorkflowExecutionResult> {
     let context: WorkflowExecutionContext = {
       isRunning: true,
       startTime: new Date(),
       stack: [],
       actions: {},
       input: {},
+      triggerInput: input,
       workflow: workflow,
     };
     if (!workflow.actionInstances) {
@@ -73,7 +74,10 @@ export class WorkflowExecutionService {
           return obj;
         }, {}),
       };
-      context.input = result.outputValues;
+      context.input = result.outputValues.reduce((obj: any, prop: PropertyValue) => {
+        obj[prop.name] = prop.value;
+        return obj;
+      }, {});
       context.stack.pop();
       if (workflow.actionLinks) {
         const nextActions = workflow.actionLinks

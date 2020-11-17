@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
-import { LoggerService } from './logger/logger.service';
+import { LoggerService } from './core/logger.service';
 import { loadSecretManagerValues } from './secretLoader';
 import { SchedulerService } from './scheduled-jobs/scheduler/scheduler.service';
 import { AuthConfigService } from './config/AuthConfigService';

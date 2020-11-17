@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Request } from 'express';
 import { HandlerService } from '../../job-handler/handler.service';
-import { LoggerService } from '../../logger/logger.service';
+import { LoggerService } from '../../core/logger.service';
 import { JobsService } from '../jobs/jobs.service';
 
 @Controller('trigger')

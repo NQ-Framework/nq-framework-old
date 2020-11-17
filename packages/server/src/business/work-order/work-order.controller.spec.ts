@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { LoggerModule } from '../../logger/logger.module';
+import { CoreModule } from '../../core/core.module';
 import { RequestRouterService } from '../../db-connection/request-router/request-router.service';
 import { WorkOrderController } from './work-order.controller';
 import { WorkflowService } from '../../workflow/workflow.service';
@@ -10,7 +10,7 @@ describe('WorkOrder Controller', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [LoggerModule],
+      imports: [CoreModule],
       controllers: [WorkOrderController],
       providers: [
         { provide: RequestRouterService, useValue: {} },

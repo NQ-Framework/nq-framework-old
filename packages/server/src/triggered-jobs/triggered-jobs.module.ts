@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TriggerController } from './trigger/trigger.controller';
 import { JobsService } from './jobs/jobs.service';
-import { LoggerModule } from '../logger/logger.module';
+import { CoreModule } from '../core/core.module';
 import { JobHandlerModule } from '../job-handler/job-handler.module';
 
 @Module({
-  imports: [LoggerModule, JobHandlerModule],
+  imports: [CoreModule, JobHandlerModule],
   controllers: [TriggerController],
   providers: [JobsService],
 })
-export class TriggeredJobsModule {}
+export class TriggeredJobsModule { }

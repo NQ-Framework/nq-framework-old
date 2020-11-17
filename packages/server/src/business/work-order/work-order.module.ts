@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { LoggerModule } from '../../logger/logger.module';
+import { CoreModule } from '../../core/core.module';
 import { DbConnectionModule } from '../../db-connection/db-connection.module';
 import { WorkOrderController } from './work-order.controller';
 import { WorkflowModule } from '../../workflow/workflow.module';
 
 @Module({
   controllers: [WorkOrderController],
-  imports: [DbConnectionModule, LoggerModule, WorkflowModule],
+  imports: [DbConnectionModule, CoreModule, WorkflowModule],
 })
-export class WorkOrderModule {}
+export class WorkOrderModule { }

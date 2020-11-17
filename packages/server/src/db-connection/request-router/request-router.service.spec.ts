@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DataSourceService } from '../../organization/data-source/data-source.service';
 import { RequestRouterService } from './request-router.service';
-import { LoggerModule } from '../../logger/logger.module';
+import { CoreModule } from '../../core/core.module';
 
 jest.mock('@nqframework/data-fetcher');
 
@@ -16,7 +16,7 @@ describe('RequestRouterService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [LoggerModule],
+      imports: [CoreModule],
       providers: [
         RequestRouterService,
         {

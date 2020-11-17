@@ -1,5 +1,5 @@
 import { HttpService, Injectable } from '@nestjs/common';
-import { LoggerService } from '../logger/logger.service';
+import { LoggerService } from '../core/logger.service';
 import { AnalyticsConfigService } from '../config/AnalyticsConfigService';
 import { AnalyticsEvent } from './event.model';
 
@@ -16,11 +16,11 @@ export class AnalyticsService {
   trackEvent(userId: string, event: AnalyticsEvent): Promise<any> {
     this.logger.debug(
       'sending event to ' +
-        userId +
-        '... ' +
-        JSON.stringify(event) +
-        ' using measurement id: ' +
-        this.config.measurementId,
+      userId +
+      '... ' +
+      JSON.stringify(event) +
+      ' using measurement id: ' +
+      this.config.measurementId,
     );
     const data = {
       client_id: userId,
@@ -40,9 +40,9 @@ export class AnalyticsService {
       .then((resp) => {
         this.logger.debug(
           'analytics response ' +
-            JSON.stringify(resp.status) +
-            ' data: ' +
-            JSON.stringify(resp.data),
+          JSON.stringify(resp.status) +
+          ' data: ' +
+          JSON.stringify(resp.data),
         );
       });
   }

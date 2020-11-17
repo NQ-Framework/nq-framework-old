@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JobsService } from '../../scheduled-jobs/jobs/jobs.service';
-import { LoggerModule } from '../../logger/logger.module';
+import { CoreModule } from '../../core/core.module';
 import { TriggerController } from './trigger.controller';
 import { HandlerService } from '../../job-handler/handler.service';
 
@@ -9,7 +9,7 @@ describe('TriggerController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [LoggerModule],
+      imports: [CoreModule],
       controllers: [TriggerController],
       providers: [
         { provide: JobsService, useValue: {} },

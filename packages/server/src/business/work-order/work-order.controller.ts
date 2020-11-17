@@ -2,7 +2,7 @@ import { Controller, Get, NotFoundException, Query, Req } from '@nestjs/common';
 import { auth } from 'firebase-admin';
 import { RequestRouterService } from '../../db-connection/request-router/request-router.service';
 import { MsSqlFetcher } from '@nqframework/data-fetcher';
-import { LoggerService } from '../../logger/logger.service';
+import { LoggerService } from '../../core/logger.service';
 import { Request } from 'express';
 import { WorkflowService } from '../../workflow/workflow.service';
 import { WorkflowExecutionService } from '../../workflow/workflow-execution/workflow-execution.service';
@@ -28,7 +28,7 @@ export class WorkOrderController {
     if (!workflow) {
       throw new NotFoundException();
     }
-    const data = await this.workflowExecution.executeWorkflow(workflow);
+    const data = await this.workflowExecution.executeWorkflow(workflow, []);
     return data;
   }
 

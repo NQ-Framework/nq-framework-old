@@ -5,6 +5,7 @@ export interface WorkflowExecutionContext {
     isRunning: boolean;
     actions: { [key: string]: { properties: any, values: any } };
     input: any;
+    triggerInput: any;
     stack: ActionInstance[];
     startTime: Date;
     workflow: Workflow;

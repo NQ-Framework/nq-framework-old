@@ -1,6 +1,6 @@
 import { HttpModule, HttpService } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { LoggerService } from '../logger/logger.service';
+import { LoggerService } from '../core/logger.service';
 import { AnalyticsConfigService } from '../config/AnalyticsConfigService';
 import { AnalyticsService } from './analytics.service';
 import { of } from 'rxjs';

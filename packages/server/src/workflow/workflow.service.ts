@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Workflow } from '@nqframework/models';
-import { LoggerService } from '../logger/logger.service';
+import { LoggerService } from '../core/logger.service';
 import { getFirebaseApp } from '../firebase/initialize';
 
 @Injectable()

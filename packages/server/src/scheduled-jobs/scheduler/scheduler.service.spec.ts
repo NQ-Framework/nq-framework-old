@@ -1,6 +1,6 @@
 import { SchedulerRegistry } from '@nestjs/schedule';
 import { Test, TestingModule } from '@nestjs/testing';
-import { LoggerModule } from '../../logger/logger.module';
+import { CoreModule } from '../../core/core.module';
 import { HandlerService } from '../../job-handler/handler.service';
 import { SchedulerService } from './scheduler.service';
 import { getFirebaseJobsObservable } from './get-firebase-jobs-observable';
@@ -17,7 +17,7 @@ describe('SchedulerService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [LoggerModule],
+      imports: [CoreModule],
       providers: [
         SchedulerService,
         { provide: SchedulerRegistry, useValue: {} },

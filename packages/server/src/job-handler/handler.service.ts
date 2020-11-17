@@ -4,7 +4,7 @@ import {
   ScheduledJob,
   TriggeredJob,
 } from '@nqframework/models';
-import { LoggerService } from '../logger/logger.service';
+import { LoggerService } from '../core/logger.service';
 import { BaseJobService } from './base-job/base-job.service';
 import { LogJobService } from './log-job/log-job.service';
 import { StoredProcedureJobService } from './stored-procedure-job/stored-procedure-job.service';

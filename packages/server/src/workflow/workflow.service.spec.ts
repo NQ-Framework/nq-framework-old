@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { LoggerService } from '../logger/logger.service';
+import { LoggerService } from '../core/logger.service';
 import { WorkflowService } from './workflow.service';
 import { getFirebaseApp } from '../firebase/initialize';
 

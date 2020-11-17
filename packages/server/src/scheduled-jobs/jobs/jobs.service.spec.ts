@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { HandlerService } from '../../job-handler/handler.service';
 import { JobsService } from './jobs.service';
 import { CronJob } from 'cron';
-import { LoggerService } from '../../logger/logger.service';
+import { LoggerService } from '../../core/logger.service';
 
 jest.mock('cron');
 describe('JobsService', () => {

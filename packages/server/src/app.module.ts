@@ -7,7 +7,7 @@ import { OrganizationMiddleware } from './organization/middleware/organization.m
 import configuration from './config/configuration';
 import { ConfiugrationModule } from './config/configuration.module';
 import { WorkOrderModule } from './business/work-order/work-order.module';
-import { LoggerModule } from './logger/logger.module';
+import { CoreModule } from './core/core.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { DbConnectionModule } from './db-connection/db-connection.module';
 import { Organization } from './organization/organization.module';
@@ -30,7 +30,7 @@ const configImport = ConfigModule.forRoot({
     configImport,
     ConfiugrationModule,
     WorkOrderModule,
-    LoggerModule,
+    CoreModule,
     AnalyticsModule,
     DbConnectionModule,
     Organization,

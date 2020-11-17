@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { LoggerModule } from '../../logger/logger.module';
+import { CoreModule } from '../../core/core.module';
 import { DataSourceService } from './data-source.service';
 const mockMembers = [1, 2, 3];
 const mockDataSources = [4, 5, 6];
@@ -29,7 +29,7 @@ describe('DataSourceService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [LoggerModule],
+      imports: [CoreModule],
       providers: [DataSourceService],
     }).compile();
 

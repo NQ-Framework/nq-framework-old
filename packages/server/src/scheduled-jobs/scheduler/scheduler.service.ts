@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { LoggerService } from '../../logger/logger.service';
+import { LoggerService } from '../../core/logger.service';
 import { ScheduledJob } from '@nqframework/models';
 import { getFirebaseJobsObservable } from './get-firebase-jobs-observable';
 import { JobsService } from '../jobs/jobs.service';

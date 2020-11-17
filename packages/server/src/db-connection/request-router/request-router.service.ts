@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSourceService } from '../../organization/data-source/data-source.service';
-import { LoggerService } from '../../logger/logger.service';
+import { LoggerService } from '../../core/logger.service';
 import {
   DataFetcherFactory,
   DataFetcherInterface,
@@ -10,7 +10,7 @@ export class RequestRouterService {
   constructor(
     private logger: LoggerService,
     private dataSourceConfig: DataSourceService,
-  ) {}
+  ) { }
 
   async getDataFetcher(
     userId: string,
