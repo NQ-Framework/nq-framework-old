@@ -1,6 +1,6 @@
 export interface ActionLink {
-    fromId: string,
-    toId: string,
+    fromName: string,
+    toName: string,
     fromPort?: string
     toPort?: string
     isEnabled: boolean;

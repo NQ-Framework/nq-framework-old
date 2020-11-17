@@ -7,6 +7,7 @@ import {
   WorkflowExecutionContext,
   WorkflowExecutionResult,
 } from '@nqframework/models';
+import { reducePropertyValuesToObject } from '../../core/utils';
 import { ActionService } from '../../actions/action.service';
 
 @Injectable()
@@ -42,8 +43,8 @@ export class WorkflowExecutionService {
     workflow.actionLinks = workflow.actionLinks.filter(
       (al) =>
         al.isEnabled &&
-        workflow.actionInstances!.some((ai) => ai.id === al.fromId) &&
-        workflow.actionInstances!.some((ai) => ai.id === al.toId),
+        workflow.actionInstances!.some((ai) => ai.name === al.fromName) &&
+        workflow.actionInstances!.some((ai) => ai.name === al.toName),
     );
 
     workflow.actionInstances
@@ -61,29 +62,17 @@ export class WorkflowExecutionService {
     while (context.stack.length > 0) {
       const instance = context.stack[context.stack.length - 1];
       const result = await this.actionService.executeAction(instance, context);
-      context.actions[instance.id as any] = {
-        properties: result.propertyValues.reduce(
-          (obj: any, prop: PropertyValue) => {
-            obj[prop.name] = prop.value;
-            return obj;
-          },
-          {},
-        ),
-        values: result.outputValues.reduce((obj: any, prop: PropertyValue) => {
-          obj[prop.name] = prop.value;
-          return obj;
-        }, {}),
+      context.actions[instance.name as any] = {
+        properties: reducePropertyValuesToObject(result.propertyValues),
+        values: reducePropertyValuesToObject(result.outputValues),
       };
-      context.input = result.outputValues.reduce((obj: any, prop: PropertyValue) => {
-        obj[prop.name] = prop.value;
-        return obj;
-      }, {});
+      context.input = reducePropertyValuesToObject(result.outputValues);
       context.stack.pop();
       if (workflow.actionLinks) {
         const nextActions = workflow.actionLinks
-          .filter((al) => al.fromId === instance.id)
+          .filter((al) => al.fromName === instance.name)
           .map((al) =>
-            workflow.actionInstances!.find((ai) => ai.id === al.toId),
+            workflow.actionInstances!.find((ai) => ai.name === al.toName),
           );
         nextActions.forEach((nextAction) => {
           if (nextAction !== undefined) {
@@ -103,9 +92,9 @@ export class WorkflowExecutionService {
   ): ActionInstance[] {
     const links = workflow.actionLinks as ActionLink[];
     return links
-      .filter((al) => al.toId === actionInstance.id)
+      .filter((al) => al.toName === actionInstance.name)
       .map((link) =>
-        workflow.actionInstances!.find((ai) => ai.id === link.fromId),
+        workflow.actionInstances!.find((ai) => ai.name === link.fromName),
       ) as ActionInstance[];
   }
 }

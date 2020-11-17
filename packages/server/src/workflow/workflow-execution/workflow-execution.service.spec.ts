@@ -10,7 +10,7 @@ const mockWorkflow: Workflow = {
   organizationId: 'mock org id',
   actionInstances: [
     {
-      id: 'mock action instance id',
+      name: 'mock action instance id',
       isEnabled: true,
       configuration: {
         input: [],
@@ -25,7 +25,7 @@ const mockWorkflow: Workflow = {
       },
     },
     {
-      id: 'mock action instance id 2',
+      name: 'mock action instance id 2',
       isEnabled: true,
       configuration: {
         input: [],
@@ -42,11 +42,12 @@ const mockWorkflow: Workflow = {
   ],
   actionLinks: [
     {
-      fromId: 'mock action instance id',
-      toId: 'mock action instance id 2',
+      fromName: 'mock action instance id',
+      toName: 'mock action instance id 2',
       isEnabled: true,
     },
   ],
+  triggers: []
 };
 
 const executeActionMock = jest.fn();
@@ -83,7 +84,7 @@ describe('WorkflowExecutionService', () => {
         };
       },
     );
-    const result = await service.executeWorkflow(mockWorkflow);
+    const result = await service.executeWorkflow(mockWorkflow, []);
     expect(executeActionMock).toHaveBeenNthCalledWith(
       1,
       mockWorkflow.actionInstances![0],
@@ -122,7 +123,7 @@ describe('WorkflowExecutionService', () => {
     const result = await service.executeWorkflow({
       ...mockWorkflow,
       actionLinks: undefined,
-    });
+    }, []);
     expect(executeActionMock).toHaveBeenCalledWith(
       mockWorkflow.actionInstances![0],
       expect.objectContaining({
@@ -147,7 +148,7 @@ describe('WorkflowExecutionService', () => {
     const result = await service.executeWorkflow({
       ...mockWorkflow,
       actionInstances: undefined,
-    });
+    }, []);
     expect(executeActionMock).not.toHaveBeenCalled();
     expect(result).toEqual({ finalData: {} });
   });

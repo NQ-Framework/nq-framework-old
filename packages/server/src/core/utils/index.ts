@@ -1,0 +1,1 @@
+export { reducePropertyValuesToObject } from "./reducePropertyValuesToObject"
