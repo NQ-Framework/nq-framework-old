@@ -8,7 +8,7 @@ import {
 import { ActionService } from '../../actions/action.service';
 import { getParentActions } from './get-parent-actions';
 import { executeStack } from './execute-stack';
-import { crateExecutionContext } from './create-execution-context';
+import { createExecutionContext } from './create-execution-context';
 
 @Injectable()
 export class WorkflowExecutionService {
@@ -20,7 +20,7 @@ export class WorkflowExecutionService {
     input: PropertyValue[],
   ): Promise<WorkflowExecutionResult> {
 
-    const context: WorkflowExecutionContext = await crateExecutionContext(input, workflow);
+    const context: WorkflowExecutionContext = await createExecutionContext(input, workflow);
 
     context.workflow.actionInstances
       .filter((ai) => getParentActions(context.workflow, ai).length === 0)
