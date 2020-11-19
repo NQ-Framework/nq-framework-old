@@ -12,4 +12,4 @@ import { WorkflowController } from './workflow.controller';
   exports: [WorkflowService, WorkflowExecutionService],
   controllers: [ApiTriggerController, WorkflowController],
 })
-export class WorkflowModule { }
+export class WorkflowModule {}

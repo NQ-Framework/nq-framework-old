@@ -26,14 +26,15 @@ describe('mssql action', () => {
         get: jest.fn().mockImplementation(() => ({
           getDataFetcher: () => ({
             get: () => ({
-              rows: [{ testCol: 'test val' }]
-            })
-          })
-        }))
-      }
+              rows: [{ testCol: 'test val' }],
+            }),
+          }),
+        })),
+      },
     );
-    expect(result).toEqual([{ name: 'queryResult', value: { rows: [{ testCol: "test val" }] } }]);
-
+    expect(result).toEqual([
+      { name: 'queryResult', value: { rows: [{ testCol: 'test val' }] } },
+    ]);
   });
   it('should throw when required params are not present', async () => {
     await expect(
@@ -41,7 +42,7 @@ describe('mssql action', () => {
         [{ name: 'non query', value: 'test' }],
         {} as any,
         {} as any,
-        { get: jest.fn() } as any
+        { get: jest.fn() } as any,
       ),
     ).rejects.toThrowErrorMatchingSnapshot();
     await expect(
@@ -49,15 +50,18 @@ describe('mssql action', () => {
         [{ name: 'query', value: 'test' }],
         {} as any,
         {} as any,
-        { get: jest.fn() } as any
+        { get: jest.fn() } as any,
       ),
     ).rejects.toThrowErrorMatchingSnapshot();
     await expect(
       handler.handle(
-        [{ name: 'query', value: 'test' }, { name: 'dataSource', value: 'test' }],
+        [
+          { name: 'query', value: 'test' },
+          { name: 'dataSource', value: 'test' },
+        ],
         {} as any,
         {} as any,
-        { get: jest.fn() } as any
+        { get: jest.fn() } as any,
       ),
     ).rejects.toThrowErrorMatchingSnapshot();
   });

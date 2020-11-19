@@ -15,10 +15,7 @@ export const handler: ActionHandler = {
     if (!message) {
       throw new Error('Missing required parameter message');
     }
-    console.log(
-      'Log action instance says :' +
-      message
-    );
+    console.log('Log action instance says :' + message);
 
     return [
       {

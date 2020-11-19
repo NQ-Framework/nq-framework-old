@@ -28,7 +28,7 @@ describe('log action', () => {
         [{ name: 'not message', value: 'test' }],
         {} as any,
         {} as any,
-        {} as any
+        {} as any,
       ),
     ).rejects.toThrowErrorMatchingSnapshot();
   });

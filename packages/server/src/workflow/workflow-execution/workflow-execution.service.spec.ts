@@ -4,7 +4,6 @@ import { ActionService } from '../../actions/action.service';
 import { mockWorkflow } from '../mocks/mock-workflow';
 import { WorkflowExecutionService } from './workflow-execution.service';
 
-
 const executeActionMock = jest.fn();
 
 describe('WorkflowExecutionService', () => {
@@ -59,8 +58,8 @@ describe('WorkflowExecutionService', () => {
         },
       },
       finalOutput: {
-        message: "test value"
-      }
+        message: 'test value',
+      },
     });
   });
 
@@ -102,17 +101,19 @@ describe('WorkflowExecutionService', () => {
           properties: { message: 'test value' },
         },
       },
-      finalOutput: {}
+      finalOutput: {},
     });
   });
 
   it('workflow without actions should throw', async () => {
-    await expect(service.executeWorkflow(
-      {
-        ...mockWorkflow,
-        actionInstances: undefined as any,
-      },
-      [],
-    )).rejects.toThrowErrorMatchingSnapshot();
+    await expect(
+      service.executeWorkflow(
+        {
+          ...mockWorkflow,
+          actionInstances: undefined as any,
+        },
+        [],
+      ),
+    ).rejects.toThrowErrorMatchingSnapshot();
   });
 });

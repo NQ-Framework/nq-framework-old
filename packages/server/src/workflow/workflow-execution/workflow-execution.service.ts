@@ -12,15 +12,16 @@ import { createExecutionContext } from './create-execution-context';
 
 @Injectable()
 export class WorkflowExecutionService {
-
-  constructor(private actionService: ActionService) { }
+  constructor(private actionService: ActionService) {}
 
   async executeWorkflow(
     workflow: Workflow,
     input: PropertyValue[],
   ): Promise<WorkflowExecutionResult> {
-
-    const context: WorkflowExecutionContext = await createExecutionContext(input, workflow);
+    const context: WorkflowExecutionContext = await createExecutionContext(
+      input,
+      workflow,
+    );
 
     context.workflow.actionInstances
       .filter((ai) => getParentActions(context.workflow, ai).length === 0)

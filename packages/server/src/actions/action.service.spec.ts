@@ -78,7 +78,7 @@ describe('ActionService', () => {
       [],
       expect.any(Object),
       expect.any(Object),
-      expect.any(Object)
+      expect.any(Object),
     );
   });
 
@@ -101,7 +101,7 @@ describe('ActionService', () => {
       [{ name: 'test prop', value: 'test value' }],
       expect.any(Object),
       expect.any(Object),
-      expect.any(Object)
+      expect.any(Object),
     );
   });
 
@@ -124,7 +124,7 @@ describe('ActionService', () => {
       [{ name: 'test prop', value: 'TEST VALUE' }],
       expect.any(Object),
       expect.any(Object),
-      expect.any(Object)
+      expect.any(Object),
     );
   });
 });

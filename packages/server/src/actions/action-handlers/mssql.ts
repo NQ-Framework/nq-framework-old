@@ -4,7 +4,7 @@ import {
   PropertyValue,
   WorkflowExecutionContext,
 } from '@nqframework/models';
-import { ModuleRef } from '@nestjs/core'
+import { ModuleRef } from '@nestjs/core';
 import { RequestRouterService } from '../../db-connection/request-router/request-router.service';
 import { MsSqlFetcher } from '@nqframework/data-fetcher';
 
@@ -13,10 +13,11 @@ export const handler: ActionHandler = {
     propertyValues: PropertyValue[],
     actionInstance: ActionInstance,
     workflowExecution: WorkflowExecutionContext,
-    moduleRef: ModuleRef
+    moduleRef: ModuleRef,
   ): Promise<PropertyValue[]> => {
     const query = propertyValues.find((i) => i.name === 'query')?.value;
-    const dataSource = propertyValues.find((i) => i.name === 'dataSource')?.value;
+    const dataSource = propertyValues.find((i) => i.name === 'dataSource')
+      ?.value;
     const userId = propertyValues.find((i) => i.name === 'userId')?.value;
     if (!query) {
       throw new Error('Missing required parameter query');
@@ -28,9 +29,16 @@ export const handler: ActionHandler = {
       throw new Error('Missing required parameter userId');
     }
 
-    const requestRouter = moduleRef.get<RequestRouterService>(RequestRouterService, { strict: false });
+    const requestRouter = moduleRef.get<RequestRouterService>(
+      RequestRouterService,
+      { strict: false },
+    );
 
-    const fetcher: MsSqlFetcher = await requestRouter.getDataFetcher(userId, workflowExecution.workflow.organizationId, dataSource) as any;
+    const fetcher: MsSqlFetcher = (await requestRouter.getDataFetcher(
+      userId,
+      workflowExecution.workflow.organizationId,
+      dataSource,
+    )) as any;
     const result = await fetcher.get({
       isProcedure: false,
       query,
@@ -48,7 +56,7 @@ export const handler: ActionHandler = {
     return [
       {
         name: 'queryResult',
-        value: result
+        value: result,
       },
     ];
   },
