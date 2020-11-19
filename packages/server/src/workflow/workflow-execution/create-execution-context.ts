@@ -2,7 +2,7 @@ import { PropertyValue, Workflow, WorkflowExecutionContext } from "@nqframework/
 import { evaluateProperties, reducePropertyValuesToObject } from '../../core/utils';
 import { initializeContext } from './initialize-context';
 
-export async function crateExecutionContext(input: PropertyValue[], workflow: Workflow): Promise<WorkflowExecutionContext> {
+export async function createExecutionContext(input: PropertyValue[], workflow: Workflow): Promise<WorkflowExecutionContext> {
     let context: WorkflowExecutionContext = {
         isRunning: true,
         startTime: new Date(),
