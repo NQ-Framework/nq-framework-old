@@ -10,6 +10,11 @@ describe('ActionService', () => {
   let service: ActionService;
   const mockActionInstance: ActionInstance = {
     isEnabled: true,
+    editorConfig: {
+      color: "#000000",
+      x: 100,
+      y: 100
+    },
     action: {
       id: '1',
       hasDefaultPort: true,

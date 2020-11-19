@@ -12,7 +12,7 @@ import { createExecutionContext } from './create-execution-context';
 
 @Injectable()
 export class WorkflowExecutionService {
-  constructor(private actionService: ActionService) {}
+  constructor(private actionService: ActionService) { }
 
   async executeWorkflow(
     workflow: Workflow,
