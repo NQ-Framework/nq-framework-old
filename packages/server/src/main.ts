@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { LoggerService } from './core/logger.service';
 import { loadSecretManagerValues } from './secretLoader';
-import { SchedulerService } from './scheduled-jobs/scheduler/scheduler.service';
 import { AuthConfigService } from './config/AuthConfigService';
 import { loadFirebase } from './firebase/initialize';
 async function bootstrap() {
@@ -24,8 +23,6 @@ async function bootstrap() {
   const port = configService.get<number>('port');
   await app.listen(port ?? 8080, '0.0.0.0');
   loadFirebase(authConfigService);
-  // const schedulerService = app.get<SchedulerService>(SchedulerService);
-  // schedulerService.initialize();
   loggerService.log(`app now listening on port ${port ?? 8080}`);
 }
 
