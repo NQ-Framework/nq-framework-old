@@ -1,54 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ActionResult, Workflow } from '@nqframework/models';
+import { ActionResult } from '@nqframework/models';
 import { ActionService } from '../../actions/action.service';
+import { mockWorkflow } from '../mocks/mock-workflow';
 import { WorkflowExecutionService } from './workflow-execution.service';
 
-const mockWorkflow: Workflow = {
-  id: 'mock id',
-  isActive: true,
-  name: 'mock workflow',
-  organizationId: 'mock org id',
-  actionInstances: [
-    {
-      name: 'mock action instance id',
-      isEnabled: true,
-      configuration: {
-        input: [],
-      },
-      action: {
-        id: 'mock action id',
-        isEnabled: true,
-        name: 'mock action',
-        path: 'mock-path',
-        version: 1,
-        hasDefaultPort: true,
-      },
-    },
-    {
-      name: 'mock action instance id 2',
-      isEnabled: true,
-      configuration: {
-        input: [],
-      },
-      action: {
-        id: 'mock action id',
-        isEnabled: true,
-        name: 'mock action',
-        path: 'mock-path',
-        version: 1,
-        hasDefaultPort: true,
-      },
-    },
-  ],
-  actionLinks: [
-    {
-      fromName: 'mock action instance id',
-      toName: 'mock action instance id 2',
-      isEnabled: true,
-    },
-  ],
-  triggers: [],
-};
 
 const executeActionMock = jest.fn();
 
@@ -87,7 +42,7 @@ describe('WorkflowExecutionService', () => {
     const result = await service.executeWorkflow(mockWorkflow, []);
     expect(executeActionMock).toHaveBeenNthCalledWith(
       1,
-      mockWorkflow.actionInstances![0],
+      mockWorkflow.actionInstances[1],
       expect.objectContaining({
         isRunning: true,
       }),
@@ -126,12 +81,12 @@ describe('WorkflowExecutionService', () => {
     const result = await service.executeWorkflow(
       {
         ...mockWorkflow,
-        actionLinks: undefined,
+        actionLinks: undefined as any,
       },
       [],
     );
     expect(executeActionMock).toHaveBeenCalledWith(
-      mockWorkflow.actionInstances![0],
+      mockWorkflow.actionInstances[0],
       expect.objectContaining({
         isRunning: true,
       }),
@@ -151,15 +106,13 @@ describe('WorkflowExecutionService', () => {
     });
   });
 
-  it('workflow without actions should return empty data', async () => {
-    const result = await service.executeWorkflow(
+  it('workflow without actions should throw', async () => {
+    await expect(service.executeWorkflow(
       {
         ...mockWorkflow,
-        actionInstances: undefined,
+        actionInstances: undefined as any,
       },
       [],
-    );
-    expect(executeActionMock).not.toHaveBeenCalled();
-    expect(result).toEqual({ data: {}, finalOutput: {} });
+    )).rejects.toThrowErrorMatchingSnapshot();
   });
 });

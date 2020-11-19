@@ -1,9 +1,8 @@
 import { Box } from "@chakra-ui/react";
 import { Workflow } from "@nqframework/models";
 import * as React from "react";
-import ReactFlow from 'react-flow-renderer';
+import ReactFlow, { Background, BackgroundVariant } from 'react-flow-renderer';
 import { DiagramElement } from "../types/DiagramElement";
-import { ReactFlowProps } from 'react-flow-renderer';
 
 
 // const elements = [
@@ -35,8 +34,14 @@ import { ReactFlowProps } from 'react-flow-renderer';
 export const Diagram: React.FC<{ workflow: Workflow }> = ({ workflow }) => {
     const elements = mapActionsToDiagramElements(workflow).concat(mapActionLinksToDiagramElements(workflow)).concat(mapTriggersToDiagramElements(workflow));
     return (
-        <Box width="100%" height="100%" background="lightblue">
-            <ReactFlow elements={elements as any} />
+        <Box width="100%" height="100%">
+            <ReactFlow elements={elements as any}>
+                <Background
+                    variant={BackgroundVariant.Lines}
+                    gap={18}
+                    size={4}
+                />
+            </ReactFlow>
         </Box>
     )
 }
@@ -53,6 +58,7 @@ function mapTriggersToDiagramElements(workflow: Workflow): DiagramElement[] {
                 id: trigger.id,
                 type: "input",
                 data: { label: trigger.type.toUpperCase() + " Trigger" },
+                style: { backgroundColor: trigger.editorConfig.color },
                 position: { x: trigger.editorConfig.x, y: trigger.editorConfig.y },
             });
             trigger.actions.forEach(ac => elements.push({
@@ -75,6 +81,7 @@ function mapActionsToDiagramElements(workflow: Workflow): DiagramElement[] {
     return workflow.actionInstances.map(ai => ({
         id: ai.name,
         data: { label: ai.name },
+        style: { backgroundColor: ai.editorConfig.color, opacity: 1 },
         position: { x: ai.editorConfig.x, y: ai.editorConfig.y }
     }));
 }

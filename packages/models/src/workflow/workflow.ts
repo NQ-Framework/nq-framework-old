@@ -7,8 +7,8 @@ export interface Workflow {
     id: string;
     organizationId: string;
     isActive: boolean;
-    actionInstances?: ActionInstance[];
-    actionLinks?: ActionLink[];
+    actionInstances: ActionInstance[];
+    actionLinks: ActionLink[];
     triggers: WorkflowTriggerBase[];
     endpoints?: string[];
 }
