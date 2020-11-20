@@ -1,11 +1,19 @@
-import { Body, Controller, Get, NotFoundException, Param, Patch, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Req,
+} from '@nestjs/common';
 import { Workflow } from '@nqframework/models';
 import { Request } from 'express';
 import { WorkflowService } from './workflow.service';
 
 @Controller('workflow')
 export class WorkflowController {
-  constructor(private workflowService: WorkflowService) { }
+  constructor(private workflowService: WorkflowService) {}
   @Get(':id')
   async GetById(
     @Param('id') id: string,
@@ -22,7 +30,14 @@ export class WorkflowController {
   }
 
   @Patch(':id/positions')
-  async PatchNodePositions(@Param('id') id: string, @Req() req: Request, @Body() positions: [{ type: "trigger" | "actionInstance", id: string, x: number, y: number }]) {
+  async PatchNodePositions(
+    @Param('id') id: string,
+    @Req() req: Request,
+    @Body()
+    positions: [
+      { type: 'trigger' | 'actionInstance'; id: string; x: number; y: number },
+    ],
+  ) {
     const workflows = await this.workflowService.getWorkflowsForOrganization(
       req.organizationId,
     );
@@ -31,11 +46,14 @@ export class WorkflowController {
       throw new NotFoundException();
     }
 
-    positions.forEach(position => {
-      const node: { editorConfig: { x: number, y: number } } =
-        (position.type === "trigger"
-          ? workflow.triggers.find(t => t.id === position.id)
-          : workflow.actionInstances.find(ai => ai.name === position.id)) as any
+    positions.forEach((position) => {
+      const node: {
+        editorConfig: { x: number; y: number };
+      } = (position.type === 'trigger'
+        ? workflow.triggers.find((t) => t.id === position.id)
+        : workflow.actionInstances.find(
+            (ai) => ai.name === position.id,
+          )) as any;
 
       node.editorConfig.x = position.x;
       node.editorConfig.y = position.y;

@@ -11,9 +11,9 @@ describe('ActionService', () => {
   const mockActionInstance: ActionInstance = {
     isEnabled: true,
     editorConfig: {
-      color: "#000000",
+      color: '#000000',
       x: 100,
-      y: 100
+      y: 100,
     },
     action: {
       id: '1',

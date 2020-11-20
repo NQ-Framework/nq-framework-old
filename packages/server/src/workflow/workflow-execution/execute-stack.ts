@@ -6,15 +6,10 @@ import { ActionService } from '../../actions/action.service';
 import { loadFollowingActionsInChain } from './load-following-actions-in-chain';
 import { updateContextWithActionResult } from './update-context-with-action-result';
 
-
-
-
-
 export async function executeStack(
   context: WorkflowExecutionContext,
   actionService: ActionService,
 ): Promise<WorkflowExecutionResult> {
-
   const workflow = context.workflow;
 
   while (context.stack.length > 0) {
@@ -33,7 +28,3 @@ export async function executeStack(
     finalOutput: context.input,
   };
 }
-
-
-
-

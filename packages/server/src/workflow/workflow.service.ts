@@ -25,9 +25,7 @@ export class WorkflowService {
     })) as Workflow[];
   }
 
-  async updateWorkflow(
-    workflow: Workflow,
-  ): Promise<void> {
+  async updateWorkflow(workflow: Workflow): Promise<void> {
     const { id, ...restOfWorkflow } = workflow;
     this.logger.debug('Updating workflow id ' + id);
     const app = await getFirebaseApp();

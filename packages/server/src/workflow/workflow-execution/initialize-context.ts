@@ -18,10 +18,11 @@ export function initializeContext(
   if (!actionLinks) {
     actionLinks = [];
   } else {
-    actionLinks = actionLinks.filter((al) =>
-      al.isEnabled &&
-      actionInstances.some((ai) => ai.name === al.fromName) &&
-      actionInstances.some((ai) => ai.name === al.toName)
+    actionLinks = actionLinks.filter(
+      (al) =>
+        al.isEnabled &&
+        actionInstances.some((ai) => ai.name === al.fromName) &&
+        actionInstances.some((ai) => ai.name === al.toName),
     );
   }
   return {

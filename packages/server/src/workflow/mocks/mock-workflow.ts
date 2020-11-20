@@ -58,15 +58,15 @@ export const mockWorkflow: Workflow = {
     {
       actions: ['mock action instance id'],
       editorConfig: {
-        color: "#000000",
+        color: '#000000',
         x: 100,
-        y: 100
+        y: 100,
       },
       id: '123',
       input: [],
-      type: "api",
+      type: 'api',
       verb: ['GET'],
-      endpoint: "test endpoint"
-    }
+      endpoint: 'test endpoint',
+    },
   ],
 };
