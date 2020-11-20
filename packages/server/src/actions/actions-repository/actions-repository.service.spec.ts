@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ActionsRepositoryService } from './actions-repository.service';
-import { getFirebaseApp } from "../../firebase/initialize";
+import { getFirebaseApp } from '../../firebase/initialize';
 import { mockActions } from '../mock/mockAcktions';
 
-jest.mock("../../firebase/initialize");
+jest.mock('../../firebase/initialize');
 
 describe('ActionsRepositoryService', () => {
   let service: ActionsRepositoryService;
@@ -18,26 +18,25 @@ describe('ActionsRepositoryService', () => {
 
   it('fetch all from firebase', async () => {
     const mockActionsSnapshot = {
-      docs: mockActions.map(ma => {
+      docs: mockActions.map((ma) => {
         const { id, ...rest } = ma;
         return {
           id: id,
-          data: () => rest
+          data: () => rest,
         };
-      })
-    }
-
+      }),
+    };
 
     const mock = getFirebaseApp as jest.Mock;
     mock.mockImplementation(() => ({
       firestore: () => ({
         collection: () => ({
           where: () => ({
-            get: () => mockActionsSnapshot
-          })
-        })
-      })
-    }))
+            get: () => mockActionsSnapshot,
+          }),
+        }),
+      }),
+    }));
     const result = await service.getAll();
     expect(result).toEqual(mockActions);
     expect(mock).toHaveBeenCalledTimes(1);

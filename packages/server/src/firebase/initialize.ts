@@ -31,7 +31,7 @@ declare global {
   namespace Express {
     interface Request {
       firebaseUser: admin.auth.DecodedIdToken;
-      serviceAccount: ServiceAccount
+      serviceAccount: ServiceAccount;
     }
   }
 }

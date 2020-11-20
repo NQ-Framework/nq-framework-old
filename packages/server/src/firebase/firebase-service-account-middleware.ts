@@ -15,13 +15,16 @@ export class FirebaseServiceAccountMiddleware implements NestMiddleware {
     const token = authorization.slice(7); // Bearer <token>
     console.log('trying ', token);
 
-    if (token.startsWith("SA1")) {
+    if (token.startsWith('SA1')) {
       if (!req.organizationId) {
         this.throwError();
       }
 
       const organization = await this.loadOrganization(req.organizationId);
-      const acc = organization && organization.serviceAccounts && organization.serviceAccounts.find(sa => sa.token === token.slice(3));
+      const acc =
+        organization &&
+        organization.serviceAccounts &&
+        organization.serviceAccounts.find((sa) => sa.token === token.slice(3));
       if (!acc) {
         this.throwError();
       }
@@ -36,8 +39,12 @@ export class FirebaseServiceAccountMiddleware implements NestMiddleware {
     );
   }
 
-  private async loadOrganization(organizationId: string): Promise<Organization> {
+  private async loadOrganization(
+    organizationId: string,
+  ): Promise<Organization> {
     const app = await getFirebaseApp();
-    return (await app.firestore().doc(`organizations/${organizationId}`).get()).data() as any;
+    return (
+      await app.firestore().doc(`organizations/${organizationId}`).get()
+    ).data() as any;
   }
 }

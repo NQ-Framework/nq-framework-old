@@ -6,19 +6,22 @@ describe('AuthenticationController', () => {
   let controller: AuthenticationController;
   let authService: AuthenticationService;
   const mockToken = {
-    email: "mock@mock",
-    idToken: "mocktoken",
-    refreshToken: "mockrefresh",
-    expiresIn: "mockexpires",
-    localId: "mockid"
+    email: 'mock@mock',
+    idToken: 'mocktoken',
+    refreshToken: 'mockrefresh',
+    expiresIn: 'mockexpires',
+    localId: 'mockid',
   };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthenticationController],
       providers: [
-        { provide: AuthenticationService, useValue: { loginUserWithEmailAndPassword: jest.fn() } }
-      ]
+        {
+          provide: AuthenticationService,
+          useValue: { loginUserWithEmailAndPassword: jest.fn() },
+        },
+      ],
     }).compile();
 
     controller = module.get<AuthenticationController>(AuthenticationController);
@@ -26,16 +29,23 @@ describe('AuthenticationController', () => {
   });
 
   it('should reject login calls if no input parameters', async () => {
-    await expect(controller.UserLogin('', '')).rejects.toThrowErrorMatchingSnapshot();
-    await expect(controller.ServiceAccountLogin('', '')).rejects.toThrowErrorMatchingSnapshot();
+    await expect(
+      controller.UserLogin('', ''),
+    ).rejects.toThrowErrorMatchingSnapshot();
+    await expect(
+      controller.ServiceAccountLogin('', ''),
+    ).rejects.toThrowErrorMatchingSnapshot();
   });
 
   it('should call service and return result for service account', async () => {
     const loginMock = authService.loginUserWithEmailAndPassword as jest.Mock;
     loginMock.mockImplementation(() => {
-      return mockToken
+      return mockToken;
     });
-    const result = await controller.ServiceAccountLogin('mock email', 'mock pw');
+    const result = await controller.ServiceAccountLogin(
+      'mock email',
+      'mock pw',
+    );
 
     expect(loginMock).toBeCalledWith('mock email', 'mock pw');
 
@@ -47,7 +57,7 @@ describe('AuthenticationController', () => {
   it('should call service and return result for user account', async () => {
     const loginMock = authService.loginUserWithEmailAndPassword as jest.Mock;
     loginMock.mockImplementation(() => {
-      return mockToken
+      return mockToken;
     });
     const result = await controller.UserLogin('mock email', 'mock pw');
 

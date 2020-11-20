@@ -55,7 +55,7 @@ export class AppModule implements NestModule {
           .apply(FirebaseServiceAccountMiddleware)
           .forRoutes('api*', 'profile')
           .apply(FirebaseAuthMiddleware)
-          .forRoutes('*')
+          .forRoutes('*'),
       );
     });
   }

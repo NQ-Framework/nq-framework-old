@@ -20,7 +20,7 @@ export const handler: ActionHandler = {
     const output = await evaluateExpression(code, {
       actionInstance,
       propertyValues,
-      workflowExecution
+      workflowExecution,
     });
 
     return [

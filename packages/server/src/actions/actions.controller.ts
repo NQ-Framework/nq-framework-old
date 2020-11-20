@@ -4,11 +4,10 @@ import { ActionsRepositoryService } from './actions-repository/actions-repositor
 
 @Controller('actions')
 export class ActionsController {
+  constructor(private actions: ActionsRepositoryService) {}
 
-    constructor(private actions: ActionsRepositoryService) { }
-
-    @Get("")
-    async getAll(): Promise<Action[]> {
-        return await this.actions.getAll();
-    }
+  @Get('')
+  async getAll(): Promise<Action[]> {
+    return await this.actions.getAll();
+  }
 }

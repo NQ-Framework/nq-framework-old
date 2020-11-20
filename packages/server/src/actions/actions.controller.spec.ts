@@ -11,8 +11,8 @@ describe('ActionsController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ActionsController],
       providers: [
-        { provide: ActionsRepositoryService, useValue: { getAll: jest.fn() } }
-      ]
+        { provide: ActionsRepositoryService, useValue: { getAll: jest.fn() } },
+      ],
     }).compile();
 
     controller = module.get<ActionsController>(ActionsController);
