@@ -13,7 +13,7 @@ import { WorkflowService } from './workflow.service';
 
 @Controller('workflow')
 export class WorkflowController {
-  constructor(private workflowService: WorkflowService) {}
+  constructor(private workflowService: WorkflowService) { }
   @Get(':id')
   async GetById(
     @Param('id') id: string,
@@ -52,8 +52,8 @@ export class WorkflowController {
       } = (position.type === 'trigger'
         ? workflow.triggers.find((t) => t.id === position.id)
         : workflow.actionInstances.find(
-            (ai) => ai.name === position.id,
-          )) as any;
+          (ai) => ai.name === position.id,
+        )) as any;
 
       node.editorConfig.x = position.x;
       node.editorConfig.y = position.y;
