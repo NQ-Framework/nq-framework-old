@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthenticationController should reject login calls if no input parameters 1`] = `"Missing user credentials in body"`;
+
+exports[`AuthenticationController should reject login calls if no input parameters 2`] = `"Invalid client credentials in body"`;

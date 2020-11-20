@@ -1,11 +1,17 @@
 import { loadFirebase } from './initialize';
 import * as dotenv from 'dotenv';
 
+dotenv.config();
+
 const app = loadFirebase({
-  projectId: process.env.PROJECT_ID,
-  clientEmail: process.env.CLIENT_EMAIL,
-  privateKey: process.env.PRIVATE_KEY,
+  projectId: 'nq-framework',
+  clientEmail: 'firebase-adminsdk-6116k@nq-framework.iam.gserviceaccount.com',
+  privateKey: ''
 } as any);
+
+app.auth().createCustomToken('123', { claim1: 'asd qwe' }).then(v => {
+  console.log(v);
+});
 
 // app
 //   .auth()

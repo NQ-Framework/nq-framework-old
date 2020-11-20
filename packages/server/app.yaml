@@ -30,5 +30,6 @@ env_variables:
   CLIENT_EMAIL: "firebase-adminsdk-6116k@nq-framework.iam.gserviceaccount.com"
   GCLOUD_SECRETS: "yes"
   GA_MEASUREMENT_ID: "G-NT325BYFZK"
+  FB_API_KEY: "AIzaSyB4L2ujEtbLHKgzk1_LiDuM6UQO4M5NZkE"
 
 # [END gae_flex_quickstart_yaml]

@@ -20,5 +20,9 @@ describe('AppController', () => {
     expect(
       appController.getProfile({ firebaseUser: { name: 'test' } }),
     ).toEqual({ name: 'test' });
+
+    expect(
+      appController.getProfile({ serviceAccount: { name: 'test SA' } }),
+    ).toEqual({ name: 'test SA' });
   });
 });

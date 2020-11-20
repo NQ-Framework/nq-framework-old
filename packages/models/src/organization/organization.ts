@@ -1,5 +1,6 @@
 import { DataSource } from "../data-fetching/data-source";
 import { OrganizationMember } from "./organization-member";
+import { ServiceAccount } from "./service-account";
 
 export interface Organization {
   name: string;
@@ -10,4 +11,5 @@ export interface Organization {
   members: OrganizationMember[];
   memberIds: string[];
   dataSources: DataSource[];
+  serviceAccounts: ServiceAccount[];
 }

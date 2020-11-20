@@ -1,23 +1,24 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
-import { getDefaultRoles } from './get-default-roles';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  defaultRoles = getDefaultRoles();
-  constructor(private reflector: Reflector) {}
+  constructor(private reflector: Reflector) { }
 
   canActivate(context: ExecutionContext): boolean {
-    let roles = this.reflector.getAllAndOverride<string[]>('roles', [
+    const roles = this.reflector.getAllAndOverride<string[]>('roles', [
       context.getHandler(),
       context.getClass(),
     ]);
     if (!roles) {
-      roles = this.defaultRoles;
+      return true;
     }
     const request = context.switchToHttp().getRequest() as Request;
     const user = request.firebaseUser;
+    if (!user) {
+      return false;
+    }
     const forbiddenRoles = roles
       .filter((r) => r.startsWith('not-'))
       .map((r) => r.replace('not-', ''));

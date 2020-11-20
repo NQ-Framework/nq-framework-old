@@ -4,6 +4,7 @@ export default () => ({
     clientEmail: process.env.CLIENT_EMAIL,
     privateKey: process.env.PRIVATE_KEY,
     projectId: process.env.PROJECT_ID,
+    webApiKey: process.env.FB_API_KEY,
   },
   db: {},
   analytics: {

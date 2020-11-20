@@ -5,3 +5,5 @@ exports[`AuthConfigService should throw on missing configuration 1`] = `"missing
 exports[`AuthConfigService should throw on missing configuration 2`] = `"missing configuration item: private key"`;
 
 exports[`AuthConfigService should throw on missing configuration 3`] = `"missing configuration item: cl email"`;
+
+exports[`AuthConfigService should throw on missing configuration 4`] = `"missing configuration item: web api key"`;

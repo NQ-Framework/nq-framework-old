@@ -28,6 +28,7 @@ describe('AuthConfigService', () => {
     expect(service.projectId).toEqual('test value');
     expect(service.privateKey).toEqual('test value');
     expect(service.clientEmail).toEqual('test value');
+    expect(service.webApiKey).toEqual('test value');
   });
 
   it('should throw on missing configuration', () => {
@@ -40,6 +41,9 @@ describe('AuthConfigService', () => {
     }).toThrowErrorMatchingSnapshot();
     expect(() => {
       service.clientEmail;
+    }).toThrowErrorMatchingSnapshot();
+    expect(() => {
+      service.webApiKey;
     }).toThrowErrorMatchingSnapshot();
   });
 });

@@ -17,6 +17,8 @@ import { TriggeredJobsModule } from './triggered-jobs/triggered-jobs.module';
 import { GuardsModule } from './guards/guards.module';
 import { ActionsModule } from './actions/actions.module';
 import { WorkflowModule } from './workflow/workflow.module';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { FirebaseServiceAccountMiddleware } from './firebase/firebase-service-account-middleware';
 
 const configImport = ConfigModule.forRoot({
   envFilePath: '.development.env',
@@ -40,6 +42,7 @@ const configImport = ConfigModule.forRoot({
     GuardsModule,
     ActionsModule,
     WorkflowModule,
+    AuthenticationModule,
   ],
   controllers: [AppController],
   providers: [],
@@ -51,8 +54,10 @@ export class AppModule implements NestModule {
         consumer
           .apply(OrganizationMiddleware)
           .forRoutes('*')
+          .apply(FirebaseServiceAccountMiddleware)
+          .forRoutes('api*', 'profile')
           .apply(FirebaseAuthMiddleware)
-          .forRoutes('*'),
+          .forRoutes('*')
       );
     });
   }

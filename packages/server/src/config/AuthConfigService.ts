@@ -17,4 +17,7 @@ export class AuthConfigService extends ConfigServiceBase {
   get clientEmail(): string {
     return this.config.get('auth.clientEmail') ?? this.throwError('cl email');
   }
+  get webApiKey(): string {
+    return this.config.get('auth.webApiKey') ?? this.throwError('web api key');
+  }
 }
