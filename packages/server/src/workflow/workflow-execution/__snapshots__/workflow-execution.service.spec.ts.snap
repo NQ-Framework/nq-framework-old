@@ -1,3 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`WorkflowExecutionService workflow without actions should throw 1`] = `"Execution context cannot be initialized with zero actions"`;
+exports[`WorkflowExecutionService should throw when starting with invalid trigger id 1`] = `"invalid trigger id, cannot start workflow"`;
+
+exports[`WorkflowExecutionService should throw when starting with invalid trigger id 2`] = `"Invalid action name in trigger, cannot start workflow"`;

@@ -1,6 +1,6 @@
 import { ActionInstance } from "./actions/action-instance";
 import { ActionLink } from "./actions/action-link";
-import { WorkflowTriggerBase } from "./triggers/workflow-trigger-base";
+import { WorkflowTriggerApi } from "./triggers/workflow-trigger-api";
 
 export interface Workflow {
     name: string;
@@ -9,6 +9,6 @@ export interface Workflow {
     isActive: boolean;
     actionInstances: ActionInstance[];
     actionLinks: ActionLink[];
-    triggers: WorkflowTriggerBase[];
+    triggers: (WorkflowTriggerApi)[];
     endpoints?: string[];
 }

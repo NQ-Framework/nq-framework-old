@@ -22,9 +22,8 @@ export async function createExecutionContext(
     triggerInput: input,
     workflow: workflow,
   };
-  context.input = reducePropertyValuesToObject(
-    await evaluateProperties(input, context),
-  );
+  const evaluatedProps = await evaluateProperties(input, context);
+  context.input = reducePropertyValuesToObject(evaluatedProps);
 
   context = initializeContext(context);
 

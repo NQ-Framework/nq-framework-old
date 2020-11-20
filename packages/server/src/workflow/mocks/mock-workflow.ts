@@ -54,5 +54,19 @@ export const mockWorkflow: Workflow = {
       isEnabled: true,
     },
   ],
-  triggers: [],
+  triggers: [
+    {
+      actions: ['mock action instance id'],
+      editorConfig: {
+        color: "#000000",
+        x: 100,
+        y: 100
+      },
+      id: '123',
+      input: [],
+      type: "api",
+      verb: ['GET'],
+      endpoint: "test endpoint"
+    }
+  ],
 };

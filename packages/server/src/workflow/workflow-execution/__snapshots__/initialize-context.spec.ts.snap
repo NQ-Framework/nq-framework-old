@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`initializeContext throw if workflow has no actions 1`] = `"Execution context cannot be initialized with zero actions"`;

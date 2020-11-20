@@ -6,7 +6,6 @@ import {
   WorkflowExecutionResult,
 } from '@nqframework/models';
 import { ActionService } from '../../actions/action.service';
-import { getParentActions } from './get-parent-actions';
 import { executeStack } from './execute-stack';
 import { createExecutionContext } from './create-execution-context';
 
@@ -15,19 +14,27 @@ export class WorkflowExecutionService {
   constructor(private actionService: ActionService) { }
 
   async executeWorkflow(
-    workflow: Workflow,
+    initialWorkflow: Workflow,
     input: PropertyValue[],
+    triggerId: string
   ): Promise<WorkflowExecutionResult> {
     const context: WorkflowExecutionContext = await createExecutionContext(
       input,
-      workflow,
+      initialWorkflow,
     );
+    const workflow = context.workflow;
 
-    context.workflow.actionInstances
-      .filter((ai) => getParentActions(context.workflow, ai).length === 0)
-      .forEach((ai) => {
-        context.stack.push(ai);
-      });
-    return await executeStack(context, workflow, this.actionService);
+    const trigger = workflow.triggers.find(t => t.id === triggerId);
+    if (!trigger) {
+      throw new Error('invalid trigger id, cannot start workflow');
+    }
+    trigger.actions.forEach(actionName => {
+      const action = actionName && workflow.actionInstances.find(ai => ai.name === actionName);
+      if (!action) {
+        throw new Error("Invalid action name in trigger, cannot start workflow");
+      }
+      context.stack.push(action);
+    })
+    return await executeStack(context, this.actionService);
   }
 }

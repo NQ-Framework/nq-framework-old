@@ -1,10 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ActionResult } from '@nqframework/models';
-import { ActionService } from '../../actions/action.service';
 import { mockWorkflow } from '../mocks/mock-workflow';
 import { WorkflowExecutionService } from './workflow-execution.service';
+import { createExecutionContext } from "./create-execution-context"
+import { ActionService } from '../../actions/action.service';
+import { getMockExecutionContext } from '../mocks/get-mock-execution-context';
+import { executeStack } from "./execute-stack"
+import { mockExecutionResult } from '../mocks/mock-execution-result';
 
-const executeActionMock = jest.fn();
+
+jest.mock("./create-execution-context");
+jest.mock("./execute-stack");
 
 describe('WorkflowExecutionService', () => {
   let service: WorkflowExecutionService;
@@ -13,107 +18,61 @@ describe('WorkflowExecutionService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         WorkflowExecutionService,
-        {
-          provide: ActionService,
-          useValue: { executeAction: executeActionMock },
-        },
+        { provide: ActionService, useValue: { type: "mockService" } }
       ],
     }).compile();
 
     service = module.get<WorkflowExecutionService>(WorkflowExecutionService);
-    executeActionMock.mockClear();
   });
 
-  it('should execute the workflow', async () => {
-    executeActionMock.mockImplementation(
-      (): ActionResult => {
-        return {
-          propertyValues: [
-            {
-              name: 'message',
-              value: 'test value',
-            },
-          ],
-          outputValues: [{ name: 'message', value: 'test value' }],
-        };
-      },
-    );
-    const result = await service.executeWorkflow(mockWorkflow, []);
-    expect(executeActionMock).toHaveBeenNthCalledWith(
-      1,
-      mockWorkflow.actionInstances[1],
-      expect.objectContaining({
-        isRunning: true,
-      }),
-    );
-    expect(result).toEqual({
-      data: {
-        'mock action instance id': {
-          values: { message: 'test value' },
-          properties: { message: 'test value' },
-        },
-        'mock action instance id 2': {
-          values: { message: 'test value' },
-          properties: { message: 'test value' },
-        },
-      },
-      finalOutput: {
-        message: 'test value',
-      },
+  it('should call create context', async () => {
+    (createExecutionContext as jest.Mock).mockImplementation(() => {
+      return getMockExecutionContext();
     });
-  });
 
-  it('should handle having undefined action links', async () => {
-    executeActionMock.mockImplementation(
-      (): ActionResult => {
-        return {
-          propertyValues: [
-            {
-              name: 'message',
-              value: 'test value',
-            },
-          ],
-          outputValues: [],
-        };
-      },
-    );
-    const result = await service.executeWorkflow(
-      {
-        ...mockWorkflow,
-        actionLinks: undefined as any,
-      },
-      [],
-    );
-    expect(executeActionMock).toHaveBeenCalledWith(
-      mockWorkflow.actionInstances[0],
-      expect.objectContaining({
-        isRunning: true,
-      }),
-    );
-    expect(result).toEqual({
-      data: {
-        'mock action instance id': {
-          values: {},
-          properties: { message: 'test value' },
-        },
-        'mock action instance id 2': {
-          values: {},
-          properties: { message: 'test value' },
-        },
-      },
-      finalOutput: {},
+    (executeStack as jest.Mock).mockImplementation(() => {
+      return mockExecutionResult;
     });
+
+    const result = await service.executeWorkflow(mockWorkflow, [], mockWorkflow.triggers[0].id);
+
+    expect(createExecutionContext).toHaveBeenCalledWith([],
+      mockWorkflow
+    );
+    expect(executeStack).toHaveBeenCalledWith(expect.objectContaining({ isRunning: true }), { type: "mockService" });
+    expect(result).toEqual(mockExecutionResult);
+
+  });
+  it('should start with items indicated in the trigger', async () => {
+    (createExecutionContext as jest.Mock).mockImplementation(() => {
+      return getMockExecutionContext();
+    });
+    (executeStack as jest.Mock).mockImplementation(() => {
+      return mockExecutionResult;
+    });
+    await service.executeWorkflow(mockWorkflow, [], mockWorkflow.triggers[0].id);
+    expect(createExecutionContext).toHaveBeenCalledWith([],
+      mockWorkflow
+    );
+    expect(executeStack).toHaveBeenCalledWith({ ...getMockExecutionContext(), stack: [mockWorkflow.actionInstances[0]] }, { type: "mockService" });
   });
 
-  it('workflow without actions should throw', async () => {
-    await expect(
-      service.executeWorkflow(
-        {
-          ...mockWorkflow,
-          actionInstances: undefined as any,
-        },
-        [],
-      ),
-    ).rejects.toThrowErrorMatchingSnapshot();
+  it('should throw when starting with invalid trigger id', async () => {
+    (createExecutionContext as jest.Mock).mockImplementation(() => {
+      return getMockExecutionContext();
+    });
+    await expect(service.executeWorkflow(mockWorkflow, [], 'invalid')).rejects.toThrowErrorMatchingSnapshot();
   });
+
+  it('should throw when starting with invalid trigger id', async () => {
+    const execContext = getMockExecutionContext();
+    (createExecutionContext as jest.Mock).mockImplementation(() => {
+      return {
+        ...execContext, workflow: { ...execContext.workflow, triggers: [{ ...execContext.workflow.triggers[0], actions: ["invalid"] }] }
+      };
+    });
+    await expect(service.executeWorkflow(mockWorkflow, [], mockWorkflow.triggers[0].id)).rejects.toThrowErrorMatchingSnapshot();
+  });
+
+
 });

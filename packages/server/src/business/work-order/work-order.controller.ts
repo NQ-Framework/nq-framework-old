@@ -28,7 +28,7 @@ export class WorkOrderController {
     if (!workflow) {
       throw new NotFoundException();
     }
-    const data = await this.workflowExecution.executeWorkflow(workflow, []);
+    const data = await this.workflowExecution.executeWorkflow(workflow, [], workflow.triggers[0].id);
     return data;
   }
 
