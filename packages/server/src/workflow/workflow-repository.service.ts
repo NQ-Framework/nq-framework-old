@@ -4,7 +4,7 @@ import { LoggerService } from '../core/logger.service';
 import { getFirebaseApp } from '../firebase/initialize';
 
 @Injectable()
-export class WorkflowService {
+export class WorkflowRepositoryService {
   constructor(private logger: LoggerService) {
     logger.setContext('Workflow Service');
   }

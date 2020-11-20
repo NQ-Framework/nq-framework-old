@@ -9,11 +9,11 @@ import {
 } from '@nestjs/common';
 import { Workflow } from '@nqframework/models';
 import { Request } from 'express';
-import { WorkflowService } from './workflow.service';
+import { WorkflowRepositoryService } from './workflow-repository.service';
 
 @Controller('workflow')
 export class WorkflowController {
-  constructor(private workflowService: WorkflowService) { }
+  constructor(private workflowService: WorkflowRepositoryService) { }
   @Get(':id')
   async GetById(
     @Param('id') id: string,

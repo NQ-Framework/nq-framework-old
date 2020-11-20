@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LoggerService } from '../core/logger.service';
-import { WorkflowService } from './workflow.service';
+import { WorkflowRepositoryService } from './workflow-repository.service';
 import { getFirebaseApp } from '../firebase/initialize';
 
 jest.mock('../firebase/initialize');
@@ -32,12 +32,12 @@ getFbAppMock.mockImplementation(() => ({
 }));
 
 describe('WorkflowService', () => {
-  let service: WorkflowService;
+  let service: WorkflowRepositoryService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        WorkflowService,
+        WorkflowRepositoryService,
         {
           provide: LoggerService,
           useValue: { debug: jest.fn(), setContext: jest.fn() },
@@ -45,7 +45,7 @@ describe('WorkflowService', () => {
       ],
     }).compile();
 
-    service = module.get<WorkflowService>(WorkflowService);
+    service = module.get<WorkflowRepositoryService>(WorkflowRepositoryService);
   });
 
   it('should call firebase for workflows and add doc id', async () => {

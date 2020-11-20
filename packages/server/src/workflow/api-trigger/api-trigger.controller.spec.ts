@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { LoggerService } from '../../core/logger.service';
 import { WorkflowExecutionService } from '../workflow-execution/workflow-execution.service';
-import { WorkflowService } from '../workflow.service';
+import { WorkflowRepositoryService } from '../workflow-repository.service';
 import { ApiTriggerController } from './api-trigger.controller';
 
 describe('ApiTriggerController', () => {
@@ -12,7 +12,7 @@ describe('ApiTriggerController', () => {
       controllers: [ApiTriggerController],
       providers: [
         { provide: LoggerService, useValue: { setContext: jest.fn() } },
-        { provide: WorkflowService, useValue: {} },
+        { provide: WorkflowRepositoryService, useValue: {} },
         { provide: WorkflowExecutionService, useValue: {} },
       ],
     }).compile();

@@ -10,14 +10,14 @@ import { Workflow, WorkflowTriggerApi } from '@nqframework/models';
 import { Request } from 'express';
 import { LoggerService } from '../../core/logger.service';
 import { WorkflowExecutionService } from '../workflow-execution/workflow-execution.service';
-import { WorkflowService } from '../workflow.service';
+import { WorkflowRepositoryService } from '../workflow-repository.service';
 
 const allowedMethods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
 
 @Controller('api')
 export class ApiTriggerController {
   constructor(
-    private workflowService: WorkflowService,
+    private workflowService: WorkflowRepositoryService,
     private logger: LoggerService,
     private workflowExecutionService: WorkflowExecutionService,
   ) {
@@ -54,9 +54,9 @@ export class ApiTriggerController {
     }
     this.logger.debug(
       'Triggering workflow: ' +
-        targetWorkflow?.name +
-        ' ' +
-        JSON.stringify(targetWorkflow),
+      targetWorkflow?.name +
+      ' ' +
+      JSON.stringify(targetWorkflow),
     );
 
     const inputs = trigger?.input || [];

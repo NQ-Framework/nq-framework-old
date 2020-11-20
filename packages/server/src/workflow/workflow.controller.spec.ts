@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { WorkflowController } from './workflow.controller';
-import { WorkflowService } from './workflow.service';
+import { WorkflowRepositoryService } from './workflow-repository.service';
 
 describe('WorkflowController', () => {
   let controller: WorkflowController;
@@ -8,7 +8,7 @@ describe('WorkflowController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [WorkflowController],
-      providers: [{ provide: WorkflowService, useValue: {} }],
+      providers: [{ provide: WorkflowRepositoryService, useValue: {} }],
     }).compile();
 
     controller = module.get<WorkflowController>(WorkflowController);
