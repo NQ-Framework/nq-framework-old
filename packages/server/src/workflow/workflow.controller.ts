@@ -22,6 +22,16 @@ export class WorkflowController {
     private actionsService: ActionsRepositoryService,
   ) { }
 
+  @Get('')
+  async GetAll(
+    @Req() req: Request,
+  ): Promise<Workflow[]> {
+    const workflows = await this.workflowService.getWorkflowsForOrganization(
+      req.organizationId,
+    );
+    return workflows;
+  }
+
   @Get(':id')
   async GetById(
     @Param('id') id: string,

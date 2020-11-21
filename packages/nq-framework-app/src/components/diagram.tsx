@@ -49,13 +49,14 @@ export const Diagram: React.FC<{
     changeSelection: (elements: SelectionChange) => void;
     onMoveEnd: (transform: FlowTransform | undefined) => void;
     onLoad: (loadParams: OnLoadParams) => void;
-}> = ({ workflow, removeActionName, addConnection, changeSelection, onMoveEnd, onLoad }) => {
+    workflowId: string
+}> = ({ workflow, removeActionName, addConnection, changeSelection, onMoveEnd, onLoad, workflowId }) => {
     const elements = mapActionsToDiagramElements(workflow)
         .concat(mapActionLinksToDiagramElements(workflow))
         .concat(mapTriggersToDiagramElements(workflow));
 
     const nodeDragStop = useCallback(async (e: React.MouseEvent, node: Node) => {
-        await service.updateWorkflowNodePositions([
+        await service.updateWorkflowNodePositions(workflowId, [
             {
                 id: node.id,
                 type: node.type === "input" ? "trigger" : "actionInstance",
@@ -81,6 +82,7 @@ export const Diagram: React.FC<{
                 onSelectionChange={(el: Elements | null) => el ? changeSelection(el.filter((e: any) => e.id && e.type && !e.source).map(e => ({ id: e.id as string, type: e.type as string }))) : changeSelection([])}
                 onMoveEnd={(e) => { onMoveEnd(e); }}
                 onLoad={(e) => { onLoad(e); }}
+                onElementClick={(event, element) => { console.log(element); }}
             >
                 <Background variant={BackgroundVariant.Lines} gap={18} size={4} />
             </ReactFlow>

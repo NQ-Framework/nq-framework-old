@@ -16,9 +16,11 @@
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",
     "@types/react-router-dom": "^5.1.6",
+    "firebase": "^8.1.1",
     "framer-motion": "^2.9.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-firebaseui": "^4.1.0",
     "react-flow-renderer": "^8.0.0",
     "react-icons": "^3.11.0",
     "react-router-dom": "^5.2.0",
@@ -46,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2"
   }
 }

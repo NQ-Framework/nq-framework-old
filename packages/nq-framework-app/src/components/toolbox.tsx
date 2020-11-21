@@ -6,9 +6,9 @@ export const Toolbox: React.FC<{ actions: Action[], addAction: (action: Action) 
     return (
         <Flex dir="row" alignItems="center">
             <Text fontSize="xl">Dostupne Akcije:</Text>
-            {actions.map(a => (
+            {(actions && actions.map) ? actions.map(a => (
                 <Button key={a.id} mx={15} onClick={() => { addAction(a); }} >{a.name}</Button>
-            ))}
+            )) : <Text>Nema dostupnih akcija</Text>}
         </Flex>
     )
 }
