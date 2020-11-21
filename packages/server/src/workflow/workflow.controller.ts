@@ -17,8 +17,10 @@ import { WorkflowRepositoryService } from './workflow-repository.service';
 
 @Controller('workflow')
 export class WorkflowController {
-
-  constructor(private workflowService: WorkflowRepositoryService, private actionsService: ActionsRepositoryService) { }
+  constructor(
+    private workflowService: WorkflowRepositoryService,
+    private actionsService: ActionsRepositoryService,
+  ) {}
 
   @Get(':id')
   async GetById(
@@ -58,8 +60,8 @@ export class WorkflowController {
       } = (position.type === 'trigger'
         ? workflow.triggers.find((t) => t.id === position.id)
         : workflow.actionInstances.find(
-          (ai) => ai.name === position.id,
-        )) as any;
+            (ai) => ai.name === position.id,
+          )) as any;
 
       node.editorConfig.x = position.x;
       node.editorConfig.y = position.y;
@@ -72,9 +74,9 @@ export class WorkflowController {
   async AddActionToWorkflow(
     @Param('id') id: string,
     @Req() req: Request,
-    @Body("actionId")
+    @Body('actionId')
     actionId: string,
-  ) {
+  ): Promise<Workflow> {
     const workflows = await this.workflowService.getWorkflowsForOrganization(
       req.organizationId,
     );
@@ -84,39 +86,44 @@ export class WorkflowController {
     }
 
     const actions = await this.actionsService.getAll();
-    const action = actions.find(a => a.id === actionId);
+    const action = actions.find((a) => a.id === actionId);
 
     if (!action) {
-      throw new BadRequestException("invalid action id");
+      throw new BadRequestException('invalid action id');
     }
 
     //TODO: move to function that validates!!!
-    const count = workflow.actionInstances.reduce((count, a) => count + a.action.id === actionId ? 1 : 0, 0)
+    const count = workflow.actionInstances.reduce(
+      (count, a) => (count + a.action.id === actionId ? 1 : 0),
+      0,
+    );
     workflow.actionInstances.push({
       action,
-      name: action.name + (count > 0 ? " " + count : ""),
+      name: action.name + (count > 0 ? ' ' + count : ''),
       configuration: {
-        input: []
+        input: [],
       },
       editorConfig: {
-        color: "#000000",
+        color: '#FFFFFF',
         x: 100,
-        y: 100
+        y: 100,
       },
-      isEnabled: true
-    })
-
+      isEnabled: true,
+    });
 
     await this.workflowService.updateWorkflow(workflow);
+    return workflow;
   }
 
-  @Delete(':id/actions/:actionName')
-  async RemoveActionFromWorkflow(
+  @Post(':id/action-links')
+  async AddActionLinkToWorkflow(
     @Param('id') id: string,
     @Req() req: Request,
-    @Param("actionName")
-    actionName: string,
-  ) {
+    @Body('fromName')
+    fromName: string,
+    @Body('toName')
+    toName: string,
+  ): Promise<Workflow> {
     const workflows = await this.workflowService.getWorkflowsForOrganization(
       req.organizationId,
     );
@@ -125,15 +132,68 @@ export class WorkflowController {
       throw new NotFoundException();
     }
 
-    const action = workflow.actionInstances.find(ai => ai.name === actionName);
+    const actionFrom = workflow.actionInstances.find(
+      (a) => a.name === fromName,
+    );
+    const actionTo = workflow.actionInstances.find((a) => a.name === toName);
+    if (!actionFrom || !actionTo) {
+      throw new BadRequestException('Invalid source or target action');
+    }
+    if (actionFrom === actionTo) {
+      throw new BadRequestException('Cannot connect node to itself');
+    }
 
-    if (!action) {
-      throw new BadRequestException("invalid action name");
+    const existingLink = workflow.actionLinks.find(
+      (al) => al.fromName === fromName && al.toName === toName,
+    );
+    if (existingLink) {
+      throw new BadRequestException('Link already exists');
     }
 
     //TODO: move to function that validates!!!
-    workflow.actionInstances = workflow.actionInstances.filter(ai => ai.name !== actionName);
+    workflow.actionLinks.push({
+      fromName,
+      toName,
+      isEnabled: true,
+    });
 
     await this.workflowService.updateWorkflow(workflow);
+    return workflow;
+  }
+
+  @Delete(':id/actions/:actionName')
+  async RemoveActionFromWorkflow(
+    @Param('id') id: string,
+    @Req() req: Request,
+    @Param('actionName')
+    actionName: string,
+  ): Promise<Workflow> {
+    const workflows = await this.workflowService.getWorkflowsForOrganization(
+      req.organizationId,
+    );
+    const workflow = workflows.find((w) => w.id === id);
+    if (!workflow) {
+      throw new NotFoundException();
+    }
+
+    const action = workflow.actionInstances.find(
+      (ai) => ai.name === actionName,
+    );
+
+    if (!action) {
+      throw new BadRequestException('invalid action name');
+    }
+
+    //TODO: move to function that validates!!!
+    workflow.actionInstances = workflow.actionInstances.filter(
+      (ai) => ai.name !== actionName,
+    );
+
+    workflow.actionLinks = workflow.actionLinks.filter(
+      (al) => al.fromName !== actionName && al.toName !== actionName,
+    );
+
+    await this.workflowService.updateWorkflow(workflow);
+    return workflow;
   }
 }
