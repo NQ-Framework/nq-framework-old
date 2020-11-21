@@ -5,7 +5,7 @@ import { ActionsRepositoryService } from './actions-repository/actions-repositor
 
 @Module({
   providers: [ActionService, ActionsRepositoryService],
-  exports: [ActionService],
+  exports: [ActionService, ActionsRepositoryService],
   controllers: [ActionsController],
 })
-export class ActionsModule {}
+export class ActionsModule { }

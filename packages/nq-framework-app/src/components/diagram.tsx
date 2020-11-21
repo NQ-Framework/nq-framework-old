@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import { Workflow } from "@nqframework/models";
 import * as React from "react";
 import { useCallback } from "react";
-import ReactFlow, { Background, BackgroundVariant, Node } from 'react-flow-renderer';
+import ReactFlow, { Background, BackgroundVariant, Elements, Node } from 'react-flow-renderer';
 import { WorkflowService } from "../services/workflow.service";
 import { DiagramElement } from "../types/DiagramElement";
 
@@ -33,7 +33,7 @@ const service: WorkflowService = new WorkflowService();
 // ];
 
 
-export const Diagram: React.FC<{ workflow: Workflow }> = ({ workflow }) => {
+export const Diagram: React.FC<{ workflow: Workflow, removeActionName: (actionName: string) => void }> = ({ workflow, removeActionName }) => {
     const elements = mapActionsToDiagramElements(workflow).concat(mapActionLinksToDiagramElements(workflow)).concat(mapTriggersToDiagramElements(workflow));
 
     const nodeDragStop = useCallback(async (e: React.MouseEvent, node: Node) => {
@@ -48,7 +48,7 @@ export const Diagram: React.FC<{ workflow: Workflow }> = ({ workflow }) => {
 
     return (
         <Box width="100%" height="100%">
-            <ReactFlow elements={elements as any} onNodeDragStop={nodeDragStop} >
+            <ReactFlow elements={elements as any} onNodeDragStop={nodeDragStop} onElementsRemove={(e: Elements) => { removeActionName(e[0].id) }} >
                 <Background
                     variant={BackgroundVariant.Lines}
                     gap={18}

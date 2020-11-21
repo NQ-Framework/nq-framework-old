@@ -2,26 +2,45 @@ import * as React from "react"
 import { GridItem, Text } from "@chakra-ui/react"
 import { Diagram } from "../components/diagram"
 import { Layout } from "../components/layout";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { WorkflowService } from "../services/workflow.service";
-import { Workflow } from "@nqframework/models";
+import { Action, Workflow } from "@nqframework/models";
+import { ActionsService } from "../services/actions.service";
+import { Toolbox } from "../components/toolbox";
 
 export const EditorPage: React.FC = () => {
+    const workflowService = useMemo(() => new WorkflowService(), []);
+    const [update, setUpdate] = useState<number>(0);
+
+    const addAction = useCallback((action: Action) => {
+        workflowService.addActionToWorkflow(action.id);
+        setUpdate(up => up + 1);
+    }, [workflowService, setUpdate])
+
+    const removeAction = useCallback((actionName: string) => {
+        workflowService.removeActionFromWorkflow(actionName);
+        setUpdate(up => up + 1);
+    }, [workflowService, setUpdate])
+
     const [workflow, setWorkflow] = useState<Workflow | null>(null);
+    const [actions, setActions] = useState<Action[] | null>(null);
 
     useEffect(() => {
-        const service = new WorkflowService();
-        service.getWorkflow().then(wf => {
+        workflowService.getWorkflow().then(wf => {
             setWorkflow(wf);
         });
-    }, [])
+        const actionsService = new ActionsService();
+        actionsService.getAll().then(ac => {
+            setActions(ac);
+        });
+    }, [workflowService, update])
     return (
         <Layout>
-            <GridItem>
-                <Text>Ovo je editor page</Text>
+            <GridItem padding={6}>
+                <Toolbox actions={actions || []} addAction={addAction} />
             </GridItem>
             <GridItem>
-                {workflow ? <Diagram workflow={workflow!} /> : <Text>No workflow :(</Text>}
+                {workflow ? <Diagram removeActionName={removeAction} workflow={workflow!} /> : <Text>No workflow :(</Text>}
             </GridItem>
         </Layout>
     );
