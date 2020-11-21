@@ -20,7 +20,7 @@ export class WorkflowController {
   constructor(
     private workflowService: WorkflowRepositoryService,
     private actionsService: ActionsRepositoryService,
-  ) {}
+  ) { }
 
   @Get(':id')
   async GetById(
@@ -60,8 +60,8 @@ export class WorkflowController {
       } = (position.type === 'trigger'
         ? workflow.triggers.find((t) => t.id === position.id)
         : workflow.actionInstances.find(
-            (ai) => ai.name === position.id,
-          )) as any;
+          (ai) => ai.name === position.id,
+        )) as any;
 
       node.editorConfig.x = position.x;
       node.editorConfig.y = position.y;
@@ -94,7 +94,7 @@ export class WorkflowController {
 
     //TODO: move to function that validates!!!
     const count = workflow.actionInstances.reduce(
-      (count, a) => (count + a.action.id === actionId ? 1 : 0),
+      (count, a) => (count += a.action.id === actionId ? 1 : 0),
       0,
     );
     workflow.actionInstances.push({
