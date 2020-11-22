@@ -20,15 +20,16 @@ export const EditorPage: React.FC = () => {
 
     const [fbInit, setFbInit] = useState(false);
 
+    const { workflowId } = useParams<{ workflowId: string }>();
+
     const onLoad = useCallback((params: OnLoadParams) => {
-        const fromStorage = localStorage.getItem("flowTransform");
+        const fromStorage = localStorage.getItem("flowTransform" + workflowId);
         if (fromStorage) {
             const parsed = JSON.parse(fromStorage);
             params.setTransform(parsed);
         }
-    }, []);
+    }, [workflowId]);
 
-    const { workflowId } = useParams<{ workflowId: string }>();
 
     const addAction = useCallback(
         (action: Action) => {
@@ -55,8 +56,8 @@ export const EditorPage: React.FC = () => {
     // )
 
     const moveEnd = useCallback((transform: FlowTransform | undefined) => {
-        localStorage.setItem('flowTransform', JSON.stringify(transform));
-    }, [])
+        localStorage.setItem('flowTransform' + workflowId, JSON.stringify(transform));
+    }, [workflowId])
 
     const addConnection = useCallback(
         (from: string, to: string) => {
