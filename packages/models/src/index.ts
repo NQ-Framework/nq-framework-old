@@ -23,3 +23,4 @@ export { WorkflowExecutionContext } from "./workflow/workflow-execution-context"
 export { PropertyValue } from "./workflow/property/property-value"
 export { WorkflowTriggerApi } from "./workflow/triggers/workflow-trigger-api";
 export { UserToken } from "./authentication/user-token"
+export { WorkflowTrigger } from "./workflow/triggers/workflow-trigger";

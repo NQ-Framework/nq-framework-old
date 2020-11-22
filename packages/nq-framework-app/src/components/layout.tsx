@@ -14,7 +14,7 @@ export const Layout: React.FC = (props: any) => {
         firebase.auth().signOut();
     }, []);
     return (
-        <Grid templateRows="60px 100px 1fr" height="100vh" width="100vw" background="#F5F7F9">
+        <Grid templateRows="60px 160px 1fr" height="100vh" width="100vw" background="#F5F7F9">
             <GridItem background="white">
                 <Flex justifyContent="space-between" alignItems="center" px={6} h="100%">
                     <Link as={RouterLink} to="/">

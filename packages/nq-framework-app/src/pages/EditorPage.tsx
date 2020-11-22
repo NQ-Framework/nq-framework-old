@@ -4,7 +4,7 @@ import { Diagram } from "../components/diagram";
 import { Layout } from "../components/layout";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { WorkflowService } from "../services/workflow.service";
-import { Action, Workflow } from "@nqframework/models";
+import { Action, Workflow, WorkflowTrigger } from "@nqframework/models";
 import { ActionsService } from "../services/actions.service";
 import { Toolbox } from "../components/toolbox";
 import { FlowTransform, OnLoadParams } from "react-flow-renderer";
@@ -70,7 +70,8 @@ export const EditorPage: React.FC = () => {
         [workflowService, setWorkflow, workflowId, organization]
     );
 
-    const [actions, setActions] = useState<Action[] | null>(null);
+    const [actions, setActions] = useState<Action[]>([]);
+    const [triggers, setTriggers] = useState<WorkflowTrigger[]>([]);
 
     useEffect(() => {
         initPromise.then(() => {
@@ -82,8 +83,11 @@ export const EditorPage: React.FC = () => {
                 setWorkflow(wf);
             });
             const actionsService = new ActionsService();
-            actionsService.getAll().then((ac) => {
+            actionsService.getAll(organization?.name ?? "").then((ac) => {
                 setActions(ac);
+            });
+            actionsService.getAllTriggers(organization?.name ?? "").then((tg) => {
+                setTriggers(tg);
             });
         });
     }, [workflowService, user, workflowId, organization]);
@@ -99,7 +103,7 @@ export const EditorPage: React.FC = () => {
                     <Layout>
                         <GridItem padding={6}>
                             <Text>Naziv: {workflow?.name ?? ''}</Text>
-                            <Toolbox actions={actions || []} addAction={addAction} />
+                            <Toolbox actions={actions} triggers={triggers} addAction={addAction} />
                             {/* <Drawer
                                 isOpen={isOpen}
                                 placement="right"
@@ -112,7 +116,7 @@ export const EditorPage: React.FC = () => {
                             </Drawer> */}
                             {/* <Box>Selected: {selected.map(s => <Text key={s.id}>{s.id}</Text>)}</Box> */}
                         </GridItem>
-                        <GridItem>
+                        <GridItem background="white">
                             {workflow ? (
                                 <Diagram
                                     removeActionName={removeAction}

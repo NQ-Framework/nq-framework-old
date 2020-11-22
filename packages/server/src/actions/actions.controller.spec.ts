@@ -20,7 +20,7 @@ describe('ActionsController', () => {
   });
 
   it('should be defined', async () => {
-    const mock = service.getAll as jest.Mock;
+    const mock = service.getEnabledActions as jest.Mock;
     mock.mockImplementation(() => mockActions);
     const result = await controller.getAll();
     expect(result).toEqual(mockActions);

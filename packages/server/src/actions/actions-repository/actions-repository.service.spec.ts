@@ -37,7 +37,7 @@ describe('ActionsRepositoryService', () => {
         }),
       }),
     }));
-    const result = await service.getAll();
+    const result = await service.getEnabledActions();
     expect(result).toEqual(mockActions);
     expect(mock).toHaveBeenCalledTimes(1);
   });
