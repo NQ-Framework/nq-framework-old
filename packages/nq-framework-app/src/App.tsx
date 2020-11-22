@@ -12,6 +12,7 @@ import { EditorPage } from "./pages/EditorPage";
 import { AuthProvider } from "./firebase/firebase-context";
 import { SignInPage } from "./pages/SignInPage";
 import { WorkflowsPage } from "./pages/WorkflowsPage";
+import { NewWorkflowPage } from "./pages/NewWorkflowPage";
 
 export const App = () => (
   <AuthProvider>
@@ -20,6 +21,9 @@ export const App = () => (
         <Switch>
           <Route exact path="/">
             <WorkflowsPage />
+          </Route>
+          <Route path="/workflows/new">
+            <NewWorkflowPage />
           </Route>
           <Route path="/workflows/:workflowId">
             <EditorPage />

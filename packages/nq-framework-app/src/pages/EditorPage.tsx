@@ -96,8 +96,9 @@ export const EditorPage: React.FC = () => {
             ) : (
                     <Layout>
                         <GridItem padding={6}>
+                            <Text>Naziv: {workflow?.name ?? ''}</Text>
                             <Toolbox actions={actions || []} addAction={addAction} />
-                            <Drawer
+                            {/* <Drawer
                                 isOpen={isOpen}
                                 placement="right"
                                 onClose={onClose}
@@ -106,7 +107,7 @@ export const EditorPage: React.FC = () => {
                                 <DrawerContent opacity="0.95" background="gray.200">
                                     <DrawerHeader>Action Properties</DrawerHeader>
                                 </DrawerContent>
-                            </Drawer>
+                            </Drawer> */}
                             {/* <Box>Selected: {selected.map(s => <Text key={s.id}>{s.id}</Text>)}</Box> */}
                         </GridItem>
                         <GridItem>

@@ -31,6 +31,18 @@ export class WorkflowController {
     );
     return workflows;
   }
+  @Post('')
+  async CreateWorkflow(
+    @Req() req: Request,
+    @Body("name") name: string
+  ): Promise<Workflow> {
+    if (!name || name.length > 30) {
+      throw new BadRequestException("Invalid workflow name");
+    }
+    const workflow = await this.workflowService.createWorkflow(req.organizationId, name);
+    return workflow;
+    throw new BadRequestException();
+  }
 
   @Get(':id')
   async GetById(

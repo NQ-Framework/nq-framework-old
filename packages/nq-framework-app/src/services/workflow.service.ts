@@ -36,6 +36,24 @@ export class WorkflowService {
     const data = await res.json();
     return data;
   }
+  async createWorkflow(name: string): Promise<Workflow> {
+    const res = await fetch(
+      url + `/workflow?organizationId=livona`,
+      {
+        method: "POST",
+        body: JSON.stringify({ name }),
+        headers: {
+          Authorization: `Bearer ${await getUserToken()}`,
+          "content-type": "application/json"
+        },
+      }
+    );
+    if (res.status !== 201) {
+      throw new Error("not found");
+    }
+    const data = await res.json();
+    return data;
+  }
 
   async addActionToWorkflow(id: string, actionId: string): Promise<Workflow> {
     const res = await fetch(
