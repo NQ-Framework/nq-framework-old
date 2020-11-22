@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Avatar, Divider, Flex, Grid, GridItem, Heading, Text, Link, Menu, MenuButton, MenuDivider, MenuItem, MenuList, MenuOptionGroup, MenuItemOption } from "@chakra-ui/react";
-import { useCallback, useContext, useEffect } from "react";
+import { Avatar, Divider, Flex, Grid, GridItem, Heading, Link, Menu, MenuButton, MenuDivider, MenuItem, MenuList, MenuOptionGroup, MenuItemOption } from "@chakra-ui/react";
+import { useCallback, useContext } from "react";
 import { Link as RouterLink } from "react-router-dom"
 import { AuthContext } from "../firebase/firebase-context";
 import firebase from "firebase/app";
