@@ -8,12 +8,14 @@ import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { WorkflowService } from "../services/workflow.service";
 import { Workflow } from "@nqframework/models";
 import { Field, Form, Formik } from "formik";
+import { organizationContext } from "../core/organization-context";
 
 
 
 export const NewWorkflowPage: React.FC = () => {
     const workflowService = useMemo(() => new WorkflowService(), []);
     const user = useContext(AuthContext);
+    const { organization } = useContext(organizationContext);
     const [fbInit, setFbInit] = useState(false);
     const [newWorkflowId, setNewWorkflowId] = useState("");
 
@@ -24,11 +26,11 @@ export const NewWorkflowPage: React.FC = () => {
     }, [user, workflowService]);
 
     const createWorkflow = useCallback((name: string, cb: Function) => {
-        workflowService.createWorkflow(name).then((wf: Workflow) => {
+        workflowService.createWorkflow(name, organization?.name ?? "").then((wf: Workflow) => {
             cb();
             setNewWorkflowId(wf.id);
         });
-    }, [workflowService, setNewWorkflowId]);
+    }, [workflowService, setNewWorkflowId, organization]);
     if (!fbInit) {
         return (
             <Layout>

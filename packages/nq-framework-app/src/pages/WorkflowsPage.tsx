@@ -10,12 +10,14 @@ import { Workflow } from "@nqframework/models";
 import { TiFlowChildren } from "react-icons/ti";
 import { VscDebugStart } from "react-icons/vsc"
 import { CgAddR } from "react-icons/cg"
+import { organizationContext } from "../core/organization-context";
 
 
 
 export const WorkflowsPage: React.FC = () => {
     const workflowService = useMemo(() => new WorkflowService(), []);
     const user = useContext(AuthContext);
+    const { organization } = useContext(organizationContext);
     const [fbInit, setFbInit] = useState(false);
     const [workflows, setWorkflows] = useState<Workflow[]>([]);
 
@@ -25,11 +27,11 @@ export const WorkflowsPage: React.FC = () => {
             if (!user) {
                 return;
             }
-            workflowService.getWorkflows().then((wfs) => {
+            workflowService.getWorkflows(organization?.name ?? "").then((wfs) => {
                 setWorkflows(wfs);
             });
         });
-    }, [user, workflowService]);
+    }, [user, workflowService, organization]);
     if (!fbInit) {
         return (
             <Layout>

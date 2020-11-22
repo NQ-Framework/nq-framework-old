@@ -4,9 +4,9 @@ import { getUserToken } from "./get-user-token";
 
 const url = process.env.REACT_APP_API_URL;
 export class WorkflowService {
-  async getWorkflows(): Promise<Workflow[]> {
+  async getWorkflows(organizationId: string): Promise<Workflow[]> {
     const res = await fetch(
-      url + `/workflow?organizationId=livona`,
+      url + `/workflow?organizationId=${organizationId}`,
       {
         headers: {
           Authorization: `Bearer ${await getUserToken()}`,
@@ -20,9 +20,9 @@ export class WorkflowService {
     return data;
   }
 
-  async getWorkflow(id: string): Promise<Workflow> {
+  async getWorkflow(id: string, organizationId: string): Promise<Workflow> {
     const res = await fetch(
-      url + `/workflow/${id}?organizationId=livona`,
+      url + `/workflow/${id}?organizationId=${organizationId}`,
       {
         headers: {
           Authorization: `Bearer ${await getUserToken()}`,
@@ -35,9 +35,9 @@ export class WorkflowService {
     const data = await res.json();
     return data;
   }
-  async createWorkflow(name: string): Promise<Workflow> {
+  async createWorkflow(name: string, organizationId: string): Promise<Workflow> {
     const res = await fetch(
-      url + `/workflow?organizationId=livona`,
+      url + `/workflow?organizationId=${organizationId}`,
       {
         method: "POST",
         body: JSON.stringify({ name }),
@@ -54,9 +54,9 @@ export class WorkflowService {
     return data;
   }
 
-  async addActionToWorkflow(id: string, actionId: string): Promise<Workflow> {
+  async addActionToWorkflow(id: string, actionId: string, organizationId: string): Promise<Workflow> {
     const res = await fetch(
-      url + `/workflow/${id}/actions?organizationId=livona`,
+      url + `/workflow/${id}/actions?organizationId=${organizationId}`,
       {
         method: "POST",
         headers: {
@@ -72,9 +72,9 @@ export class WorkflowService {
     return await res.json();
   }
 
-  async linkActionNodes(id: string, fromName: string, toName: string): Promise<Workflow> {
+  async linkActionNodes(id: string, fromName: string, toName: string, organizationId: string): Promise<Workflow> {
     const res = await fetch(
-      url + `/workflow/${id}/action-links?organizationId=livona`,
+      url + `/workflow/${id}/action-links?organizationId=${organizationId}`,
       {
         body: JSON.stringify({ fromName, toName }),
         method: "POST",
@@ -90,10 +90,10 @@ export class WorkflowService {
     return await res.json();
   }
 
-  async removeActionFromWorkflow(id: string, actionName: string): Promise<Workflow> {
+  async removeActionFromWorkflow(id: string, actionName: string, organizationId: string): Promise<Workflow> {
     const res = await fetch(
       url +
-      `/workflow/${id}/actions/${actionName}?organizationId=livona`,
+      `/workflow/${id}/actions/${actionName}?organizationId=${organizationId}`,
       {
         method: "DELETE",
         headers: {
@@ -110,10 +110,11 @@ export class WorkflowService {
 
   async updateWorkflowNodePositions(
     id: string,
-    positions: UpdateNodePositions
+    positions: UpdateNodePositions,
+    organizationId: string,
   ): Promise<void> {
     const res = await fetch(
-      url + `/workflow/${id}/positions?organizationId=livona`,
+      url + `/workflow/${id}/positions?organizationId=${organizationId}`,
       {
         method: "PATCH",
         headers: {

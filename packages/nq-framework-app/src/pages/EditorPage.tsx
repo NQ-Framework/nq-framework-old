@@ -10,10 +10,12 @@ import { Toolbox } from "../components/toolbox";
 import { FlowTransform, OnLoadParams } from "react-flow-renderer";
 import { AuthContext, initPromise } from "../firebase/firebase-context";
 import { Redirect, useParams } from "react-router-dom";
+import { organizationContext } from "../core/organization-context";
 
 export const EditorPage: React.FC = () => {
     const workflowService = useMemo(() => new WorkflowService(), []);
     const user = useContext(AuthContext);
+    const { organization } = useContext(organizationContext);
     const [workflow, setWorkflow] = useState<Workflow | null>(null);
     // const [selected, setSelected] = useState<SelectionChange>([]);
     // const { isOpen, onOpen, onClose } = useDisclosure()
@@ -33,20 +35,20 @@ export const EditorPage: React.FC = () => {
 
     const addAction = useCallback(
         (action: Action) => {
-            workflowService.addActionToWorkflow(workflowId, action.id).then((workflow) => {
+            workflowService.addActionToWorkflow(workflowId, action.id, organization?.name ?? "").then((workflow) => {
                 setWorkflow(workflow);
             });
         },
-        [workflowService, setWorkflow, workflowId]
+        [workflowService, setWorkflow, workflowId, organization]
     );
 
     const removeAction = useCallback(
         (actionName: string) => {
-            workflowService.removeActionFromWorkflow(workflowId, actionName).then((workflow) => {
+            workflowService.removeActionFromWorkflow(workflowId, actionName, organization?.name ?? "").then((workflow) => {
                 setWorkflow(workflow);
             });
         },
-        [workflowService, setWorkflow, workflowId]
+        [workflowService, setWorkflow, workflowId, organization]
     );
 
     // const changeSelection = useCallback(
@@ -61,11 +63,11 @@ export const EditorPage: React.FC = () => {
 
     const addConnection = useCallback(
         (from: string, to: string) => {
-            workflowService.linkActionNodes(workflowId, from, to).then((workflow) => {
+            workflowService.linkActionNodes(workflowId, from, to, organization?.name ?? "").then((workflow) => {
                 setWorkflow(workflow);
             });
         },
-        [workflowService, setWorkflow, workflowId]
+        [workflowService, setWorkflow, workflowId, organization]
     );
 
     const [actions, setActions] = useState<Action[] | null>(null);
@@ -76,7 +78,7 @@ export const EditorPage: React.FC = () => {
             if (!user) {
                 return;
             }
-            workflowService.getWorkflow(workflowId).then((wf) => {
+            workflowService.getWorkflow(workflowId, organization?.name ?? "").then((wf) => {
                 setWorkflow(wf);
             });
             const actionsService = new ActionsService();
@@ -84,7 +86,7 @@ export const EditorPage: React.FC = () => {
                 setActions(ac);
             });
         });
-    }, [workflowService, user, workflowId]);
+    }, [workflowService, user, workflowId, organization]);
 
     if (!fbInit) {
         return <Heading>Loading...</Heading>

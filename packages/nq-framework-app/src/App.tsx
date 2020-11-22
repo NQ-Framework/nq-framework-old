@@ -13,26 +13,29 @@ import { AuthProvider } from "./firebase/firebase-context";
 import { SignInPage } from "./pages/SignInPage";
 import { WorkflowsPage } from "./pages/WorkflowsPage";
 import { NewWorkflowPage } from "./pages/NewWorkflowPage";
+import { OrganizationProvider } from "./core/organization-context";
 
 export const App = () => (
-  <AuthProvider>
-    <ChakraProvider theme={theme}>
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <WorkflowsPage />
-          </Route>
-          <Route path="/workflows/new">
-            <NewWorkflowPage />
-          </Route>
-          <Route path="/workflows/:workflowId">
-            <EditorPage />
-          </Route>
-          <Route paht="/signin">
-            <SignInPage />
-          </Route>
-        </Switch>
-      </Router>
-    </ChakraProvider>
-  </AuthProvider>
+  <OrganizationProvider>
+    <AuthProvider>
+      <ChakraProvider theme={theme}>
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <WorkflowsPage />
+            </Route>
+            <Route path="/workflows/new">
+              <NewWorkflowPage />
+            </Route>
+            <Route path="/workflows/:workflowId">
+              <EditorPage />
+            </Route>
+            <Route paht="/signin">
+              <SignInPage />
+            </Route>
+          </Switch>
+        </Router>
+      </ChakraProvider>
+    </AuthProvider>
+  </OrganizationProvider>
 )

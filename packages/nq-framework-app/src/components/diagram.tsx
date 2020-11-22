@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { Workflow } from "@nqframework/models";
 import * as React from "react";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import ReactFlow, {
     Background,
     BackgroundVariant,
@@ -12,6 +12,7 @@ import ReactFlow, {
     Node,
     OnLoadParams,
 } from "react-flow-renderer";
+import { organizationContext } from "../core/organization-context";
 import { WorkflowService } from "../services/workflow.service";
 import { DiagramElement } from "../types/DiagramElement";
 import { SelectionChange } from "../types/SelectionChange";
@@ -55,6 +56,7 @@ export const Diagram: React.FC<{
         .concat(mapActionLinksToDiagramElements(workflow))
         .concat(mapTriggersToDiagramElements(workflow));
 
+    const { organization } = useContext(organizationContext);
     const nodeDragStop = useCallback(async (e: React.MouseEvent, node: Node) => {
         await service.updateWorkflowNodePositions(workflowId, [
             {
@@ -63,8 +65,8 @@ export const Diagram: React.FC<{
                 x: node.position.x,
                 y: node.position.y,
             },
-        ]);
-    }, [workflowId]);
+        ], organization?.name ?? "");
+    }, [workflowId, organization]);
 
     return (
         <Box width="100%" height="100%">

@@ -1,17 +1,20 @@
 import { Controller, Get, Req } from '@nestjs/common';
 import { AnalyticsService } from './analytics/analytics.service';
+import { Request } from "express";
+import { OrganizationService } from './organization/organization.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly analytics: AnalyticsService) {}
+  constructor(private readonly analytics: AnalyticsService, private organizationService: OrganizationService) { }
 
   @Get('profile')
-  getProfile(@Req() req: any): string {
+  async getProfile(@Req() req: Request): Promise<any> {
     if (req.firebaseUser) {
       this.analytics.trackEvent(req.firebaseUser.uid, {
         events: [{ name: 'item_view' }],
       });
-      return req.firebaseUser;
+      const organizations = await this.organizationService.getOrganizationsForUserId(req.firebaseUser.uid);
+      return { user: req.firebaseUser, organizations: organizations };
     }
     return req.serviceAccount;
   }
