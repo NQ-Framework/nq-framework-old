@@ -29,6 +29,9 @@ export const WorkflowsPage: React.FC = () => {
             }
             workflowService.getWorkflows(organization?.name ?? "").then((wfs) => {
                 setWorkflows(wfs);
+            }).catch((err) => {
+                console.error(err);
+                setWorkflows([]);
             });
         });
     }, [user, workflowService, organization]);
