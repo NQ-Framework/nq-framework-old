@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Drawer, DrawerContent, DrawerHeader, GridItem, Heading, Text, useDisclosure } from "@chakra-ui/react";
+import { GridItem, Heading, Text } from "@chakra-ui/react";
 import { Diagram } from "../components/diagram";
 import { Layout } from "../components/layout";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
@@ -7,7 +7,6 @@ import { WorkflowService } from "../services/workflow.service";
 import { Action, Workflow } from "@nqframework/models";
 import { ActionsService } from "../services/actions.service";
 import { Toolbox } from "../components/toolbox";
-import { SelectionChange } from "../types/SelectionChange";
 import { FlowTransform, OnLoadParams } from "react-flow-renderer";
 import { AuthContext, initPromise } from "../firebase/firebase-context";
 import { Redirect, useParams } from "react-router-dom";
@@ -16,8 +15,8 @@ export const EditorPage: React.FC = () => {
     const workflowService = useMemo(() => new WorkflowService(), []);
     const user = useContext(AuthContext);
     const [workflow, setWorkflow] = useState<Workflow | null>(null);
-    const [selected, setSelected] = useState<SelectionChange>([]);
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    // const [selected, setSelected] = useState<SelectionChange>([]);
+    // const { isOpen, onOpen, onClose } = useDisclosure()
 
     const [fbInit, setFbInit] = useState(false);
 
@@ -49,11 +48,11 @@ export const EditorPage: React.FC = () => {
         [workflowService, setWorkflow, workflowId]
     );
 
-    const changeSelection = useCallback(
-        (selection: SelectionChange) => {
-            setSelected(selection);
-        }, [setSelected]
-    )
+    // const changeSelection = useCallback(
+    //     (selection: SelectionChange) => {
+    //         setSelected(selection);
+    //     }, [setSelected]
+    // )
 
     const moveEnd = useCallback((transform: FlowTransform | undefined) => {
         localStorage.setItem('flowTransform', JSON.stringify(transform));
@@ -116,7 +115,7 @@ export const EditorPage: React.FC = () => {
                                     removeActionName={removeAction}
                                     workflow={workflow!}
                                     addConnection={addConnection}
-                                    changeSelection={changeSelection}
+                                    // changeSelection={changeSelection}
                                     onMoveEnd={moveEnd}
                                     onLoad={onLoad}
                                     workflowId={workflowId}

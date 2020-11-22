@@ -46,7 +46,7 @@ export const Diagram: React.FC<{
     workflow: Workflow;
     removeActionName: (actionName: string) => void;
     addConnection: (from: string, to: string) => void;
-    changeSelection: (elements: SelectionChange) => void;
+    changeSelection?: (elements: SelectionChange) => void;
     onMoveEnd: (transform: FlowTransform | undefined) => void;
     onLoad: (loadParams: OnLoadParams) => void;
     workflowId: string
@@ -64,7 +64,7 @@ export const Diagram: React.FC<{
                 y: node.position.y,
             },
         ]);
-    }, []);
+    }, [workflowId]);
 
     return (
         <Box width="100%" height="100%">
@@ -79,7 +79,7 @@ export const Diagram: React.FC<{
                         addConnection(e.source, e.target);
                     }
                 }}
-                onSelectionChange={(el: Elements | null) => el ? changeSelection(el.filter((e: any) => e.id && e.type && !e.source).map(e => ({ id: e.id as string, type: e.type as string }))) : changeSelection([])}
+                onSelectionChange={(el: Elements | null) => changeSelection ? (el ? changeSelection(el.filter((e: any) => e.id && e.type && !e.source).map(e => ({ id: e.id as string, type: e.type as string }))) : changeSelection([])) : {}}
                 onMoveEnd={(e) => { onMoveEnd(e); }}
                 onLoad={(e) => { onLoad(e); }}
                 onElementClick={(event, element) => { console.log(element); }}

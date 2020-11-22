@@ -1,4 +1,4 @@
-import { Box, Button, Center, Editable, EditableInput, EditablePreview, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Grid, GridItem, Heading, HStack, Icon, Input, Link, Tag, TagLabel, TagLeftIcon, Text } from "@chakra-ui/react";
+import { Box, Button, Center, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Heading, Input } from "@chakra-ui/react";
 import * as React from "react";
 import { Layout } from "../components/layout";
 import 'firebase/auth';

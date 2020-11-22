@@ -3,7 +3,6 @@ import { UpdateNodePositions } from "../types/UpdateNodePositions";
 import { getUserToken } from "./get-user-token";
 
 const url = process.env.REACT_APP_API_URL;
-const token = process.env.REACT_APP_TOKEN;
 export class WorkflowService {
   async getWorkflows(): Promise<Workflow[]> {
     const res = await fetch(
