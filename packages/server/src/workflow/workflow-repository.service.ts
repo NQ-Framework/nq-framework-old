@@ -28,9 +28,11 @@ export class WorkflowRepositoryService {
 
   async createWorkflow(
     organizationId: string,
-    name: string
+    name: string,
   ): Promise<Workflow> {
-    this.logger.debug('Creating new workflow for org id: ' + organizationId + ' name: ' + name);
+    this.logger.debug(
+      'Creating new workflow for org id: ' + organizationId + ' name: ' + name,
+    );
     const workflow: Workflow = {
       name,
       organizationId,
@@ -38,14 +40,14 @@ export class WorkflowRepositoryService {
       actionLinks: [],
       isActive: false,
       triggers: [],
-      endpoints: []
+      endpoints: [],
     } as any;
     const app = await getFirebaseApp();
     const createdDocument = await app
       .firestore()
       .collection('workflows')
       .add(workflow);
-    return { ...workflow, id: createdDocument.id } as Workflow
+    return { ...workflow, id: createdDocument.id } as Workflow;
   }
 
   async updateWorkflow(workflow: Workflow): Promise<void> {

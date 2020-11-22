@@ -9,7 +9,10 @@ describe('WorkflowController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [WorkflowController],
-      providers: [{ provide: WorkflowRepositoryService, useValue: {} }, { provide: ActionsRepositoryService, useValue: {} }],
+      providers: [
+        { provide: WorkflowRepositoryService, useValue: {} },
+        { provide: ActionsRepositoryService, useValue: {} },
+      ],
     }).compile();
 
     controller = module.get<WorkflowController>(WorkflowController);

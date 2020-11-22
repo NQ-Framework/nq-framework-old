@@ -8,4 +8,4 @@ import { ActionsRepositoryService } from './actions-repository/actions-repositor
   exports: [ActionService, ActionsRepositoryService],
   controllers: [ActionsController],
 })
-export class ActionsModule { }
+export class ActionsModule {}

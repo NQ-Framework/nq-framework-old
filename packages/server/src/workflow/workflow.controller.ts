@@ -20,12 +20,10 @@ export class WorkflowController {
   constructor(
     private workflowService: WorkflowRepositoryService,
     private actionsService: ActionsRepositoryService,
-  ) { }
+  ) {}
 
   @Get('')
-  async GetAll(
-    @Req() req: Request,
-  ): Promise<Workflow[]> {
+  async GetAll(@Req() req: Request): Promise<Workflow[]> {
     const workflows = await this.workflowService.getWorkflowsForOrganization(
       req.organizationId,
     );
@@ -34,12 +32,15 @@ export class WorkflowController {
   @Post('')
   async CreateWorkflow(
     @Req() req: Request,
-    @Body("name") name: string
+    @Body('name') name: string,
   ): Promise<Workflow> {
     if (!name || name.length > 30) {
-      throw new BadRequestException("Invalid workflow name");
+      throw new BadRequestException('Invalid workflow name');
     }
-    const workflow = await this.workflowService.createWorkflow(req.organizationId, name);
+    const workflow = await this.workflowService.createWorkflow(
+      req.organizationId,
+      name,
+    );
     return workflow;
     throw new BadRequestException();
   }
@@ -82,8 +83,8 @@ export class WorkflowController {
       } = (position.type === 'trigger'
         ? workflow.triggers.find((t) => t.id === position.id)
         : workflow.actionInstances.find(
-          (ai) => ai.name === position.id,
-        )) as any;
+            (ai) => ai.name === position.id,
+          )) as any;
 
       node.editorConfig.x = position.x;
       node.editorConfig.y = position.y;
