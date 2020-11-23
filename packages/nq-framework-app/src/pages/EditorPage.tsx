@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, Drawer, DrawerContent, DrawerHeader, GridItem, Heading, Text, useDisclosure } from "@chakra-ui/react";
+import { Drawer, DrawerContent, GridItem, Heading, Text, useDisclosure } from "@chakra-ui/react";
 import { Diagram } from "../components/diagram";
 import { Layout } from "../components/layout";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
