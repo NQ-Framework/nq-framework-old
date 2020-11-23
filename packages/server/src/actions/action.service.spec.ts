@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ActionInstance } from '@nqframework/models';
-import { WorkflowExecutionContext } from '@nqframework/models/build/workflow/workflow-execution-context';
+import { WorkflowExecutionContext } from '@nqframework/models';
 import { ActionService } from './action.service';
 import { getHandler } from './get-handler';
 jest.mock('./get-handler');

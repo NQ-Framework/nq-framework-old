@@ -11,7 +11,7 @@ describe('ActionsController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ActionsController],
       providers: [
-        { provide: ActionsRepositoryService, useValue: { getAll: jest.fn() } },
+        { provide: ActionsRepositoryService, useValue: { getEnabledActions: jest.fn() } },
       ],
     }).compile();
 
@@ -22,7 +22,7 @@ describe('ActionsController', () => {
   it('should be defined', async () => {
     const mock = service.getEnabledActions as jest.Mock;
     mock.mockImplementation(() => mockActions);
-    const result = await controller.getAll();
+    const result = await controller.getEnabledActions();
     expect(result).toEqual(mockActions);
     expect(mock).toHaveBeenCalled();
   });
