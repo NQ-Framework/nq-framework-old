@@ -16,7 +16,7 @@ describe('ActionsRepositoryService', () => {
     service = module.get<ActionsRepositoryService>(ActionsRepositoryService);
   });
 
-  it('fetch all from firebase', async () => {
+  it('fetches all actions from firebase', async () => {
     const mockActionsSnapshot = {
       docs: mockActions.map((ma) => {
         const { id, ...rest } = ma;
