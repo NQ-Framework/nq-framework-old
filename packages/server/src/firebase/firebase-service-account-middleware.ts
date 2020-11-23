@@ -7,13 +7,11 @@ import { Organization } from '@nqframework/models';
 @Injectable()
 export class FirebaseServiceAccountMiddleware implements NestMiddleware {
   async use(req: Request, _: Response, next: Function) {
-    console.log('trying 1');
     const { authorization } = req.headers;
     if (!authorization) {
       this.throwError();
     }
     const token = authorization.slice(7); // Bearer <token>
-    console.log('trying ', token);
 
     if (token.startsWith('SA1')) {
       if (!req.organizationId) {

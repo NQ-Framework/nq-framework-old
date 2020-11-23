@@ -15,39 +15,13 @@ import ReactFlow, {
 import { organizationContext } from "../core/organization-context";
 import { WorkflowService } from "../services/workflow.service";
 import { DiagramElement } from "../types/DiagramElement";
-import { SelectionChange } from "../types/SelectionChange";
 
 const service: WorkflowService = new WorkflowService();
-// const elements = [
-//     {
-//         id: '1',
-//         type: 'input', // input node
-//         data: { label: 'Input Node' },
-//         position: { x: 250, y: 25 },
-//     },
-//     // default node
-//     {
-//         id: '2',
-//         // you can also pass a React component as a label
-//         data: { label: <div>Default Node</div> },
-//         position: { x: 100, y: 125 },
-//     },
-//     {
-//         id: '3',
-//         type: 'output', // output node
-//         data: { label: 'Output Node' },
-//         position: { x: 250, y: 250 },
-//     },
-//     // animated edge
-//     { id: 'e1-2', source: '1', target: '2', animated: true },
-//     // { id: 'e2-3', source: '2', target: '3' },
-// ];
-
 export const Diagram: React.FC<{
     workflow: Workflow;
     removeActionName: (actionName: string) => void;
     addConnection: (from: string, to: string) => void;
-    changeSelection?: (elements: SelectionChange) => void;
+    changeSelection: (elements: Elements) => void;
     onMoveEnd: (transform: FlowTransform | undefined) => void;
     onLoad: (loadParams: OnLoadParams) => void;
     workflowId: string
@@ -81,10 +55,9 @@ export const Diagram: React.FC<{
                         addConnection(e.source, e.target);
                     }
                 }}
-                onSelectionChange={(el: Elements | null) => changeSelection ? (el ? changeSelection(el.filter((e: any) => e.id && e.type && !e.source).map(e => ({ id: e.id as string, type: e.type as string }))) : changeSelection([])) : {}}
                 onMoveEnd={(e) => { onMoveEnd(e); }}
                 onLoad={(e) => { onLoad(e); }}
-                onElementClick={(event, element) => { console.log(element); }}
+                onElementClick={(event, element) => { changeSelection(element ? [element] : []) }}
             >
                 <Background variant={BackgroundVariant.Lines} gap={18} size={4} />
             </ReactFlow>

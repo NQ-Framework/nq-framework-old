@@ -25,7 +25,6 @@ describe('WorkflowExecutionService', () => {
   });
 
   it('should call create context', async () => {
-    console.log(createExecutionContext);
     // executeActionMock.mockImplementation(
     //   (): ActionResult => {
     //     return {

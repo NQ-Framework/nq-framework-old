@@ -1,24 +1,25 @@
 import * as React from "react";
-import { GridItem, Heading, Text } from "@chakra-ui/react";
+import { Box, Drawer, DrawerContent, DrawerHeader, GridItem, Heading, Text, useDisclosure } from "@chakra-ui/react";
 import { Diagram } from "../components/diagram";
 import { Layout } from "../components/layout";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { WorkflowService } from "../services/workflow.service";
-import { Action, Workflow, WorkflowTrigger } from "@nqframework/models";
+import { Action, ActionInstance, PropertyValue, Workflow, WorkflowTrigger } from "@nqframework/models";
 import { ActionsService } from "../services/actions.service";
 import { Toolbox } from "../components/toolbox";
-import { FlowTransform, OnLoadParams } from "react-flow-renderer";
+import { Elements, FlowTransform, OnLoadParams } from "react-flow-renderer";
 import { AuthContext, initPromise } from "../firebase/firebase-context";
 import { Redirect, useParams } from "react-router-dom";
 import { organizationContext } from "../core/organization-context";
+import { ActionProperties } from "../components/action-properties";
 
 export const EditorPage: React.FC = () => {
     const workflowService = useMemo(() => new WorkflowService(), []);
     const user = useContext(AuthContext);
     const { organization } = useContext(organizationContext);
     const [workflow, setWorkflow] = useState<Workflow | null>(null);
-    // const [selected, setSelected] = useState<SelectionChange>([]);
-    // const { isOpen, onOpen, onClose } = useDisclosure()
+    const [selectedAction, setSelectedAction] = useState<{ instance: ActionInstance, action: Action } | null>(null);
+    const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false })
 
     const [fbInit, setFbInit] = useState(false);
 
@@ -92,6 +93,34 @@ export const EditorPage: React.FC = () => {
         });
     }, [workflowService, user, workflowId, organization]);
 
+    useEffect(() => {
+        if (!selectedAction) {
+            onClose();
+            return;
+        }
+        onOpen();
+    }, [selectedAction, onClose, onOpen])
+    const mapAction = useCallback((els: Elements) => {
+        if (els.length === 0) {
+            setSelectedAction(null);
+            return;
+        }
+        const mappedActions = els.filter(el => el.type === "default").map(el => workflow?.actionInstances.find(ai => ai.name === el.id));
+        if (mappedActions.length === 0) {
+            return;
+        }
+        const mappedActionInstance = mappedActions[0]!;
+        const actionDefinition = actions.find(a => a.id === mappedActionInstance.action.id);
+        if (!actionDefinition) {
+            return null;
+        }
+        setSelectedAction({ action: actionDefinition, instance: mappedActionInstance });
+    }, [setSelectedAction, actions, workflow])
+
+    const updateActionProperties = useCallback((actionInstanceName: string, propertyValues: PropertyValue[]) => {
+        return workflowService.updateActionProperties(actionInstanceName, propertyValues, workflow?.id ?? "", organization?.name ?? "");
+    }, [workflowService, organization, workflow]);
+
     if (!fbInit) {
         return <Heading>Loading...</Heading>
     }
@@ -104,17 +133,17 @@ export const EditorPage: React.FC = () => {
                         <GridItem padding={6}>
                             <Text>Naziv: {workflow?.name ?? ''}</Text>
                             <Toolbox actions={actions} triggers={triggers} addAction={addAction} />
-                            {/* <Drawer
+                            <Drawer
                                 isOpen={isOpen}
-                                placement="right"
+                                placement="left"
                                 onClose={onClose}
                                 size="md"
                             >
-                                <DrawerContent opacity="0.95" background="gray.200">
-                                    <DrawerHeader>Action Properties</DrawerHeader>
+                                <DrawerContent background="white">
+                                    <ActionProperties selected={selectedAction} updateActionProperties={updateActionProperties} />
                                 </DrawerContent>
-                            </Drawer> */}
-                            {/* <Box>Selected: {selected.map(s => <Text key={s.id}>{s.id}</Text>)}</Box> */}
+                            </Drawer>
+                            {/* <Box>Selected: {selected.map(s => <Text key={s.id}>{s.id} aha aha</Text>)}</Box> */}
                         </GridItem>
                         <GridItem background="white">
                             {workflow ? (
@@ -122,7 +151,7 @@ export const EditorPage: React.FC = () => {
                                     removeActionName={removeAction}
                                     workflow={workflow!}
                                     addConnection={addConnection}
-                                    // changeSelection={changeSelection}
+                                    changeSelection={mapAction}
                                     onMoveEnd={moveEnd}
                                     onLoad={onLoad}
                                     workflowId={workflowId}

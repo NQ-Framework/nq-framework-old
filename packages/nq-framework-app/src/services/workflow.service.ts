@@ -1,4 +1,4 @@
-import { Workflow } from "@nqframework/models";
+import { PropertyValue, Workflow } from "@nqframework/models";
 import { UpdateNodePositions } from "../types/UpdateNodePositions";
 import { getUserToken } from "./get-user-token";
 
@@ -122,6 +122,27 @@ export class WorkflowService {
           "content-type": "application/json",
         },
         body: JSON.stringify(positions),
+      }
+    );
+    if (res.status !== 200) {
+      throw new Error("not found");
+    }
+  }
+  async updateActionProperties(
+    actionInstanceName: string,
+    propertyValues: PropertyValue[],
+    workflowId: string,
+    organizationId: string,
+  ): Promise<void> {
+    const res = await fetch(
+      url + `/workflow/${workflowId}/actions/${actionInstanceName}?organizationId=${organizationId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${await getUserToken()}`,
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(propertyValues),
       }
     );
     if (res.status !== 200) {

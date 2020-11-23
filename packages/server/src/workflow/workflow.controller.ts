@@ -10,7 +10,7 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { Workflow } from '@nqframework/models';
+import { PropertyValue, Workflow } from '@nqframework/models';
 import { Request } from 'express';
 import { ActionsRepositoryService } from '../actions/actions-repository/actions-repository.service';
 import { WorkflowRepositoryService } from './workflow-repository.service';
@@ -58,6 +58,32 @@ export class WorkflowController {
       throw new NotFoundException();
     }
     return workflow;
+  }
+
+  @Patch(':id/actions/:actionName')
+  async PatchActionProperties(
+    @Param('id') id: string,
+    @Param('actionName') actionName: string,
+    @Req() req: Request,
+    @Body()
+    propertyValues: PropertyValue[],
+  ) {
+    const workflows = await this.workflowService.getWorkflowsForOrganization(
+      req.organizationId,
+    );
+    const workflow = workflows.find((w) => w.id === id);
+    if (!workflow) {
+      throw new NotFoundException();
+    }
+
+    const actionInstance = workflow.actionInstances.find(ai => ai.name === actionName);
+    if (!actionInstance) {
+      throw new NotFoundException();
+    }
+
+    actionInstance.configuration.input = propertyValues;
+
+    await this.workflowService.updateWorkflow(workflow);
   }
 
   @Patch(':id/positions')

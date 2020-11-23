@@ -44,15 +44,6 @@ export const handler: ActionHandler = {
       query,
     });
 
-    // console.log(
-    //   'Log action instance says :' +
-    //   query +
-    //   ' instance: ' +
-    //   JSON.stringify(actionInstance) +
-    //   '  context: ' +
-    //   JSON.stringify(workflowExecution),
-    // );
-
     return [
       {
         name: 'queryResult',
