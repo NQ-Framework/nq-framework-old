@@ -1,10 +1,10 @@
-import { Property } from "../workflow/property/property";
+import { PropertyValue } from "../workflow/property/property-value";
+import { DataCredentialsType } from "./data-credentials-type";
 
 export interface DataCredentials {
-    id: string,
-    type: string,
     name: string,
-    description: string,
-    properties: Property[],
-    isEnabled: boolean
+    configuration: {
+        properties: PropertyValue[]
+    },
+    credentialsType: DataCredentialsType
 }
