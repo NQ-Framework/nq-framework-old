@@ -25,3 +25,5 @@ export { WorkflowTriggerApi } from "./workflow/triggers/workflow-trigger-api";
 export { UserToken } from "./authentication/user-token"
 export { WorkflowTrigger } from "./workflow/triggers/workflow-trigger";
 export { ServiceAccount } from "./organization/service-account";
+export { DataCredentials } from "./data-fetching/data-credentials";
+export { DataCredentialsType } from "./data-fetching/data-credentials-type";
