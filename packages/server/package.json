@@ -1,6 +1,6 @@
 {
   "name": "nq-server",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "The cloud server that powers the NQ Framework",
   "author": "NQ Framework",
   "private": true,
@@ -36,8 +36,8 @@
     "@nestjs/schedule": "^0.4.1",
     "@nestjs/swagger": "^4.7.3",
     "@nestjs/websockets": "^7.5.2",
-    "@nqframework/data-fetcher": "^1.5.12",
-    "@nqframework/models": "^4.3.12",
+    "@nqframework/data-fetcher": "^1.5.14",
+    "@nqframework/models": "^4.3.14",
     "@types/cron": "^1.7.2",
     "cron": "^1.8.2",
     "firebase-admin": "^9.4.0",

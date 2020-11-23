@@ -4,7 +4,7 @@ import { ActionsRepositoryService } from './actions-repository/actions-repositor
 
 @Controller('actions')
 export class ActionsController {
-  constructor(private actions: ActionsRepositoryService) { }
+  constructor(private actions: ActionsRepositoryService) {}
 
   @Get('')
   async getEnabledActions(): Promise<Action[]> {

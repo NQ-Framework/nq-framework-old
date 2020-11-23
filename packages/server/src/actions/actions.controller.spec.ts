@@ -11,7 +11,10 @@ describe('ActionsController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ActionsController],
       providers: [
-        { provide: ActionsRepositoryService, useValue: { getEnabledActions: jest.fn() } },
+        {
+          provide: ActionsRepositoryService,
+          useValue: { getEnabledActions: jest.fn() },
+        },
       ],
     }).compile();
 

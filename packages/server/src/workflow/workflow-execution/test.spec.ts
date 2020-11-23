@@ -45,7 +45,6 @@ describe('WorkflowExecutionService', () => {
     // expect(createExecutionContext).toHaveBeenNthCalledWith(expect.any(Object),
     //   mockWorkflow
     // );
-
     // expect(result).toEqual({
     //   data: {
     //     'mock action instance id': {

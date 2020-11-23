@@ -20,7 +20,7 @@ export class WorkflowController {
   constructor(
     private workflowService: WorkflowRepositoryService,
     private actionsService: ActionsRepositoryService,
-  ) { }
+  ) {}
 
   @Get('')
   async GetAll(@Req() req: Request): Promise<Workflow[]> {
@@ -76,7 +76,9 @@ export class WorkflowController {
       throw new NotFoundException();
     }
 
-    const actionInstance = workflow.actionInstances.find(ai => ai.name === actionName);
+    const actionInstance = workflow.actionInstances.find(
+      (ai) => ai.name === actionName,
+    );
     if (!actionInstance) {
       throw new NotFoundException();
     }
@@ -109,8 +111,8 @@ export class WorkflowController {
       } = (position.type === 'trigger'
         ? workflow.triggers.find((t) => t.id === position.id)
         : workflow.actionInstances.find(
-          (ai) => ai.name === position.id,
-        )) as any;
+            (ai) => ai.name === position.id,
+          )) as any;
 
       node.editorConfig.x = position.x;
       node.editorConfig.y = position.y;

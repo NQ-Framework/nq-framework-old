@@ -8,4 +8,4 @@ import { OrganizationService } from './organization.service';
   providers: [DataSourceService, OrganizationService],
   exports: [DataSourceService, OrganizationService],
 })
-export class Organization { }
+export class Organization {}

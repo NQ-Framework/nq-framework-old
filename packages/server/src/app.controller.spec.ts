@@ -12,7 +12,10 @@ describe('AppController', () => {
       controllers: [AppController],
       providers: [
         { provide: AnalyticsService, useValue: { trackEvent: jest.fn() } },
-        { provide: OrganizationService, useValue: { getOrganizationsForUserId: jest.fn() } }
+        {
+          provide: OrganizationService,
+          useValue: { getOrganizationsForUserId: jest.fn() },
+        },
       ],
     }).compile();
 
