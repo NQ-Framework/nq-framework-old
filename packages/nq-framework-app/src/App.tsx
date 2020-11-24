@@ -14,6 +14,9 @@ import { SignInPage } from "./pages/SignInPage";
 import { WorkflowsPage } from "./pages/WorkflowsPage";
 import { NewWorkflowPage } from "./pages/NewWorkflowPage";
 import { OrganizationProvider } from "./core/organization-context";
+import { HomePage } from "./pages/HomePage";
+import { DataCredentialsTypes } from "./pages/DataCredentialsTypes";
+import { NewDataCredentialsType } from "./pages/NewDataCredentialsType";
 
 export const App = () => (
   <OrganizationProvider>
@@ -22,13 +25,22 @@ export const App = () => (
         <Router>
           <Switch>
             <Route exact path="/">
-              <WorkflowsPage />
+              <HomePage />
+            </Route>
+            <Route path="/data-credentials/types/new">
+              <NewDataCredentialsType />
+            </Route>
+            <Route path="/data-credentials/types">
+              <DataCredentialsTypes />
             </Route>
             <Route path="/workflows/new">
               <NewWorkflowPage />
             </Route>
             <Route path="/workflows/:workflowId">
               <EditorPage />
+            </Route>
+            <Route path="/workflows">
+              <WorkflowsPage />
             </Route>
             <Route paht="/signin">
               <SignInPage />

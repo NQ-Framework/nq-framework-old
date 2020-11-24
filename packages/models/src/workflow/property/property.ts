@@ -6,4 +6,5 @@ export interface Property {
     description: string;
     type: PropertyType;
     options?: PropertyOptions;
+    defaultValue?: any;
 }

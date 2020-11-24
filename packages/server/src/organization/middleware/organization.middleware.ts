@@ -17,9 +17,6 @@ export class OrganizationMiddleware implements NestMiddleware {
         );
       }
     }
-    if (req.query['dataSource']) {
-      req.dataSource = req.query['dataSource'].toString();
-    }
     next();
   }
 }
