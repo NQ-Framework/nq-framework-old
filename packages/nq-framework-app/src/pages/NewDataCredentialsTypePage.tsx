@@ -1,4 +1,4 @@
-import { Box, Button, Center, Flex, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Heading, HStack, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Center, FormControl, FormErrorMessage, FormLabel, Grid, GridItem, Heading, HStack, Input, Text } from "@chakra-ui/react";
 import * as React from "react";
 import { Layout } from "../components/layout";
 import 'firebase/auth';
@@ -10,7 +10,7 @@ import { DataCredentialsType } from "@nqframework/models";
 import { Field, Form, Formik, FieldArray } from "formik";
 import { Property } from "@nqframework/models/build/workflow/property/property";
 
-export const NewDataCredentialsType: React.FC = () => {
+export const NewDataCredentialsTypePage: React.FC = () => {
     const user = useContext(AuthContext);
     const [fbInit, setFbInit] = useState(false);
     const [fields, setFields] = useState<Property[]>([]);

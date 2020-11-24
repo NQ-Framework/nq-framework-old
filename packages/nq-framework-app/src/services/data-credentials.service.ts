@@ -1,4 +1,4 @@
-import { DataCredentialsType } from "@nqframework/models";
+import { DataCredentials, DataCredentialsType } from "@nqframework/models";
 import { getUserToken } from "./get-user-token";
 
 const url = process.env.REACT_APP_API_URL;
@@ -27,5 +27,18 @@ export class DataCredentialsService {
             });
         const data = await res.json()
         return data;
+    }
+
+    async createDataCredentials(newCredentials: DataCredentials, organizationId: string): Promise<void> {
+        const token = await getUserToken();
+        await fetch(url + `/data-credentials?organizationId=${organizationId}`,
+            {
+                method: 'POST',
+                body: JSON.stringify(newCredentials),
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                }
+            });
     }
 }

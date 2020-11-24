@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { OrganizationService } from '../organization.service';
 import { DataCredentialsController } from './data-credentials.controller';
 import { DataCredentialsService } from './data-credentials.service';
 
@@ -9,7 +10,8 @@ describe('DataCredentialsController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [DataCredentialsController],
       providers: [
-        { provide: DataCredentialsService, useValue: {} }
+        { provide: DataCredentialsService, useValue: {} },
+        { provide: OrganizationService, useValue: {} }
       ]
     }).compile();
 

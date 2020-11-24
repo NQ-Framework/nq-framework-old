@@ -13,4 +13,21 @@ export class OrganizationService {
       .get();
     return organizations.docs.map((d) => ({ ...d.data() })) as Organization[];
   }
+
+  async getOrganization(organizationId: string): Promise<Organization | null> {
+    const app = await getFirebaseApp();
+    const organization = await app
+      .firestore()
+      .doc(`organizations/${organizationId}`)
+      .get();
+    return organization.exists ? organization.data() as Organization : null;
+  }
+
+  async updateOrganization(organization: Organization): Promise<void> {
+    const app = await getFirebaseApp();
+    await app
+      .firestore()
+      .doc(`organizations/${organization.name}`)
+      .update(organization);
+  }
 }

@@ -42,20 +42,6 @@ describe('Organization Middleware', () => {
     expect(nextMock).toHaveBeenCalledTimes(1);
   });
 
-  it('extracts the data source from from query param if present', () => {
-    const nextMock = jest.fn();
-    const request = {
-      subdomains: [],
-      query: { dataSource: 'test' },
-      organizationId: '',
-      dataSource: '',
-    };
-    orgMiddleware.use(request as any, {}, nextMock);
-    expect(mockGetOrg).not.toHaveBeenCalled();
-    expect(request.dataSource).toEqual('test');
-    expect(nextMock).toHaveBeenCalledTimes(1);
-  });
-
   it('does nothing when called without subdomain or query params', () => {
     const nextMock = jest.fn();
     const request = {

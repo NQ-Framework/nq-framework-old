@@ -10,7 +10,7 @@ import { DataCredentialsType } from "@nqframework/models";
 import { CgAddR } from "react-icons/cg";
 import { Link as RouterLink } from "react-router-dom"
 
-export const DataCredentialsTypes: React.FC = () => {
+export const DataCredentialsTypesPage: React.FC = () => {
     const user = useContext(AuthContext);
     const [fbInit, setFbInit] = useState(false);
     const [dataCredentialsTypes, setDataCredentialsTypes] = useState<DataCredentialsType[]>([]);

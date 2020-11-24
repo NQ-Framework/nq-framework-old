@@ -35,6 +35,16 @@ export const OrganizationProvider = ({ children }: any) => {
         const service = new UserService();
         service.getOrganizations().then(orgs => {
             setOrganizations(orgs);
+            if (organization !== null) {
+                const newOrgData = orgs.find(o => o.name === organization.name);
+                setOrganization(newOrgData ?? null);
+                if (newOrgData) {
+                    localStorage.setItem("organization", JSON.stringify(newOrgData));
+                }
+                else {
+                    localStorage.removeItem("organization");
+                }
+            }
         });
 
     }, [setOrganization, setOrganizations]);
