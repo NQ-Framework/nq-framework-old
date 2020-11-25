@@ -4,7 +4,7 @@ import { Diagram } from "../components/diagram";
 import { Layout } from "../components/layout";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { WorkflowService } from "../services/workflow.service";
-import { Action, ActionInstance, PropertyValue, Workflow, WorkflowTrigger } from "@nqframework/models";
+import { Action, ActionInstance, ActionLink, PropertyValue, Workflow, WorkflowTrigger } from "@nqframework/models";
 import { ActionsService } from "../services/actions.service";
 import { Toolbox } from "../components/toolbox";
 import { Elements, FlowTransform, OnLoadParams } from "react-flow-renderer";
@@ -121,6 +121,13 @@ export const EditorPage: React.FC = () => {
         return workflowService.updateActionProperties(actionInstanceName, propertyValues, workflow?.id ?? "", organization?.name ?? "");
     }, [workflowService, organization, workflow]);
 
+    const deleteAction = useCallback((action: ActionInstance): Promise<void> => {
+        return workflowService.removeActionFromWorkflow(workflowId, action.name, organization?.name ?? "").then((wf) => { setSelectedAction(null); setWorkflow(wf); });
+    }, [workflowService, workflowId, organization, setWorkflow, setSelectedAction])
+    const deleteLink = useCallback((link: ActionLink): Promise<void> => {
+        return workflowService.removeActionLinkFromWorkflow(workflowId, link.fromName, link.toName, organization?.name ?? "").then((wf) => { setWorkflow(wf); });
+    }, [workflowService, workflowId, organization, setWorkflow])
+
     if (!fbInit) {
         return <Heading>Loading...</Heading>
     }
@@ -140,7 +147,7 @@ export const EditorPage: React.FC = () => {
                                 size="md"
                             >
                                 <DrawerContent background="white">
-                                    <ActionProperties selected={selectedAction} updateActionProperties={updateActionProperties} />
+                                    <ActionProperties deleteAction={deleteAction} deleteLink={deleteLink} workflow={workflow} selected={selectedAction} updateActionProperties={updateActionProperties} />
                                 </DrawerContent>
                             </Drawer>
                             {/* <Box>Selected: {selected.map(s => <Text key={s.id}>{s.id} aha aha</Text>)}</Box> */}

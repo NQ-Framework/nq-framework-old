@@ -108,6 +108,24 @@ export class WorkflowService {
     return await res.json();
   }
 
+  async removeActionLinkFromWorkflow(id: string, fromName: string, toName: string, organizationId: string): Promise<Workflow> {
+    const res = await fetch(
+      url +
+      `/workflow/${id}/action-links/${fromName}/${toName}?organizationId=${organizationId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${await getUserToken()}`,
+          "content-type": "application/json",
+        },
+      }
+    );
+    if (res.status !== 200) {
+      throw new Error("not found");
+    }
+    return await res.json();
+  }
+
   async updateWorkflowNodePositions(
     id: string,
     positions: UpdateNodePositions,

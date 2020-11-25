@@ -20,7 +20,7 @@ export class WorkflowController {
   constructor(
     private workflowService: WorkflowRepositoryService,
     private actionsService: ActionsRepositoryService,
-  ) {}
+  ) { }
 
   @Get('')
   async GetAll(@Req() req: Request): Promise<Workflow[]> {
@@ -111,8 +111,8 @@ export class WorkflowController {
       } = (position.type === 'trigger'
         ? workflow.triggers.find((t) => t.id === position.id)
         : workflow.actionInstances.find(
-            (ai) => ai.name === position.id,
-          )) as any;
+          (ai) => ai.name === position.id,
+        )) as any;
 
       node.editorConfig.x = position.x;
       node.editorConfig.y = position.y;
@@ -207,6 +207,40 @@ export class WorkflowController {
       toName,
       isEnabled: true,
     });
+
+    await this.workflowService.updateWorkflow(workflow);
+    return workflow;
+  }
+
+  @Delete(':id/action-links/:fromActionName/:toActionName')
+  async RemoveActionLinkFromWorkflow(
+    @Param('id') id: string,
+    @Req() req: Request,
+    @Param('fromActionName')
+    fromActionName: string,
+    @Param('toActionName')
+    toActionName: string,
+  ): Promise<Workflow> {
+    const workflows = await this.workflowService.getWorkflowsForOrganization(
+      req.organizationId,
+    );
+    const workflow = workflows.find((w) => w.id === id);
+    if (!workflow) {
+      throw new NotFoundException();
+    }
+
+    const actionLink = workflow.actionLinks.find(
+      (al) => al.fromName === fromActionName && al.toName === toActionName,
+    );
+
+    if (!actionLink) {
+      throw new BadRequestException('invalid action link from/to names');
+    }
+
+    //TODO: move to function that validates!!!
+    workflow.actionLinks = workflow.actionLinks.filter(
+      (al) => !(al.fromName === actionLink.fromName && al.toName === actionLink.toName),
+    );
 
     await this.workflowService.updateWorkflow(workflow);
     return workflow;
