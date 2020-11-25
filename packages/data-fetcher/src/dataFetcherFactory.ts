@@ -1,13 +1,21 @@
-import { DataSource } from "@nqframework/models";
-import { MsSqlConfiguration } from "@nqframework/models";
+import { PropertyValue, reducePropertyValuesToObject } from "@nqframework/models";
 import { DataFetcherInterface } from "./dataFetcherInterface";
 import { MsSqlFetcher } from "./sql/ms-sql-fetcher";
 
 export class DataFetcherFactory {
-    create(dataSource: DataSource): DataFetcherInterface {
-        if (dataSource.configuration.type === "mssql") {
-            return new MsSqlFetcher(dataSource.configuration as MsSqlConfiguration);
+    create(type: string, configuration: PropertyValue[]): DataFetcherInterface {
+        const configValues = reducePropertyValuesToObject(configuration);
+        if (type === "mssql") {
+            return new MsSqlFetcher({
+                serverIp: configValues.serverIp,
+                port: configValues.port,
+                username: configValues.username,
+                password: configValues.password,
+                database: configValues.database,
+                trustServerCertificate: configValues.trustServerCertificate,
+                type: "mssql",
+            });
         }
-        throw new Error("Could not create Fetcher for request " + JSON.stringify(dataSource));
+        throw new Error("Could not create Fetcher for request " + type + " : " + JSON.stringify(configuration));
     }
 }

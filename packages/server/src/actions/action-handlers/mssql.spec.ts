@@ -1,23 +1,11 @@
-import { Action } from '@nqframework/models';
 import { handler } from './mssql';
-
-const mockAction: Action = {
-  version: 1,
-  hasDefaultPort: true,
-  isEnabled: true,
-  id: '1',
-  name: 'mock action',
-  properties: [],
-  outputFields: [],
-  path: './action-handlers/mssql',
-};
 
 describe('mssql action', () => {
   it('should execute query and return result', async () => {
     const result = await handler.handle(
       [
         { name: 'query', value: 'mock query' },
-        { name: 'dataSource', value: 'mock data source' },
+        { name: 'credentials', value: 'credentials' },
         { name: 'userId', value: 'mock user id' },
       ],
       {} as any,
@@ -57,7 +45,7 @@ describe('mssql action', () => {
       handler.handle(
         [
           { name: 'query', value: 'test' },
-          { name: 'dataSource', value: 'test' },
+          { name: 'credentials', value: 'test' },
         ],
         {} as any,
         {} as any,

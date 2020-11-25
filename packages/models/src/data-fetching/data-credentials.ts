@@ -3,8 +3,7 @@ import { DataCredentialsType } from "./data-credentials-type";
 
 export interface DataCredentials {
     name: string,
-    configuration: {
-        properties: PropertyValue[]
-    },
+    configuration: PropertyValue[],
+    isRemote: boolean,
     credentialsType: DataCredentialsType
 }

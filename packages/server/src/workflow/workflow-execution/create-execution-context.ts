@@ -1,12 +1,12 @@
 import {
   Organization,
   PropertyValue,
+  reducePropertyValuesToObject,
   Workflow,
   WorkflowExecutionContext,
 } from '@nqframework/models';
 import {
   evaluateProperties,
-  reducePropertyValuesToObject,
 } from '../../core/utils';
 import { initializeContext } from './initialize-context';
 

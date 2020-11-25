@@ -27,3 +27,4 @@ export { WorkflowTrigger } from "./workflow/triggers/workflow-trigger";
 export { ServiceAccount } from "./organization/service-account";
 export { DataCredentials } from "./data-fetching/data-credentials";
 export { DataCredentialsType } from "./data-fetching/data-credentials-type";
+export { reducePropertyValuesToObject } from "./utils"

@@ -54,9 +54,8 @@ export class ApiTriggerController {
     }
     this.logger.debug(
       'Triggering workflow: ' +
-        targetWorkflow?.name +
-        ' ' +
-        JSON.stringify(targetWorkflow),
+      targetWorkflow?.name +
+      ' '
     );
 
     const inputs = trigger?.input || [];

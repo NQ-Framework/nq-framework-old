@@ -1,9 +1,9 @@
 import {
   ActionInstance,
   ActionResult,
+  reducePropertyValuesToObject,
   WorkflowExecutionContext,
 } from '@nqframework/models';
-import { reducePropertyValuesToObject } from '../../core/utils';
 
 export function updateContextWithActionResult(
   context: WorkflowExecutionContext,

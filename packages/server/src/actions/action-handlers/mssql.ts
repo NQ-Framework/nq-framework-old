@@ -16,14 +16,14 @@ export const handler: ActionHandler = {
     moduleRef: ModuleRef,
   ): Promise<PropertyValue[]> => {
     const query = propertyValues.find((i) => i.name === 'query')?.value;
-    const dataSource = propertyValues.find((i) => i.name === 'dataSource')
+    const credentials = propertyValues.find((i) => i.name === 'credentials')
       ?.value;
     const userId = propertyValues.find((i) => i.name === 'userId')?.value;
     if (!query) {
       throw new Error('Missing required parameter query');
     }
-    if (!dataSource) {
-      throw new Error('Missing required parameter dataSource');
+    if (!credentials) {
+      throw new Error('Missing required parameter credentials');
     }
     if (!userId) {
       throw new Error('Missing required parameter userId');
@@ -37,10 +37,10 @@ export const handler: ActionHandler = {
     const fetcher: MsSqlFetcher = (await requestRouter.getDataFetcher(
       userId,
       workflowExecution.workflow.organizationId,
-      dataSource,
+      credentials,
     )) as any;
     const result = await fetcher.get({
-      isProcedure: false,
+      isProcedure: true,
       query,
     });
 

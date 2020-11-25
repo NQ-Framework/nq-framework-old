@@ -13,7 +13,30 @@ export const mockOrganization: Organization = {
     address1: "addr1",
     address2: "addr2",
     country: "ctry",
-    dataCredentials: [],
+    dataCredentials: [{
+        configuration: [],
+        credentialsType: {
+            description: "mock credentials description",
+            name: "mock credentials",
+            isEnabled: true,
+            properties: [],
+            type: "mssql"
+        },
+        isRemote: false,
+        name: "credentials"
+    },
+    {
+        name: "remote credentials",
+        isRemote: true,
+        configuration: [],
+        credentialsType: {
+            description: "mock remote description",
+            isEnabled: true,
+            name: "mock remote credentials type name",
+            properties: [],
+            type: "mssql-remote"
+        }
+    }],
     email: "mock-org@email.com",
     serviceAccounts: [],
     dataSources: []
