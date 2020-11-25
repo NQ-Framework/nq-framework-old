@@ -15,7 +15,6 @@ export class ActionService {
     instance: ActionInstance,
     workflowExecution: WorkflowExecutionContext,
   ): Promise<ActionResult> {
-    console.log('executinggggg.... ', instance.configuration.input);
     const actionHandler = getHandler(instance.action);
     const actionProperties = await evaluateProperties(
       instance.configuration.input,

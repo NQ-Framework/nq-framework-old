@@ -61,7 +61,6 @@ export const handler: ActionHandler = {
 
     const fetchResponse = await fetch(apiCallConfig.url, requestInit);
     const jsonResponse = await fetchResponse.json();
-    console.log(jsonResponse);
     return [
       {
         name: 'response',
