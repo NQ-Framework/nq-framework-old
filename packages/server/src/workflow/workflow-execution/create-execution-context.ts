@@ -1,4 +1,5 @@
 import {
+  Organization,
   PropertyValue,
   Workflow,
   WorkflowExecutionContext,
@@ -12,6 +13,7 @@ import { initializeContext } from './initialize-context';
 export async function createExecutionContext(
   input: PropertyValue[],
   workflow: Workflow,
+  organization: Organization
 ): Promise<WorkflowExecutionContext> {
   let context: WorkflowExecutionContext = {
     isRunning: true,
@@ -21,6 +23,7 @@ export async function createExecutionContext(
     input: {},
     triggerInput: input,
     workflow: workflow,
+    organization
   };
   const evaluatedProps = await evaluateProperties(input, context);
   context.input = reducePropertyValuesToObject(evaluatedProps);

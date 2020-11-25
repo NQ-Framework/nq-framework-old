@@ -8,19 +8,25 @@ import {
 import { ActionService } from '../../actions/action.service';
 import { executeStack } from './execute-stack';
 import { createExecutionContext } from './create-execution-context';
+import { OrganizationService } from '../../organization/organization.service';
 
 @Injectable()
 export class WorkflowExecutionService {
-  constructor(private actionService: ActionService) {}
+  constructor(private actionService: ActionService, private organizationService: OrganizationService) { }
 
   async executeWorkflow(
     initialWorkflow: Workflow,
     input: PropertyValue[],
     triggerId: string,
   ): Promise<WorkflowExecutionResult> {
+    const organization = await this.organizationService.getOrganization(initialWorkflow.organizationId);
+    if (!organization) {
+      throw new Error("Cannot start workflow, missing valid organization");
+    }
     const context: WorkflowExecutionContext = await createExecutionContext(
       input,
       initialWorkflow,
+      organization
     );
     const workflow = context.workflow;
 

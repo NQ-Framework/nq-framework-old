@@ -2,6 +2,7 @@ import { Button, DrawerBody, DrawerHeader, FormControl, FormErrorMessage, FormLa
 import { Action, ActionInstance, PropertyValue } from "@nqframework/models";
 import { Field, Form, Formik } from "formik";
 import * as React from "react";
+import { InputControl } from "./input-control";
 
 export const ActionProperties: React.FC<{ selected: { action: Action, instance: ActionInstance } | null, updateActionProperties: (actionInstanceName: string, propertyValues: PropertyValue[]) => Promise<void> }> = ({ selected, updateActionProperties }) => {
     if (!selected) {
@@ -35,7 +36,7 @@ export const ActionProperties: React.FC<{ selected: { action: Action, instance: 
                                     {({ field, form }: any) => (
                                         <FormControl isInvalid={form.errors[p.name] && form.touched[p.name]}>
                                             <FormLabel htmlFor={p.name}>{p.description}</FormLabel>
-                                            <Input {...field} id={p.name} placeholder={p.description} />
+                                            <InputControl fieldProperty={p} {...field} id={p.name} placeholder={p.description} />
                                             <FormErrorMessage>{form.errors[p.name]}</FormErrorMessage>
                                         </FormControl>
                                     )}

@@ -6,25 +6,32 @@ import { ActionService } from '../../actions/action.service';
 import { getMockExecutionContext } from '../mocks/get-mock-execution-context';
 import { executeStack } from './execute-stack';
 import { mockExecutionResult } from '../mocks/mock-execution-result';
+import { OrganizationService } from '../../organization/organization.service';
+import { mockOrganization } from '../mocks/mock-organization';
 
 jest.mock('./create-execution-context');
 jest.mock('./execute-stack');
 
 describe('WorkflowExecutionService', () => {
   let service: WorkflowExecutionService;
+  let organizationService: OrganizationService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         WorkflowExecutionService,
         { provide: ActionService, useValue: { type: 'mockService' } },
+        { provide: OrganizationService, useValue: { getOrganization: jest.fn() } }
       ],
     }).compile();
 
     service = module.get<WorkflowExecutionService>(WorkflowExecutionService);
+    organizationService = module.get<OrganizationService>(OrganizationService);
   });
 
   it('should call create context', async () => {
+    const mock = organizationService.getOrganization as jest.Mock;
+    mock.mockImplementation(() => mockOrganization);
     (createExecutionContext as jest.Mock).mockImplementation(() => {
       return getMockExecutionContext();
     });
@@ -39,7 +46,7 @@ describe('WorkflowExecutionService', () => {
       mockWorkflow.triggers[0].id,
     );
 
-    expect(createExecutionContext).toHaveBeenCalledWith([], mockWorkflow);
+    expect(createExecutionContext).toHaveBeenCalledWith([], mockWorkflow, mockOrganization);
     expect(executeStack).toHaveBeenCalledWith(
       expect.objectContaining({ isRunning: true }),
       { type: 'mockService' },
@@ -47,6 +54,11 @@ describe('WorkflowExecutionService', () => {
     expect(result).toEqual(mockExecutionResult);
   });
   it('should start with items indicated in the trigger', async () => {
+    const mockOrg = organizationService.getOrganization as jest.Mock;
+    mockOrg.mockImplementation(() => mockOrganization);
+    (createExecutionContext as jest.Mock).mockImplementation(() => {
+      return getMockExecutionContext();
+    });
     (createExecutionContext as jest.Mock).mockImplementation(() => {
       return getMockExecutionContext();
     });
@@ -58,7 +70,7 @@ describe('WorkflowExecutionService', () => {
       [],
       mockWorkflow.triggers[0].id,
     );
-    expect(createExecutionContext).toHaveBeenCalledWith([], mockWorkflow);
+    expect(createExecutionContext).toHaveBeenCalledWith([], mockWorkflow, mockOrganization);
     expect(executeStack).toHaveBeenCalledWith(
       {
         ...getMockExecutionContext(),
@@ -66,9 +78,12 @@ describe('WorkflowExecutionService', () => {
       },
       { type: 'mockService' },
     );
+    expect(mockOrg).toHaveBeenCalledWith(mockWorkflow.organizationId);
   });
 
   it('should throw when starting with invalid trigger id', async () => {
+    const mockOrg = organizationService.getOrganization as jest.Mock;
+    mockOrg.mockImplementation(() => mockOrganization);
     (createExecutionContext as jest.Mock).mockImplementation(() => {
       return getMockExecutionContext();
     });
@@ -78,6 +93,8 @@ describe('WorkflowExecutionService', () => {
   });
 
   it('should throw when starting with invalid trigger id', async () => {
+    const mockOrg = organizationService.getOrganization as jest.Mock;
+    mockOrg.mockImplementation(() => mockOrganization);
     const execContext = getMockExecutionContext();
     (createExecutionContext as jest.Mock).mockImplementation(() => {
       return {
@@ -90,6 +107,14 @@ describe('WorkflowExecutionService', () => {
         },
       };
     });
+    await expect(
+      service.executeWorkflow(mockWorkflow, [], mockWorkflow.triggers[0].id),
+    ).rejects.toThrowErrorMatchingSnapshot();
+  });
+
+  it('should throw when starting with invalid organization id', async () => {
+    const mockOrg = organizationService.getOrganization as jest.Mock;
+    mockOrg.mockImplementation(() => null);
     await expect(
       service.executeWorkflow(mockWorkflow, [], mockWorkflow.triggers[0].id),
     ).rejects.toThrowErrorMatchingSnapshot();

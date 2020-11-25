@@ -11,4 +11,4 @@ import { DataCredentialsService } from './data-credentials/data-credentials.serv
   exports: [DataSourceService, OrganizationService],
   controllers: [DataCredentialsController],
 })
-export class Organization { }
+export class OrganizationModule { }

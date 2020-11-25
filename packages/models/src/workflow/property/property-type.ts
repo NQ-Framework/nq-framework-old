@@ -1,1 +1,1 @@
-export type PropertyType = string | number | boolean | Object; 
+export type PropertyType = "string" | "number" | "boolean" | "select-one" | "credentials" | "array"; 

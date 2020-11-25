@@ -5,11 +5,12 @@ import { WorkflowRepositoryService } from './workflow-repository.service';
 import { WorkflowExecutionService } from './workflow-execution/workflow-execution.service';
 import { ApiTriggerController } from './api-trigger/api-trigger.controller';
 import { WorkflowController } from './workflow.controller';
+import { OrganizationModule } from 'src/organization/organization.module';
 
 @Module({
-  imports: [ActionsModule, CoreModule],
+  imports: [ActionsModule, CoreModule, OrganizationModule],
   providers: [WorkflowRepositoryService, WorkflowExecutionService],
   exports: [WorkflowRepositoryService, WorkflowExecutionService],
   controllers: [ApiTriggerController, WorkflowController],
 })
-export class WorkflowModule {}
+export class WorkflowModule { }

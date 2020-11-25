@@ -8,7 +8,7 @@ import { ConfiugrationModule } from './config/configuration.module';
 import { CoreModule } from './core/core.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { DbConnectionModule } from './db-connection/db-connection.module';
-import { Organization } from './organization/organization.module';
+import { OrganizationModule } from './organization/organization.module';
 import { ScheduledJobsModule } from './scheduled-jobs/scheduled-jobs.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { JobHandlerModule } from './job-handler/job-handler.module';
@@ -32,7 +32,7 @@ const configImport = ConfigModule.forRoot({
     CoreModule,
     AnalyticsModule,
     DbConnectionModule,
-    Organization,
+    OrganizationModule,
     ScheduledJobsModule,
     ScheduleModule.forRoot(),
     JobHandlerModule,
