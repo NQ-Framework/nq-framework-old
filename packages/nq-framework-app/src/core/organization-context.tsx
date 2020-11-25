@@ -45,6 +45,8 @@ export const OrganizationProvider = ({ children }: any) => {
                     localStorage.removeItem("organization");
                 }
             }
+        }).catch((err) => {
+            setOrganization(null);
         });
 
     }, [setOrganization, setOrganizations]);
