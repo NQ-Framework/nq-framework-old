@@ -11,11 +11,13 @@ describe('DataCredentialsController', () => {
       controllers: [DataCredentialsController],
       providers: [
         { provide: DataCredentialsService, useValue: {} },
-        { provide: OrganizationService, useValue: {} }
-      ]
+        { provide: OrganizationService, useValue: {} },
+      ],
     }).compile();
 
-    controller = module.get<DataCredentialsController>(DataCredentialsController);
+    controller = module.get<DataCredentialsController>(
+      DataCredentialsController,
+    );
   });
 
   it('should be defined', () => {

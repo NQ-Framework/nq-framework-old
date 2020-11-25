@@ -16,7 +16,10 @@ describe('RequestRouterService', () => {
       imports: [CoreModule],
       providers: [
         RequestRouterService,
-        { provide: OrganizationService, useValue: { getOrganization: jest.fn() } }
+        {
+          provide: OrganizationService,
+          useValue: { getOrganization: jest.fn() },
+        },
       ],
     }).compile();
 
@@ -66,7 +69,11 @@ describe('RequestRouterService', () => {
     const mock = organization.getOrganization as jest.Mock;
     mock.mockImplementation(() => mockOrganization);
     await expect(
-      service.getDataFetcher('mock user id', 'organization id', 'remote credentials'),
+      service.getDataFetcher(
+        'mock user id',
+        'organization id',
+        'remote credentials',
+      ),
     ).rejects.toThrowError('An appropriate fetcher could not be obtained');
   });
 

@@ -10,7 +10,7 @@ export class RequestRouterService {
   constructor(
     private logger: LoggerService,
     private organizationService: OrganizationService,
-  ) { }
+  ) {}
 
   async getDataFetcher(
     userId: string,
@@ -21,18 +21,19 @@ export class RequestRouterService {
       `getting data fetcher for ${userId} ${organizationId} ${credentialsName}`,
     );
 
-    const organization = await this.organizationService.getOrganization(organizationId);
-    if (
-      !organization ||
-      !organization.members.find((m) => m.uid === userId)
-    ) {
+    const organization = await this.organizationService.getOrganization(
+      organizationId,
+    );
+    if (!organization || !organization.members.find((m) => m.uid === userId)) {
       this.logger.warn(
         `Unauthorized attempt to read organization data. Organization Id: ${organizationId} User id: ${userId} credentials name: ${credentialsName} `,
       );
       throw new Error('Unauthorized');
     }
 
-    const credentials = organization.dataCredentials.find(dc => dc.name === credentialsName);
+    const credentials = organization.dataCredentials.find(
+      (dc) => dc.name === credentialsName,
+    );
     if (!credentials) {
       this.logger.error(
         `No credentials with name ${credentialsName} found for Organization id: ${organizationId}`,
@@ -41,7 +42,10 @@ export class RequestRouterService {
     }
 
     if (!credentials.isRemote) {
-      const fetcher = new DataFetcherFactory().create(credentials.credentialsType.type, credentials.configuration);
+      const fetcher = new DataFetcherFactory().create(
+        credentials.credentialsType.type,
+        credentials.configuration,
+      );
       return fetcher;
     }
 

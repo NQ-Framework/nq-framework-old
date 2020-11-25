@@ -21,7 +21,10 @@ describe('WorkflowExecutionService', () => {
       providers: [
         WorkflowExecutionService,
         { provide: ActionService, useValue: { type: 'mockService' } },
-        { provide: OrganizationService, useValue: { getOrganization: jest.fn() } }
+        {
+          provide: OrganizationService,
+          useValue: { getOrganization: jest.fn() },
+        },
       ],
     }).compile();
 
@@ -46,7 +49,11 @@ describe('WorkflowExecutionService', () => {
       mockWorkflow.triggers[0].id,
     );
 
-    expect(createExecutionContext).toHaveBeenCalledWith([], mockWorkflow, mockOrganization);
+    expect(createExecutionContext).toHaveBeenCalledWith(
+      [],
+      mockWorkflow,
+      mockOrganization,
+    );
     expect(executeStack).toHaveBeenCalledWith(
       expect.objectContaining({ isRunning: true }),
       { type: 'mockService' },
@@ -70,7 +77,11 @@ describe('WorkflowExecutionService', () => {
       [],
       mockWorkflow.triggers[0].id,
     );
-    expect(createExecutionContext).toHaveBeenCalledWith([], mockWorkflow, mockOrganization);
+    expect(createExecutionContext).toHaveBeenCalledWith(
+      [],
+      mockWorkflow,
+      mockOrganization,
+    );
     expect(executeStack).toHaveBeenCalledWith(
       {
         ...getMockExecutionContext(),

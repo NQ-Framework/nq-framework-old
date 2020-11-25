@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrganizationService } from './organization.service';
-import { getFirebaseApp } from "../firebase/initialize";
+import { getFirebaseApp } from '../firebase/initialize';
 
-jest.mock("../firebase/initialize");
+jest.mock('../firebase/initialize');
 
 describe('OrganizationService', () => {
   let service: OrganizationService;
@@ -21,21 +21,19 @@ describe('OrganizationService', () => {
       firestore: () => ({
         collection: () => ({
           where: (p1: string, p2: string, p3: string) => {
-            expect(p1).toEqual("memberIds");
-            expect(p2).toEqual("array-contains");
-            expect(p3).toEqual("mock id");
+            expect(p1).toEqual('memberIds');
+            expect(p2).toEqual('array-contains');
+            expect(p3).toEqual('mock id');
             return {
               get: () => ({
-                docs: [
-                  { data: () => ({ name: 'mock org' }) }
-                ]
-              })
-            }
-          }
-        })
-      })
-    }))
-    const result = await service.getOrganizationsForUserId("mock id");
-    expect(result[0].name).toEqual("mock org");
+                docs: [{ data: () => ({ name: 'mock org' }) }],
+              }),
+            };
+          },
+        }),
+      }),
+    }));
+    const result = await service.getOrganizationsForUserId('mock id');
+    expect(result[0].name).toEqual('mock org');
   });
 });

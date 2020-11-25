@@ -1,8 +1,6 @@
 import { mockWorkflow } from '../mocks/mock-workflow';
 import { createExecutionContext } from './create-execution-context';
-import {
-  evaluateProperties,
-} from '../../core/utils';
+import { evaluateProperties } from '../../core/utils';
 import { initializeContext } from './initialize-context';
 import { reducePropertyValuesToObject } from '@nqframework/models';
 import { mockOrganization } from '../mocks/mock-organization';
@@ -30,7 +28,11 @@ describe('createExecutionContext', () => {
     });
   });
   it('creates the context', async () => {
-    const result = await createExecutionContext([], mockWorkflow, mockOrganization);
+    const result = await createExecutionContext(
+      [],
+      mockWorkflow,
+      mockOrganization,
+    );
     expect(result).toBeDefined();
     expect(result.startTime.toISOString()).toEqual(FIXED_SYSTEM_TIME);
   });
@@ -44,7 +46,7 @@ describe('createExecutionContext', () => {
     const result = await createExecutionContext(
       [{ name: 'test prop', value: 'test value' }],
       { ...mockWorkflow },
-      mockOrganization
+      mockOrganization,
     );
     expect(result.input['test prop']).toEqual('test value');
     expect(reducePropertyValuesToObject).toHaveBeenCalledTimes(1);

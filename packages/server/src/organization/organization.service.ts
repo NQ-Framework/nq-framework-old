@@ -20,7 +20,7 @@ export class OrganizationService {
       .firestore()
       .doc(`organizations/${organizationId}`)
       .get();
-    return organization.exists ? organization.data() as Organization : null;
+    return organization.exists ? (organization.data() as Organization) : null;
   }
 
   async updateOrganization(organization: Organization): Promise<void> {

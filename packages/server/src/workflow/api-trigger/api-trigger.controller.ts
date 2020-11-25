@@ -52,11 +52,7 @@ export class ApiTriggerController {
       );
       throw new NotFoundException();
     }
-    this.logger.debug(
-      'Triggering workflow: ' +
-      targetWorkflow?.name +
-      ' '
-    );
+    this.logger.debug('Triggering workflow: ' + targetWorkflow?.name + ' ');
 
     const inputs = trigger?.input || [];
     req.query;

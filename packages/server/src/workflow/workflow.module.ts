@@ -13,4 +13,4 @@ import { OrganizationModule } from 'src/organization/organization.module';
   exports: [WorkflowRepositoryService, WorkflowExecutionService],
   controllers: [ApiTriggerController, WorkflowController],
 })
-export class WorkflowModule { }
+export class WorkflowModule {}

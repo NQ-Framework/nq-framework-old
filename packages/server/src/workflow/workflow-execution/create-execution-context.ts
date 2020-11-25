@@ -5,15 +5,13 @@ import {
   Workflow,
   WorkflowExecutionContext,
 } from '@nqframework/models';
-import {
-  evaluateProperties,
-} from '../../core/utils';
+import { evaluateProperties } from '../../core/utils';
 import { initializeContext } from './initialize-context';
 
 export async function createExecutionContext(
   input: PropertyValue[],
   workflow: Workflow,
-  organization: Organization
+  organization: Organization,
 ): Promise<WorkflowExecutionContext> {
   let context: WorkflowExecutionContext = {
     isRunning: true,
@@ -23,7 +21,7 @@ export async function createExecutionContext(
     input: {},
     triggerInput: input,
     workflow: workflow,
-    organization
+    organization,
   };
   const evaluatedProps = await evaluateProperties(input, context);
   context.input = reducePropertyValuesToObject(evaluatedProps);
