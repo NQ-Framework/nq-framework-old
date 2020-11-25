@@ -1,4 +1,4 @@
-import { Button, DrawerBody, DrawerHeader, FormControl, FormErrorMessage, FormLabel, Heading, Input } from "@chakra-ui/react";
+import { Button, DrawerBody, DrawerHeader, FormControl, FormErrorMessage, FormLabel, Heading } from "@chakra-ui/react";
 import { Action, ActionInstance, PropertyValue } from "@nqframework/models";
 import { Field, Form, Formik } from "formik";
 import * as React from "react";
