@@ -19,6 +19,7 @@ export const handler: ActionHandler = {
     const credentials = propertyValues.find((i) => i.name === 'credentials')
       ?.value;
     const userId = propertyValues.find((i) => i.name === 'userId')?.value;
+    const isProcedure = propertyValues.find((i) => i.name === 'isProcedure')?.value;
     if (!query) {
       throw new Error('Missing required parameter query');
     }
@@ -27,6 +28,9 @@ export const handler: ActionHandler = {
     }
     if (!userId) {
       throw new Error('Missing required parameter userId');
+    }
+    if (isProcedure === undefined) {
+      throw new Error('Missing required parameter isProcedure');
     }
 
     const requestRouter = moduleRef.get<RequestRouterService>(
@@ -40,7 +44,7 @@ export const handler: ActionHandler = {
       credentials,
     )) as any;
     const result = await fetcher.get({
-      isProcedure: true,
+      isProcedure,
       query,
     });
 

@@ -11,7 +11,7 @@ export const evaluateProperties = async (
   const propertyValues: PropertyValue[] = [];
   for (let i = 0; i < properties.length; i++) {
     const property = properties[i];
-    if (!property.value) {
+    if (property.value === undefined || property.value === '') {
       continue;
     }
     if (typeof property.value === 'string' && property.value.startsWith('=')) {

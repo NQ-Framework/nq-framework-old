@@ -7,6 +7,7 @@ describe('mssql action', () => {
         { name: 'query', value: 'mock query' },
         { name: 'credentials', value: 'credentials' },
         { name: 'userId', value: 'mock user id' },
+        { name: 'isProcedure', value: false },
       ],
       {} as any,
       { workflow: { organizationId: 'mock org id' } } as any,
@@ -46,6 +47,18 @@ describe('mssql action', () => {
         [
           { name: 'query', value: 'test' },
           { name: 'credentials', value: 'test' },
+        ],
+        {} as any,
+        {} as any,
+        { get: jest.fn() } as any,
+      ),
+    ).rejects.toThrowErrorMatchingSnapshot();
+    await expect(
+      handler.handle(
+        [
+          { name: 'query', value: 'test' },
+          { name: 'credentials', value: 'test' },
+          { name: 'userId', value: 'test' },
         ],
         {} as any,
         {} as any,

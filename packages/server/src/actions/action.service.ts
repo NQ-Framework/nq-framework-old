@@ -10,11 +10,12 @@ import { getHandler } from './get-handler';
 
 @Injectable()
 export class ActionService {
-  constructor(private moduleRef: ModuleRef) {}
+  constructor(private moduleRef: ModuleRef) { }
   async executeAction(
     instance: ActionInstance,
     workflowExecution: WorkflowExecutionContext,
   ): Promise<ActionResult> {
+    console.log('executinggggg.... ', instance.configuration.input);
     const actionHandler = getHandler(instance.action);
     const actionProperties = await evaluateProperties(
       instance.configuration.input,

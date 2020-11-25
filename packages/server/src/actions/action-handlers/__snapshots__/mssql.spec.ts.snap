@@ -5,3 +5,5 @@ exports[`mssql action should throw when required params are not present 1`] = `"
 exports[`mssql action should throw when required params are not present 2`] = `"Missing required parameter credentials"`;
 
 exports[`mssql action should throw when required params are not present 3`] = `"Missing required parameter userId"`;
+
+exports[`mssql action should throw when required params are not present 4`] = `"Missing required parameter isProcedure"`;

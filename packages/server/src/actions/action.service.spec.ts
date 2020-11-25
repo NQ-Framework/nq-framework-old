@@ -97,13 +97,13 @@ describe('ActionService', () => {
         ...mockActionInstance,
         configuration: {
           ...mockActionInstance.configuration,
-          input: [{ name: 'test prop', value: 'test value' }],
+          input: [{ name: 'test prop', value: 'test value' }, { name: "test falsy", value: false }],
         },
       },
       mockWorkflowExecution,
     );
     expect(executeMock).toHaveBeenCalledWith(
-      [{ name: 'test prop', value: 'test value' }],
+      [{ name: 'test prop', value: 'test value' }, { name: 'test falsy', value: false }],
       expect.any(Object),
       expect.any(Object),
       expect.any(Object),
