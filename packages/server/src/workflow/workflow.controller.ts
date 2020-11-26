@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { PropertyValue, Workflow } from '@nqframework/models';
 import { Request } from 'express';
+import { getUniqueName } from '../core/utils/get-unique-name';
 import { ActionsRepositoryService } from '../actions/actions-repository/actions-repository.service';
 import { WorkflowRepositoryService } from './workflow-repository.service';
 
@@ -143,14 +144,13 @@ export class WorkflowController {
       throw new BadRequestException('invalid action id');
     }
 
+
+    const actionName = getUniqueName(action.name, workflow.actionInstances.map(ai => ai.name));
+
     //TODO: move to function that validates!!!
-    const count = workflow.actionInstances.reduce(
-      (count, a) => (count += a.action.id === actionId ? 1 : 0),
-      0,
-    );
     workflow.actionInstances.push({
       action,
-      name: action.name + (count > 0 ? ' ' + count : ''),
+      name: actionName,
       configuration: {
         input: [],
       },
