@@ -9,6 +9,8 @@ export interface WorkflowExecutionContext {
     triggerInput: any;
     stack: ActionInstance[];
     startTime: Date;
+    endTime?: Date;
     workflow: Workflow;
     organization: Organization;
+    startedBy: string;
 }

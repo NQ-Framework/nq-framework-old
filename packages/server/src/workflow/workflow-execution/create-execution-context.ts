@@ -12,10 +12,12 @@ export async function createExecutionContext(
   input: PropertyValue[],
   workflow: Workflow,
   organization: Organization,
+  userId: string
 ): Promise<WorkflowExecutionContext> {
   let context: WorkflowExecutionContext = {
     isRunning: true,
     startTime: new Date(),
+    startedBy: userId,
     stack: [],
     actions: {},
     input: {},

@@ -47,12 +47,14 @@ describe('WorkflowExecutionService', () => {
       mockWorkflow,
       [],
       mockWorkflow.triggers[0].id,
+      "mock user id"
     );
 
     expect(createExecutionContext).toHaveBeenCalledWith(
       [],
       mockWorkflow,
       mockOrganization,
+      "mock user id"
     );
     expect(executeStack).toHaveBeenCalledWith(
       expect.objectContaining({ isRunning: true }),
@@ -66,9 +68,6 @@ describe('WorkflowExecutionService', () => {
     (createExecutionContext as jest.Mock).mockImplementation(() => {
       return getMockExecutionContext();
     });
-    (createExecutionContext as jest.Mock).mockImplementation(() => {
-      return getMockExecutionContext();
-    });
     (executeStack as jest.Mock).mockImplementation(() => {
       return mockExecutionResult;
     });
@@ -76,11 +75,13 @@ describe('WorkflowExecutionService', () => {
       mockWorkflow,
       [],
       mockWorkflow.triggers[0].id,
+      "mock user id"
     );
     expect(createExecutionContext).toHaveBeenCalledWith(
       [],
       mockWorkflow,
       mockOrganization,
+      "mock user id"
     );
     expect(executeStack).toHaveBeenCalledWith(
       {
@@ -99,7 +100,7 @@ describe('WorkflowExecutionService', () => {
       return getMockExecutionContext();
     });
     await expect(
-      service.executeWorkflow(mockWorkflow, [], 'invalid'),
+      service.executeWorkflow(mockWorkflow, [], 'invalid', "mock user id"),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
@@ -119,7 +120,7 @@ describe('WorkflowExecutionService', () => {
       };
     });
     await expect(
-      service.executeWorkflow(mockWorkflow, [], mockWorkflow.triggers[0].id),
+      service.executeWorkflow(mockWorkflow, [], mockWorkflow.triggers[0].id, "mock user id"),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
@@ -127,7 +128,7 @@ describe('WorkflowExecutionService', () => {
     const mockOrg = organizationService.getOrganization as jest.Mock;
     mockOrg.mockImplementation(() => null);
     await expect(
-      service.executeWorkflow(mockWorkflow, [], mockWorkflow.triggers[0].id),
+      service.executeWorkflow(mockWorkflow, [], mockWorkflow.triggers[0].id, "mock user id"),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 });
