@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ActionInstance } from '@nqframework/models';
 import { WorkflowExecutionContext } from '@nqframework/models';
+import { mockOrganization } from '../workflow/mocks/mock-organization';
 import { ActionService } from './action.service';
 import { getHandler } from './get-handler';
 jest.mock('./get-handler');
@@ -33,6 +34,9 @@ describe('ActionService', () => {
 
   const mockWorkflowExecution: WorkflowExecutionContext = {
     startTime: new Date(),
+    id: 'mock id',
+    startedBy: 'mock user id',
+    organization: mockOrganization,
     isRunning: true,
     workflow: {} as any,
     stack: [],

@@ -9,12 +9,18 @@ const app = loadFirebase({
   privateKey: '',
 } as any);
 
-app
-  .auth()
-  .createCustomToken('123', { claim1: 'asd qwe' })
-  .then((v) => {
-    console.log(v);
-  });
+// app
+//   .auth()
+//   .createCustomToken('123', { claim1: 'asd qwe' })
+//   .then((v) => {
+//     console.log(v);
+//   });
+// const set = new Set<string>();
+// for (let i = 0; i < 1000000; i++) {
+//   set.add(app.firestore().collection('test').doc().id);
+// }
+
+// console.log(set.size);
 
 // app
 //   .auth()

@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { PropertyValue, Workflow } from '@nqframework/models';
 import { Request } from 'express';
-import { getUniqueName } from '../core/utils/get-unique-name';
+import { getUniqueName } from '../core/utils';
 import { ActionsRepositoryService } from '../actions/actions-repository/actions-repository.service';
 import { WorkflowRepositoryService } from './workflow-repository.service';
 

@@ -3,6 +3,7 @@ import { ActionInstance } from "./actions/action-instance";
 import { Workflow } from "./workflow";
 
 export interface WorkflowExecutionContext {
+    id: string;
     isRunning: boolean;
     actions: { [key: string]: { properties: any, values: any } };
     input: any;

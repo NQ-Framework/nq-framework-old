@@ -5,7 +5,7 @@ import {
   Workflow,
   WorkflowExecutionContext,
 } from '@nqframework/models';
-import { evaluateProperties } from '../../core/utils';
+import { evaluateProperties, generateUniqueId } from '../../core/utils';
 import { initializeContext } from './initialize-context';
 
 export async function createExecutionContext(
@@ -15,6 +15,7 @@ export async function createExecutionContext(
   userId: string
 ): Promise<WorkflowExecutionContext> {
   let context: WorkflowExecutionContext = {
+    id: await generateUniqueId(),
     isRunning: true,
     startTime: new Date(),
     startedBy: userId,
