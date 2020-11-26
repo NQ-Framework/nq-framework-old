@@ -54,6 +54,12 @@ export class WorkflowExecutionService {
       context.stack.push(action);
     });
     await persistExecutionContextState(context);
-    return await executeStack(context, this.actionService);
+
+    const result = await executeStack(context, this.actionService);
+
+    const finishedContext: WorkflowExecutionContext = { ...context, endTime: new Date(), isRunning: false };
+    await persistExecutionContextState(finishedContext);
+
+    return result;
   }
 }

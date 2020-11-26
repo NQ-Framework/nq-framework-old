@@ -1,4 +1,5 @@
 import { WorkflowExecutionContext } from '@nqframework/models';
+import { mockOrganization } from './mock-organization';
 import { mockWorkflow } from './mock-workflow';
 
 export const getMockExecutionContext = (): WorkflowExecutionContext =>
@@ -11,10 +12,13 @@ export const getMockExecutionContext = (): WorkflowExecutionContext =>
         },
       },
       input: { mockInput: 'mock input value' },
+      id: "mock execution context id",
+      startedBy: "mock user id",
+      organization: mockOrganization,
       isRunning: true,
       stack: [],
       startTime: new Date('2020-11-20'),
       triggerInput: { trigInput: 'mock trigger input value' },
       workflow: mockWorkflow,
-    }),
+    } as WorkflowExecutionContext),
   ) as WorkflowExecutionContext;

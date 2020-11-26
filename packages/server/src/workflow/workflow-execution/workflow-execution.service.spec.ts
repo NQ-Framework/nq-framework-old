@@ -65,7 +65,9 @@ describe('WorkflowExecutionService', () => {
       { type: 'mockService' },
     );
     expect(result).toEqual(mockExecutionResult);
-    expect(persistExecutionContextState).toHaveBeenCalled();
+    expect(persistExecutionContextState).toHaveBeenCalledTimes(2);
+    expect(persistExecutionContextState).toHaveBeenNthCalledWith(1, expect.objectContaining({ isRunning: true }))
+    expect(persistExecutionContextState).toHaveBeenLastCalledWith(expect.objectContaining({ isRunning: false }))
   });
   it('should start with items indicated in the trigger', async () => {
     const mockOrg = organizationService.getOrganization as jest.Mock;
