@@ -9,6 +9,7 @@ import { ActionService } from '../../actions/action.service';
 import { executeStack } from './execute-stack';
 import { createExecutionContext } from './create-execution-context';
 import { OrganizationService } from '../../organization/organization.service';
+import { persistExecutionContextState } from './persist-execution-context-state';
 
 @Injectable()
 export class WorkflowExecutionService {
@@ -52,6 +53,7 @@ export class WorkflowExecutionService {
       }
       context.stack.push(action);
     });
+    await persistExecutionContextState(context);
     return await executeStack(context, this.actionService);
   }
 }

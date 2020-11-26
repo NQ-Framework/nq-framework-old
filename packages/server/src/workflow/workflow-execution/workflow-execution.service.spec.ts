@@ -8,9 +8,12 @@ import { executeStack } from './execute-stack';
 import { mockExecutionResult } from '../mocks/mock-execution-result';
 import { OrganizationService } from '../../organization/organization.service';
 import { mockOrganization } from '../mocks/mock-organization';
+import { persistExecutionContextState } from "./persist-execution-context-state";
+
 
 jest.mock('./create-execution-context');
 jest.mock('./execute-stack');
+jest.mock('./persist-execution-context-state');
 
 describe('WorkflowExecutionService', () => {
   let service: WorkflowExecutionService;
@@ -30,6 +33,7 @@ describe('WorkflowExecutionService', () => {
 
     service = module.get<WorkflowExecutionService>(WorkflowExecutionService);
     organizationService = module.get<OrganizationService>(OrganizationService);
+    (persistExecutionContextState as jest.Mock).mockClear();
   });
 
   it('should call create context', async () => {
@@ -61,6 +65,7 @@ describe('WorkflowExecutionService', () => {
       { type: 'mockService' },
     );
     expect(result).toEqual(mockExecutionResult);
+    expect(persistExecutionContextState).toHaveBeenCalled();
   });
   it('should start with items indicated in the trigger', async () => {
     const mockOrg = organizationService.getOrganization as jest.Mock;
@@ -102,6 +107,7 @@ describe('WorkflowExecutionService', () => {
     await expect(
       service.executeWorkflow(mockWorkflow, [], 'invalid', "mock user id"),
     ).rejects.toThrowErrorMatchingSnapshot();
+    expect(persistExecutionContextState).not.toHaveBeenCalled();
   });
 
   it('should throw when starting with invalid trigger id', async () => {
