@@ -41,7 +41,6 @@ export const Diagram: React.FC<{
             },
         ], organization?.name ?? "");
     }, [workflowId, organization]);
-
     return (
         <Box width="100%" height="100%">
             <ReactFlow

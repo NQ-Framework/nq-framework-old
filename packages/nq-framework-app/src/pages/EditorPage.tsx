@@ -52,12 +52,6 @@ export const EditorPage: React.FC = () => {
         [workflowService, setWorkflow, workflowId, organization]
     );
 
-    // const changeSelection = useCallback(
-    //     (selection: SelectionChange) => {
-    //         setSelected(selection);
-    //     }, [setSelected]
-    // )
-
     const moveEnd = useCallback((transform: FlowTransform | undefined) => {
         localStorage.setItem('flowTransform' + workflowId, JSON.stringify(transform));
     }, [workflowId])

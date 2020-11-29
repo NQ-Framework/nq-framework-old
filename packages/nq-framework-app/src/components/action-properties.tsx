@@ -1,9 +1,9 @@
-import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Divider, DrawerBody, DrawerHeader, Flex, FormControl, FormErrorMessage, FormLabel, Heading, HStack, Stack, Text } from "@chakra-ui/react";
+import { AlertDialog, AlertDialogBody, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, Box, Button, Divider, DrawerBody, DrawerHeader, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import { Action, ActionInstance, ActionLink, PropertyValue, Workflow } from "@nqframework/models";
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import * as React from "react";
 import { useCallback, useEffect, useState } from "react";
-import { InputControl } from "./input-control";
+import { FormProperties } from "./form-properties";
 
 export const ActionProperties: React.FC<{ deleteAction: (action: ActionInstance) => Promise<void>, deleteLink: (link: ActionLink) => Promise<void>, selected: { action: Action, instance: ActionInstance, } | null, workflow: Workflow | null, updateActionProperties: (actionInstanceName: string, propertyValues: PropertyValue[]) => Promise<void> }> = ({ selected, updateActionProperties, workflow, deleteAction, deleteLink }) => {
 
@@ -90,6 +90,7 @@ export const ActionProperties: React.FC<{ deleteAction: (action: ActionInstance)
                     onSubmit={(values, actions) => {
                         const mappedValues: PropertyValue[] = [];
                         Object.keys(values).forEach((v: string) => {
+                            //TODO: ADD SUPPORT FOR OBJECTS AND ARRAYS! recursively process
                             mappedValues.push({ name: v, value: values[v] });
                         });
                         updateActionProperties(selected.instance.name, mappedValues).then(() => {
@@ -99,25 +100,20 @@ export const ActionProperties: React.FC<{ deleteAction: (action: ActionInstance)
                 >
                     {(props) => (
                         <Form>
-                            {(selected.action.properties ?? []).map(p => (
-                                <Field name={p.name} key={p.name}>
-                                    {({ field, form }: any) => (
-                                        <FormControl isInvalid={form.errors[p.name] && form.touched[p.name]}>
-                                            <FormLabel htmlFor={p.name}>{p.description}</FormLabel>
-                                            <InputControl fieldProperty={p} {...field} id={p.name} placeholder={p.description} />
-                                            <FormErrorMessage>{form.errors[p.name]}</FormErrorMessage>
-                                        </FormControl>
-                                    )}
-                                </Field>
-                            ))}
-                            <Button
-                                mt={4}
-                                colorScheme="teal"
-                                isLoading={props.isSubmitting}
-                                type="submit"
-                            >
-                                Save
-                            </Button>
+                            <Stack>
+                                <FormProperties prefix={null} index={null} formikProps={props} propsToRender={selected.action.properties} />
+                                <Button
+                                    mt={4}
+                                    colorScheme="teal"
+                                    isLoading={props.isSubmitting}
+                                    type="submit"
+                                >
+                                    Save
+                        </Button>
+                                <pre>
+                                    {JSON.stringify(props, null, 2)}
+                                </pre>
+                            </Stack>
                         </Form>
                     )}
                 </Formik>
