@@ -88,12 +88,35 @@ export const ActionProperties: React.FC<{ deleteAction: (action: ActionInstance)
                         return opt;
                     }, {})}
                     onSubmit={(values, actions) => {
-                        const mappedValues: PropertyValue[] = [];
-                        Object.keys(values).forEach((v: string) => {
-                            //TODO: ADD SUPPORT FOR OBJECTS AND ARRAYS! recursively process
-                            mappedValues.push({ name: v, value: values[v] });
-                        });
-                        updateActionProperties(selected.instance.name, mappedValues).then(() => {
+                        const mapValues = (props: any): PropertyValue[] => {
+                            const keys = Object.keys(props);
+                            const values: PropertyValue[] = [];
+                            keys.forEach(k => {
+                                if (Array.isArray(props[k])) {
+                                    let array: any = [];
+                                    props[k].forEach((v: any) => {
+                                        let subArray: PropertyValue[] = [];
+                                        if (typeof v === 'object' && v !== null) {
+                                            subArray = subArray.concat(mapValues(v));
+                                        }
+                                        else {
+                                            subArray.push({ name: k, value: v });
+                                        }
+                                        array.push({ name: "item", value: subArray });
+                                    });
+                                    values.push({ name: k, value: array });
+                                }
+                                else if (typeof props[k] === 'object' && props[k] !== null) {
+                                    values.push({ name: k, value: mapValues(props[k]) });
+                                }
+                                else {
+                                    values.push({ name: k, value: props[k] });
+                                }
+                            })
+                            return values;
+                        }
+                        const result = mapValues(values);
+                        updateActionProperties(selected.instance.name, result).then(() => {
                             actions.setSubmitting(false);
                         })
                     }}

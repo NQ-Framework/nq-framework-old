@@ -2,11 +2,13 @@ import {
   ActionHandler,
   ActionInstance,
   PropertyValue,
+  reducePropertyValuesToObject,
   WorkflowExecutionContext,
 } from '@nqframework/models';
 import { ModuleRef } from '@nestjs/core';
 import { RequestRouterService } from '../../db-connection/request-router/request-router.service';
 import { MsSqlFetcher } from '@nqframework/data-fetcher';
+import { TYPES } from "tedious"
 
 export const handler: ActionHandler = {
   handle: async (
@@ -20,6 +22,7 @@ export const handler: ActionHandler = {
       ?.value;
     const userId = propertyValues.find((i) => i.name === 'userId')?.value;
     const isProcedure = propertyValues.find((i) => i.name === 'isProcedure')?.value;
+    const inputParameters = propertyValues.find((i) => i.name === 'inputParameters')?.value;
     if (!query) {
       throw new Error('Missing required parameter query');
     }
@@ -32,6 +35,10 @@ export const handler: ActionHandler = {
     if (isProcedure === undefined) {
       throw new Error('Missing required parameter isProcedure');
     }
+
+
+      const parameters = inputParameters.map((ip:any)=> ({...reducePropertyValuesToObject(ip.value), type: TYPES.NVarChar}));
+      console.log(parameters);
 
     const requestRouter = moduleRef.get<RequestRouterService>(
       RequestRouterService,
@@ -46,6 +53,7 @@ export const handler: ActionHandler = {
     const result = await fetcher.get({
       isProcedure,
       query,
+      params: parameters
     });
 
     return [
