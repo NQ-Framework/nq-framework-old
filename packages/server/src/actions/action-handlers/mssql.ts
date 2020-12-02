@@ -8,7 +8,7 @@ import {
 import { ModuleRef } from '@nestjs/core';
 import { RequestRouterService } from '../../db-connection/request-router/request-router.service';
 import { MsSqlFetcher } from '@nqframework/data-fetcher';
-import { TYPES } from "tedious"
+import { TYPES } from 'tedious';
 
 export const handler: ActionHandler = {
   handle: async (
@@ -21,8 +21,11 @@ export const handler: ActionHandler = {
     const credentials = propertyValues.find((i) => i.name === 'credentials')
       ?.value;
     const userId = propertyValues.find((i) => i.name === 'userId')?.value;
-    const isProcedure = propertyValues.find((i) => i.name === 'isProcedure')?.value;
-    const inputParameters = propertyValues.find((i) => i.name === 'inputParameters')?.value;
+    const isProcedure = propertyValues.find((i) => i.name === 'isProcedure')
+      ?.value;
+    const inputParameters = propertyValues.find(
+      (i) => i.name === 'inputParameters',
+    )?.value;
     if (!query) {
       throw new Error('Missing required parameter query');
     }
@@ -37,10 +40,10 @@ export const handler: ActionHandler = {
     }
 
     const tediousTypes = TYPES as any;
-    const parameters = (inputParameters || []).map((ip:any)=> {
-       const reducedValues =reducePropertyValuesToObject(ip.value);
-       return {...reducedValues, type: tediousTypes[reducedValues.type]};
-      });
+    const parameters = (inputParameters || []).map((ip: any) => {
+      const reducedValues = reducePropertyValuesToObject(ip.value);
+      return { ...reducedValues, type: tediousTypes[reducedValues.type] };
+    });
 
     const requestRouter = moduleRef.get<RequestRouterService>(
       RequestRouterService,
@@ -55,7 +58,7 @@ export const handler: ActionHandler = {
     const result = await fetcher.get({
       isProcedure,
       query,
-      params: parameters
+      params: parameters,
     });
 
     return [

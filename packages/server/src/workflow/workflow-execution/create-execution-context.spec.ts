@@ -12,7 +12,7 @@ jest.mock('@nqframework/models', () => ({
 jest.mock('../../core/utils', () => ({
   ...(jest.requireActual('../../core/utils') as any),
   evaluateProperties: jest.fn(),
-  generateUniqueId: () => "mock unique id",
+  generateUniqueId: () => 'mock unique id',
 }));
 
 jest.mock('./initialize-context');
@@ -33,7 +33,7 @@ describe('createExecutionContext', () => {
       [],
       mockWorkflow,
       mockOrganization,
-      "mock user id"
+      'mock user id',
     );
     expect(result).toBeDefined();
     expect(result.startTime.toISOString()).toEqual(FIXED_SYSTEM_TIME);
@@ -49,7 +49,7 @@ describe('createExecutionContext', () => {
       [{ name: 'test prop', value: 'test value' }],
       { ...mockWorkflow },
       mockOrganization,
-      "mock user id"
+      'mock user id',
     );
     expect(result.input['test prop']).toEqual('test value');
     expect(reducePropertyValuesToObject).toHaveBeenCalledTimes(1);

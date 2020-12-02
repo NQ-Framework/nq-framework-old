@@ -8,7 +8,10 @@ describe('mssql action', () => {
         { name: 'credentials', value: 'credentials' },
         { name: 'userId', value: 'mock user id' },
         { name: 'isProcedure', value: false },
-        { name: 'inputParameters', value: [{name:"item", value:[{name:'p1', value:'v1'}]}] },
+        {
+          name: 'inputParameters',
+          value: [{ name: 'item', value: [{ name: 'p1', value: 'v1' }] }],
+        },
       ],
       {} as any,
       { workflow: { organizationId: 'mock org id' } } as any,

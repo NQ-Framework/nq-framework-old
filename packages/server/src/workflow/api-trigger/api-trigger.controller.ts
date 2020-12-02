@@ -63,7 +63,7 @@ export class ApiTriggerController {
       targetWorkflow,
       trigger?.input || [],
       trigger?.id || '',
-      req.firebaseUser ? req.firebaseUser.uid : req.serviceAccount.name
+      req.firebaseUser ? req.firebaseUser.uid : req.serviceAccount.name,
     );
     return result;
   }

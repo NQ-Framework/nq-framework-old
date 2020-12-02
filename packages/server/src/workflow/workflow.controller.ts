@@ -21,7 +21,7 @@ export class WorkflowController {
   constructor(
     private workflowService: WorkflowRepositoryService,
     private actionsService: ActionsRepositoryService,
-  ) { }
+  ) {}
 
   @Get('')
   async GetAll(@Req() req: Request): Promise<Workflow[]> {
@@ -112,8 +112,8 @@ export class WorkflowController {
       } = (position.type === 'trigger'
         ? workflow.triggers.find((t) => t.id === position.id)
         : workflow.actionInstances.find(
-          (ai) => ai.name === position.id,
-        )) as any;
+            (ai) => ai.name === position.id,
+          )) as any;
 
       node.editorConfig.x = position.x;
       node.editorConfig.y = position.y;
@@ -144,8 +144,10 @@ export class WorkflowController {
       throw new BadRequestException('invalid action id');
     }
 
-
-    const actionName = getUniqueName(action.name, workflow.actionInstances.map(ai => ai.name));
+    const actionName = getUniqueName(
+      action.name,
+      workflow.actionInstances.map((ai) => ai.name),
+    );
 
     //TODO: move to function that validates!!!
     workflow.actionInstances.push({
@@ -239,7 +241,10 @@ export class WorkflowController {
 
     //TODO: move to function that validates!!!
     workflow.actionLinks = workflow.actionLinks.filter(
-      (al) => !(al.fromName === actionLink.fromName && al.toName === actionLink.toName),
+      (al) =>
+        !(
+          al.fromName === actionLink.fromName && al.toName === actionLink.toName
+        ),
     );
 
     await this.workflowService.updateWorkflow(workflow);

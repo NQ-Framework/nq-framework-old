@@ -101,13 +101,19 @@ describe('ActionService', () => {
         ...mockActionInstance,
         configuration: {
           ...mockActionInstance.configuration,
-          input: [{ name: 'test prop', value: 'test value' }, { name: "test falsy", value: false }],
+          input: [
+            { name: 'test prop', value: 'test value' },
+            { name: 'test falsy', value: false },
+          ],
         },
       },
       mockWorkflowExecution,
     );
     expect(executeMock).toHaveBeenCalledWith(
-      [{ name: 'test prop', value: 'test value' }, { name: 'test falsy', value: false }],
+      [
+        { name: 'test prop', value: 'test value' },
+        { name: 'test falsy', value: false },
+      ],
       expect.any(Object),
       expect.any(Object),
       expect.any(Object),
@@ -147,21 +153,65 @@ describe('ActionService', () => {
         ...mockActionInstance,
         configuration: {
           ...mockActionInstance.configuration,
-          input: [{ name: 'test prop', value: [
-            {name: "item", value: [{name: 'test nested first prop', value:'="test value".toUpperCase();' },{name: 'test nested second prop', value:'="test value".toUpperCase();' }]},
-            {name: "item", value: [{name: 'test nested first prop', value:'="test value 2".toUpperCase();' }, {name: 'test nested second prop', value:'="test value 2".toUpperCase();' }]},
-          ]}],
+          input: [
+            {
+              name: 'test prop',
+              value: [
+                {
+                  name: 'item',
+                  value: [
+                    {
+                      name: 'test nested first prop',
+                      value: '="test value".toUpperCase();',
+                    },
+                    {
+                      name: 'test nested second prop',
+                      value: '="test value".toUpperCase();',
+                    },
+                  ],
+                },
+                {
+                  name: 'item',
+                  value: [
+                    {
+                      name: 'test nested first prop',
+                      value: '="test value 2".toUpperCase();',
+                    },
+                    {
+                      name: 'test nested second prop',
+                      value: '="test value 2".toUpperCase();',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         },
       },
       mockWorkflowExecution,
     );
     expect(executeMock).toHaveBeenCalledWith(
-      [{ name: 'test prop', value: [
-        
-          {name:"item", value: [{name:'test nested first prop', value:'TEST VALUE' }, {name:'test nested second prop', value:'TEST VALUE'}]},
-          {name:"item", value: [{name:'test nested first prop', value:'TEST VALUE 2' }, {name:'test nested second prop', value:'TEST VALUE 2'}]},
-     
-      ]}],
+      [
+        {
+          name: 'test prop',
+          value: [
+            {
+              name: 'item',
+              value: [
+                { name: 'test nested first prop', value: 'TEST VALUE' },
+                { name: 'test nested second prop', value: 'TEST VALUE' },
+              ],
+            },
+            {
+              name: 'item',
+              value: [
+                { name: 'test nested first prop', value: 'TEST VALUE 2' },
+                { name: 'test nested second prop', value: 'TEST VALUE 2' },
+              ],
+            },
+          ],
+        },
+      ],
       expect.any(Object),
       expect.any(Object),
       expect.any(Object),

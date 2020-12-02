@@ -12,7 +12,7 @@ export async function createExecutionContext(
   input: PropertyValue[],
   workflow: Workflow,
   organization: Organization,
-  userId: string
+  userId: string,
 ): Promise<WorkflowExecutionContext> {
   let context: WorkflowExecutionContext = {
     id: await generateUniqueId(),

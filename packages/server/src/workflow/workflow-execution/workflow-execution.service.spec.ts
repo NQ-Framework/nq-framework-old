@@ -8,8 +8,7 @@ import { executeStack } from './execute-stack';
 import { mockExecutionResult } from '../mocks/mock-execution-result';
 import { OrganizationService } from '../../organization/organization.service';
 import { mockOrganization } from '../mocks/mock-organization';
-import { persistExecutionContextState } from "./persist-execution-context-state";
-
+import { persistExecutionContextState } from './persist-execution-context-state';
 
 jest.mock('./create-execution-context');
 jest.mock('./execute-stack');
@@ -51,14 +50,14 @@ describe('WorkflowExecutionService', () => {
       mockWorkflow,
       [],
       mockWorkflow.triggers[0].id,
-      "mock user id"
+      'mock user id',
     );
 
     expect(createExecutionContext).toHaveBeenCalledWith(
       [],
       mockWorkflow,
       mockOrganization,
-      "mock user id"
+      'mock user id',
     );
     expect(executeStack).toHaveBeenCalledWith(
       expect.objectContaining({ isRunning: true }),
@@ -66,8 +65,13 @@ describe('WorkflowExecutionService', () => {
     );
     expect(result).toEqual(mockExecutionResult);
     expect(persistExecutionContextState).toHaveBeenCalledTimes(2);
-    expect(persistExecutionContextState).toHaveBeenNthCalledWith(1, expect.objectContaining({ isRunning: true }))
-    expect(persistExecutionContextState).toHaveBeenLastCalledWith(expect.objectContaining({ isRunning: false }))
+    expect(persistExecutionContextState).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({ isRunning: true }),
+    );
+    expect(persistExecutionContextState).toHaveBeenLastCalledWith(
+      expect.objectContaining({ isRunning: false }),
+    );
   });
   it('should start with items indicated in the trigger', async () => {
     const mockOrg = organizationService.getOrganization as jest.Mock;
@@ -82,13 +86,13 @@ describe('WorkflowExecutionService', () => {
       mockWorkflow,
       [],
       mockWorkflow.triggers[0].id,
-      "mock user id"
+      'mock user id',
     );
     expect(createExecutionContext).toHaveBeenCalledWith(
       [],
       mockWorkflow,
       mockOrganization,
-      "mock user id"
+      'mock user id',
     );
     expect(executeStack).toHaveBeenCalledWith(
       {
@@ -107,7 +111,7 @@ describe('WorkflowExecutionService', () => {
       return getMockExecutionContext();
     });
     await expect(
-      service.executeWorkflow(mockWorkflow, [], 'invalid', "mock user id"),
+      service.executeWorkflow(mockWorkflow, [], 'invalid', 'mock user id'),
     ).rejects.toThrowErrorMatchingSnapshot();
     expect(persistExecutionContextState).not.toHaveBeenCalled();
   });
@@ -128,7 +132,12 @@ describe('WorkflowExecutionService', () => {
       };
     });
     await expect(
-      service.executeWorkflow(mockWorkflow, [], mockWorkflow.triggers[0].id, "mock user id"),
+      service.executeWorkflow(
+        mockWorkflow,
+        [],
+        mockWorkflow.triggers[0].id,
+        'mock user id',
+      ),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 
@@ -136,7 +145,12 @@ describe('WorkflowExecutionService', () => {
     const mockOrg = organizationService.getOrganization as jest.Mock;
     mockOrg.mockImplementation(() => null);
     await expect(
-      service.executeWorkflow(mockWorkflow, [], mockWorkflow.triggers[0].id, "mock user id"),
+      service.executeWorkflow(
+        mockWorkflow,
+        [],
+        mockWorkflow.triggers[0].id,
+        'mock user id',
+      ),
     ).rejects.toThrowErrorMatchingSnapshot();
   });
 });

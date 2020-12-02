@@ -39,7 +39,6 @@ const app = loadFirebase({
 //   });
 // });
 
-
 // app
 //   .auth()
 //   .createCustomToken('123', { claim1: 'asd qwe' })

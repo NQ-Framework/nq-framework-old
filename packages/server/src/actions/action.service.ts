@@ -10,7 +10,7 @@ import { getHandler } from './get-handler';
 
 @Injectable()
 export class ActionService {
-  constructor(private moduleRef: ModuleRef) { }
+  constructor(private moduleRef: ModuleRef) {}
   async executeAction(
     instance: ActionInstance,
     workflowExecution: WorkflowExecutionContext,

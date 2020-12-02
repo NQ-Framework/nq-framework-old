@@ -16,13 +16,13 @@ export class WorkflowExecutionService {
   constructor(
     private actionService: ActionService,
     private organizationService: OrganizationService,
-  ) { }
+  ) {}
 
   async executeWorkflow(
     initialWorkflow: Workflow,
     input: PropertyValue[],
     triggerId: string,
-    userId: string
+    userId: string,
   ): Promise<WorkflowExecutionResult> {
     const organization = await this.organizationService.getOrganization(
       initialWorkflow.organizationId,
@@ -34,7 +34,7 @@ export class WorkflowExecutionService {
       input,
       initialWorkflow,
       organization,
-      userId
+      userId,
     );
     const workflow = context.workflow;
 
@@ -57,7 +57,11 @@ export class WorkflowExecutionService {
 
     const result = await executeStack(context, this.actionService);
 
-    const finishedContext: WorkflowExecutionContext = { ...context, endTime: new Date(), isRunning: false };
+    const finishedContext: WorkflowExecutionContext = {
+      ...context,
+      endTime: new Date(),
+      isRunning: false,
+    };
     await persistExecutionContextState(finishedContext);
 
     return result;

@@ -20,12 +20,10 @@ export const evaluateProperties = async (
         context,
       );
       propertyValues.push({ name: property.name, value: result });
-    }
-    else if (Array.isArray(property.value)) {
-       const result = await evaluateProperties(property.value, context);
+    } else if (Array.isArray(property.value)) {
+      const result = await evaluateProperties(property.value, context);
       propertyValues.push({ name: property.name, value: result });
-    }
-    else {
+    } else {
       propertyValues.push({
         name: property.name,
         value: property.value,
