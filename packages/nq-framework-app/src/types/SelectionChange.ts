@@ -1,4 +1,4 @@
 export type SelectionChange = {
-    id: string,
-    type: string
+  id: string;
+  type: string;
 }[];

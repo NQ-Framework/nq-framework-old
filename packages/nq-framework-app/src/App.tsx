@@ -1,24 +1,17 @@
-import * as React from "react"
-import {
-  ChakraProvider,
-  theme,
-} from "@chakra-ui/react"
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
-import { EditorPage } from "./pages/EditorPage";
-import { AuthProvider } from "./firebase/firebase-context";
-import { SignInPage } from "./pages/SignInPage";
-import { WorkflowsPage } from "./pages/WorkflowsPage";
-import { NewWorkflowPage } from "./pages/NewWorkflowPage";
-import { OrganizationProvider } from "./core/organization-context";
-import { HomePage } from "./pages/HomePage";
-import { DataCredentialsTypesPage } from "./pages/DataCredentialsTypesPage";
-import { DataCredentialsPage } from "./pages/DataCredentialsPage";
-import { NewDataCredentialsTypePage } from "./pages/NewDataCredentialsTypePage";
-import { NewDataCredentialsPage } from "./pages/NewDataCredentialsPage";
+import * as React from 'react';
+import { ChakraProvider, theme } from '@chakra-ui/react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { EditorPage } from './pages/EditorPage';
+import { AuthProvider } from './firebase/firebase-context';
+import { SignInPage } from './pages/SignInPage';
+import { WorkflowsPage } from './pages/WorkflowsPage';
+import { NewWorkflowPage } from './pages/NewWorkflowPage';
+import { OrganizationProvider } from './core/organization-context';
+import { HomePage } from './pages/HomePage';
+import { DataCredentialsTypesPage } from './pages/DataCredentialsTypesPage';
+import { DataCredentialsPage } from './pages/DataCredentialsPage';
+import { NewDataCredentialsTypePage } from './pages/NewDataCredentialsTypePage';
+import { NewDataCredentialsPage } from './pages/NewDataCredentialsPage';
 
 export const App = () => (
   <OrganizationProvider>
@@ -58,4 +51,4 @@ export const App = () => (
       </ChakraProvider>
     </AuthProvider>
   </OrganizationProvider>
-)
+);

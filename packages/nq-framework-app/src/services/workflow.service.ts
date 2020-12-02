@@ -1,6 +1,6 @@
-import { PropertyValue, Workflow } from "@nqframework/models";
-import { UpdateNodePositions } from "../types/UpdateNodePositions";
-import { getUserToken } from "./get-user-token";
+import { PropertyValue, Workflow } from '@nqframework/models';
+import { UpdateNodePositions } from '../types/UpdateNodePositions';
+import { getUserToken } from './get-user-token';
 
 const url = process.env.REACT_APP_API_URL;
 export class WorkflowService {
@@ -11,10 +11,10 @@ export class WorkflowService {
         headers: {
           Authorization: `Bearer ${await getUserToken()}`,
         },
-      }
+      },
     );
     if (res.status !== 200) {
-      throw new Error("not found");
+      throw new Error('not found');
     }
     const data = await res.json();
     return data;
@@ -27,101 +27,122 @@ export class WorkflowService {
         headers: {
           Authorization: `Bearer ${await getUserToken()}`,
         },
-      }
+      },
     );
     if (res.status !== 200) {
-      throw new Error("not found");
+      throw new Error('not found');
     }
     const data = await res.json();
     return data;
   }
-  async createWorkflow(name: string, organizationId: string): Promise<Workflow> {
+  async createWorkflow(
+    name: string,
+    organizationId: string,
+  ): Promise<Workflow> {
     const res = await fetch(
       url + `/workflow?organizationId=${organizationId}`,
       {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify({ name }),
         headers: {
           Authorization: `Bearer ${await getUserToken()}`,
-          "content-type": "application/json"
+          'content-type': 'application/json',
         },
-      }
+      },
     );
     if (res.status !== 201) {
-      throw new Error("not found");
+      throw new Error('not found');
     }
     const data = await res.json();
     return data;
   }
 
-  async addActionToWorkflow(id: string, actionId: string, organizationId: string): Promise<Workflow> {
+  async addActionToWorkflow(
+    id: string,
+    actionId: string,
+    organizationId: string,
+  ): Promise<Workflow> {
     const res = await fetch(
       url + `/workflow/${id}/actions?organizationId=${organizationId}`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${await getUserToken()}`,
-          "content-type": "application/json",
+          'content-type': 'application/json',
         },
         body: JSON.stringify({ actionId }),
-      }
+      },
     );
     if (res.status !== 201) {
-      throw new Error("not found");
+      throw new Error('not found');
     }
     return await res.json();
   }
 
-  async linkActionNodes(id: string, fromName: string, toName: string, organizationId: string): Promise<Workflow> {
+  async linkActionNodes(
+    id: string,
+    fromName: string,
+    toName: string,
+    organizationId: string,
+  ): Promise<Workflow> {
     const res = await fetch(
       url + `/workflow/${id}/action-links?organizationId=${organizationId}`,
       {
         body: JSON.stringify({ fromName, toName }),
-        method: "POST",
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${await getUserToken()}`,
-          "content-type": "application/json",
+          'content-type': 'application/json',
         },
-      }
+      },
     );
     if (res.status !== 201) {
-      throw new Error("not found");
+      throw new Error('not found');
     }
     return await res.json();
   }
 
-  async removeActionFromWorkflow(id: string, actionName: string, organizationId: string): Promise<Workflow> {
+  async removeActionFromWorkflow(
+    id: string,
+    actionName: string,
+    organizationId: string,
+  ): Promise<Workflow> {
     const res = await fetch(
       url +
-      `/workflow/${id}/actions/${actionName}?organizationId=${organizationId}`,
+        `/workflow/${id}/actions/${actionName}?organizationId=${organizationId}`,
       {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${await getUserToken()}`,
-          "content-type": "application/json",
+          'content-type': 'application/json',
         },
-      }
+      },
     );
     if (res.status !== 200) {
-      throw new Error("not found");
+      throw new Error('not found');
     }
     return await res.json();
   }
 
-  async removeActionLinkFromWorkflow(id: string, fromName: string, toName: string, organizationId: string): Promise<Workflow> {
+  async removeActionLinkFromWorkflow(
+    id: string,
+    fromName: string,
+    toName: string,
+    organizationId: string,
+  ): Promise<Workflow> {
     const res = await fetch(
       url +
-      `/workflow/${id}/action-links/${fromName}/${toName}?organizationId=${organizationId}`,
+        `/workflow/${id}/action-links/${fromName}/${toName}?organizationId=${organizationId}`,
       {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${await getUserToken()}`,
-          "content-type": "application/json",
+          'content-type': 'application/json',
         },
-      }
+      },
     );
     if (res.status !== 200) {
-      throw new Error("not found");
+      throw new Error('not found');
     }
     return await res.json();
   }
@@ -134,16 +155,16 @@ export class WorkflowService {
     const res = await fetch(
       url + `/workflow/${id}/positions?organizationId=${organizationId}`,
       {
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
           Authorization: `Bearer ${await getUserToken()}`,
-          "content-type": "application/json",
+          'content-type': 'application/json',
         },
         body: JSON.stringify(positions),
-      }
+      },
     );
     if (res.status !== 200) {
-      throw new Error("not found");
+      throw new Error('not found');
     }
   }
   async updateActionProperties(
@@ -153,18 +174,19 @@ export class WorkflowService {
     organizationId: string,
   ): Promise<void> {
     const res = await fetch(
-      url + `/workflow/${workflowId}/actions/${actionInstanceName}?organizationId=${organizationId}`,
+      url +
+        `/workflow/${workflowId}/actions/${actionInstanceName}?organizationId=${organizationId}`,
       {
-        method: "PATCH",
+        method: 'PATCH',
         headers: {
           Authorization: `Bearer ${await getUserToken()}`,
-          "content-type": "application/json",
+          'content-type': 'application/json',
         },
         body: JSON.stringify(propertyValues),
-      }
+      },
     );
     if (res.status !== 200) {
-      throw new Error("not found");
+      throw new Error('not found');
     }
   }
 }
