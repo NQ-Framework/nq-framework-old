@@ -42,9 +42,32 @@ export const ActionProperties: React.FC<{ deleteAction: (action: ActionInstance)
         }
     }, [workflow, setOutgoingLinks, setIncomingLinks, selected])
 
+    const reduceConfig = (properties: PropertyValue[]) : any => {
+        if (!properties || !properties.length) {
+            return {};
+        }
+        const result: any = {};
+        for (let i = 0; i < properties.length; i++) {
+            const property = properties[i];
+            if (Array.isArray(property.value)) {
+                const subResult: any[] = [];
+                property.value.forEach(val=> {
+                    subResult.push(reduceConfig(val.value));
+                });
+                result[property.name] = subResult;
+            }
+            else {
+                result[property.name] = property.value;
+            }
+        }
+        return result;
+    }
+
     if (!selected) {
         return null;
     }
+
+    const initialValues = reduceConfig(selected.instance.configuration.input);
 
 
     const incomingLinksComponent = incomingLinks && incomingLinks.length > 0 ? (
@@ -83,10 +106,7 @@ export const ActionProperties: React.FC<{ deleteAction: (action: ActionInstance)
             </DrawerHeader>
             <DrawerBody>
                 <Formik
-                    initialValues={selected.instance.configuration.input.reduce((opt: any, i) => {
-                        opt[i.name] = i.value
-                        return opt;
-                    }, {})}
+                    initialValues={initialValues}
                     onSubmit={(values, actions) => {
                         const mapValues = (props: any): PropertyValue[] => {
                             const keys = Object.keys(props);

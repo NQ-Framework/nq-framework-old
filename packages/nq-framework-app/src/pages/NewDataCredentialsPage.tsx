@@ -47,7 +47,6 @@ export const NewDataCredentialsPage: React.FC = () => {
         keysFromFields.forEach(k => {
             dc.configuration.push({ name: k, value: values.configuration[k] });
         });
-        console.log(dc);
         return service.createDataCredentials(dc, organization?.name ?? "").then(() => {
             cb();
             setRedirect(true);
