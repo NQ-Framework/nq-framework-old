@@ -36,9 +36,7 @@ export const handler: ActionHandler = {
       throw new Error('Missing required parameter isProcedure');
     }
 
-
-      const parameters = inputParameters.map((ip:any)=> ({...reducePropertyValuesToObject(ip.value), type: TYPES.NVarChar}));
-      console.log(parameters);
+      const parameters = (inputParameters || []).map((ip:any)=> ({...reducePropertyValuesToObject(ip.value), type: TYPES.DateTime}));
 
     const requestRouter = moduleRef.get<RequestRouterService>(
       RequestRouterService,

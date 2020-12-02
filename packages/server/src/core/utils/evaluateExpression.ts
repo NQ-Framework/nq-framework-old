@@ -1,4 +1,5 @@
 import { NodeVM, NodeVMOptions } from 'vm2';
+import {format, addDays, subDays, addHours, subHours }from "date-fns";
 
 export const evaluateExpression = async (
   expression: string,
@@ -6,6 +7,7 @@ export const evaluateExpression = async (
 ): Promise<any> => {
   const sandbox = {
     ...context,
+    dateFns: {format, addDays, subDays, addHours, subHours}
   };
 
   const options: NodeVMOptions = {

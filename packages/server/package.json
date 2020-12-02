@@ -40,6 +40,7 @@
     "@nqframework/models": "^4.4.1",
     "@types/cron": "^1.7.2",
     "cron": "^1.8.2",
+    "date-fns": "^2.16.1",
     "firebase-admin": "^9.4.0",
     "node-fetch": "^2.6.1",
     "npm-check-updates": "^10.0.0",

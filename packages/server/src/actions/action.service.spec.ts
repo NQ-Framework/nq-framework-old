@@ -73,7 +73,7 @@ describe('ActionService', () => {
     getHandlerMock.mockImplementation(() => ({
       handle: executeMock,
     }));
-    const result = await service.executeAction(
+    await service.executeAction(
       {
         ...mockActionInstance,
         configuration: {
@@ -96,7 +96,7 @@ describe('ActionService', () => {
     getHandlerMock.mockImplementation(() => ({
       handle: executeMock,
     }));
-    const result = await service.executeAction(
+    await service.executeAction(
       {
         ...mockActionInstance,
         configuration: {
@@ -119,7 +119,7 @@ describe('ActionService', () => {
     getHandlerMock.mockImplementation(() => ({
       handle: executeMock,
     }));
-    const result = await service.executeAction(
+    await service.executeAction(
       {
         ...mockActionInstance,
         configuration: {
@@ -131,6 +131,37 @@ describe('ActionService', () => {
     );
     expect(executeMock).toHaveBeenCalledWith(
       [{ name: 'test prop', value: 'TEST VALUE' }],
+      expect.any(Object),
+      expect.any(Object),
+      expect.any(Object),
+    );
+  });
+
+  it('should evaluate nested input expressions', async () => {
+    const executeMock = jest.fn();
+    getHandlerMock.mockImplementation(() => ({
+      handle: executeMock,
+    }));
+    await service.executeAction(
+      {
+        ...mockActionInstance,
+        configuration: {
+          ...mockActionInstance.configuration,
+          input: [{ name: 'test prop', value: [
+            {name: "item", value: [{name: 'test nested first prop', value:'="test value".toUpperCase();' },{name: 'test nested second prop', value:'="test value".toUpperCase();' }]},
+            {name: "item", value: [{name: 'test nested first prop', value:'="test value 2".toUpperCase();' }, {name: 'test nested second prop', value:'="test value 2".toUpperCase();' }]},
+          ]}],
+        },
+      },
+      mockWorkflowExecution,
+    );
+    expect(executeMock).toHaveBeenCalledWith(
+      [{ name: 'test prop', value: [
+        
+          {name:"item", value: [{name:'test nested first prop', value:'TEST VALUE' }, {name:'test nested second prop', value:'TEST VALUE'}]},
+          {name:"item", value: [{name:'test nested first prop', value:'TEST VALUE 2' }, {name:'test nested second prop', value:'TEST VALUE 2'}]},
+     
+      ]}],
       expect.any(Object),
       expect.any(Object),
       expect.any(Object),
