@@ -3,6 +3,7 @@ import { Action, ActionInstance, ActionLink, PropertyValue, Workflow } from "@nq
 import { Form, Formik } from "formik";
 import * as React from "react";
 import { useCallback, useEffect, useState } from "react";
+import { convertFormValuesToProperties, convertPropertiesToFormValues } from "../core/form-helpers";
 import { FormProperties } from "./form-properties";
 
 export const ActionProperties: React.FC<{ deleteAction: (action: ActionInstance) => Promise<void>, deleteLink: (link: ActionLink) => Promise<void>, selected: { action: Action, instance: ActionInstance, } | null, workflow: Workflow | null, updateActionProperties: (actionInstanceName: string, propertyValues: PropertyValue[]) => Promise<void> }> = ({ selected, updateActionProperties, workflow, deleteAction, deleteLink }) => {
@@ -42,39 +43,18 @@ export const ActionProperties: React.FC<{ deleteAction: (action: ActionInstance)
         }
     }, [workflow, setOutgoingLinks, setIncomingLinks, selected])
 
-    const reduceConfig = (properties: PropertyValue[]) : any => {
-        if (!properties || !properties.length) {
-            return {};
-        }
-        const result: any = {};
-        for (let i = 0; i < properties.length; i++) {
-            const property = properties[i];
-            if (Array.isArray(property.value)) {
-                const subResult: any[] = [];
-                property.value.forEach(val=> {
-                    subResult.push(reduceConfig(val.value));
-                });
-                result[property.name] = subResult;
-            }
-            else {
-                result[property.name] = property.value;
-            }
-        }
-        return result;
-    }
-
     if (!selected) {
         return null;
     }
 
-    const initialValues = reduceConfig(selected.instance.configuration.input);
+    const initialValues = convertPropertiesToFormValues(selected.instance.configuration.input);
 
 
     const incomingLinksComponent = incomingLinks && incomingLinks.length > 0 ? (
         <Box my={4}>
             <Text>Incoming connections:</Text>
             {incomingLinks.map(il => (
-                <Flex my={2} h="100%" justifyContent="space-between" alignItems="center">
+                <Flex my={2} h="100%" justifyContent="space-between" alignItems="center" key={il.fromName + il.toName}>
                     <Text>{il.fromName}</Text>
                     <Button colorScheme="blue" w="50%" onClick={() => {
                         setDeleteTargetType(il as any);
@@ -88,7 +68,7 @@ export const ActionProperties: React.FC<{ deleteAction: (action: ActionInstance)
         <Box my={4}>
             <Text>Outgoing connections:</Text>
             {outgoingLinks.map(ol => (
-                <Flex my={2} h="100%" justifyContent="space-between" alignItems="center">
+                <Flex my={2} h="100%" justifyContent="space-between" alignItems="center" key={ol.fromName + ol.toName}>
                     <Text>{ol.toName}</Text>
                     <Button colorScheme="blue" w="50%" onClick={() => {
                         setDeleteTargetType(ol as any);
@@ -108,34 +88,7 @@ export const ActionProperties: React.FC<{ deleteAction: (action: ActionInstance)
                 <Formik
                     initialValues={initialValues}
                     onSubmit={(values, actions) => {
-                        const mapValues = (props: any): PropertyValue[] => {
-                            const keys = Object.keys(props);
-                            const values: PropertyValue[] = [];
-                            keys.forEach(k => {
-                                if (Array.isArray(props[k])) {
-                                    let array: any = [];
-                                    props[k].forEach((v: any) => {
-                                        let subArray: PropertyValue[] = [];
-                                        if (typeof v === 'object' && v !== null) {
-                                            subArray = subArray.concat(mapValues(v));
-                                        }
-                                        else {
-                                            subArray.push({ name: k, value: v });
-                                        }
-                                        array.push({ name: "item", value: subArray });
-                                    });
-                                    values.push({ name: k, value: array });
-                                }
-                                else if (typeof props[k] === 'object' && props[k] !== null) {
-                                    values.push({ name: k, value: mapValues(props[k]) });
-                                }
-                                else {
-                                    values.push({ name: k, value: props[k] });
-                                }
-                            })
-                            return values;
-                        }
-                        const result = mapValues(values);
+                        const result = convertFormValuesToProperties(values);
                         updateActionProperties(selected.instance.name, result).then(() => {
                             actions.setSubmitting(false);
                         })
@@ -153,9 +106,9 @@ export const ActionProperties: React.FC<{ deleteAction: (action: ActionInstance)
                                 >
                                     Save
                         </Button>
-                                <pre>
+                                {/* <pre>
                                     {JSON.stringify(props, null, 2)}
-                                </pre>
+                                </pre> */}
                             </Stack>
                         </Form>
                     )}
