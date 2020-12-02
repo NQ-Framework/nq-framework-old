@@ -1,12 +1,7 @@
-import {
-  ActionHandler,
-  PropertyValue,
-} from '@nqframework/models';
+import { ActionHandler, PropertyValue } from '@nqframework/models';
 
 export const handler: ActionHandler = {
-  handle: async (
-    propertyValues: PropertyValue[],
-  ): Promise<PropertyValue[]> => {
+  handle: async (propertyValues: PropertyValue[]): Promise<PropertyValue[]> => {
     const message = propertyValues.find((i) => i.name === 'message')?.value;
     if (!message) {
       throw new Error('Missing required parameter message');
