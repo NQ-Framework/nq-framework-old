@@ -1,13 +1,13 @@
-import { loadFirebase } from './initialize';
-import * as dotenv from 'dotenv';
+// import { loadFirebase } from './initialize';
+// import * as dotenv from 'dotenv';
 
-dotenv.config();
+// dotenv.config();
 
-const app = loadFirebase({
-  projectId: 'nq-framework',
-  clientEmail: 'firebase-adminsdk-6116k@nq-framework.iam.gserviceaccount.com',
-  privateKey: '',
-} as any);
+// const app = loadFirebase({
+//   projectId: 'nq-framework',
+//   clientEmail: 'firebase-adminsdk-6116k@nq-framework.iam.gserviceaccount.com',
+//   privateKey: '',
+// } as any);
 
 // const map = Object.keys(TYPES).map(k=>{
 //   return {name: k, value: k}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { HttpService, Injectable } from '@nestjs/common';
 import { LoggerService } from '../core/logger.service';
 import { AnalyticsConfigService } from '../config/AnalyticsConfigService';

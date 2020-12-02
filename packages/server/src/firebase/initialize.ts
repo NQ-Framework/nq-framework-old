@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-namespace */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ServiceAccount } from '@nqframework/models';
 import * as admin from 'firebase-admin';
 import { AuthConfigService } from '../config/AuthConfigService';

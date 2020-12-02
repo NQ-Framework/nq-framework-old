@@ -1,6 +1,5 @@
 import { Action } from '@nqframework/models';
 import { getHandler } from './get-handler';
-import { handler } from './action-handlers/log';
 jest.mock('./action.service');
 
 const mockAction: Action = {
@@ -16,7 +15,7 @@ const mockAction: Action = {
 
 describe('getHandler', () => {
   it('should get handler based on action', () => {
-    var handler = getHandler(mockAction);
+    const handler = getHandler(mockAction);
     expect(handler).toBeDefined();
   });
 });
