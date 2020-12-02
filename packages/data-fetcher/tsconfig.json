@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "outDir": "build",
-        "module": "CommonJS",
+        "module": "commonjs",
         "target": "es5",
         "lib": [
             "es6",
@@ -10,20 +10,12 @@
             "es2017"
         ],
         "sourceMap": true,
-        "allowJs": false,
         "declaration": true,
-        "moduleResolution": "node",
-        "forceConsistentCasingInFileNames": true,
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
-        "noImplicitAny": true,
-        "strictNullChecks": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "esModuleInterop": true,
-        "strict": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "incremental": true,
+        "allowSyntheticDefaultImports": true,
+        "emitDecoratorMetadata": true,
+        "removeComments": true
     },
     "include": [
         "src"
@@ -31,7 +23,6 @@
     "exclude": [
         "node_modules",
         "build",
-        "**/*.spec.ts",
         "**/quokka-*.ts"
     ]
 }

@@ -1,5 +1,5 @@
-describe('project', () => {
-    it('works', () => {
-        expect(1).toEqual(1);
-    });
+describe("project", () => {
+  it("works", () => {
+    expect(1).toEqual(1);
+  });
 });
