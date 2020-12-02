@@ -1,5 +1,4 @@
-
 export interface WorkflowExecutionResult {
-    data: any;
-    finalOutput: any;
+  data: any;
+  finalOutput: any;
 }

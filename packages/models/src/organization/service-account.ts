@@ -1,5 +1,5 @@
 export interface ServiceAccount {
-    token: string,
-    name: string,
-    claims: string[]
+  token: string;
+  name: string;
+  claims: string[];
 }

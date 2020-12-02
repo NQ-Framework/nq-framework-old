@@ -1,3 +1,3 @@
 export interface ActionPort {
-    name: string;
+  name: string;
 }

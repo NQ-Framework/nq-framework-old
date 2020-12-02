@@ -1,5 +1,5 @@
 export interface EditorNode {
-    x: number,
-    y: number,
-    color: string
+  x: number;
+  y: number;
+  color: string;
 }
