@@ -9,6 +9,37 @@ const app = loadFirebase({
   privateKey: '',
 } as any);
 
+// const map = Object.keys(TYPES).map(k=>{
+//   return {name: k, value: k}
+// });
+
+// app.firestore().doc('actions/Ucvy1A1vpSXpXNtmpB49').get().then(doc=>{
+//   const data = doc.data();
+//   if (!data) {
+//     return;
+//   }
+
+// const newProp: Property = {
+//   name: 'Type',
+//   description: 'Parameter Type',
+//   options: {
+//     visible: true,
+//     required: true,
+//   },
+//   type: "select-one",
+//   selectOptions: map,
+// }
+
+//   data.properties[3].objectDefinition.push(newProp);
+
+//   app.firestore().doc('actions/Ucvy1A1vpSXpXNtmpB49').update(data).then(()=>{
+//     console.log('success!');
+//   }).catch(err=>{
+//     console.error(err);
+//   });
+// });
+
+
 // app
 //   .auth()
 //   .createCustomToken('123', { claim1: 'asd qwe' })

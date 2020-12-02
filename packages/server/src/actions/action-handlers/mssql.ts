@@ -36,7 +36,11 @@ export const handler: ActionHandler = {
       throw new Error('Missing required parameter isProcedure');
     }
 
-      const parameters = (inputParameters || []).map((ip:any)=> ({...reducePropertyValuesToObject(ip.value), type: TYPES.DateTime}));
+    const tediousTypes = TYPES as any;
+    const parameters = (inputParameters || []).map((ip:any)=> {
+       const reducedValues =reducePropertyValuesToObject(ip.value);
+       return {...reducedValues, type: tediousTypes[reducedValues.type]};
+      });
 
     const requestRouter = moduleRef.get<RequestRouterService>(
       RequestRouterService,
