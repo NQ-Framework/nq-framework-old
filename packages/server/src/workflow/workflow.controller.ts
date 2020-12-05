@@ -10,11 +10,16 @@ import {
   Post,
   Req,
 } from '@nestjs/common';
-import { PropertyValue, Workflow } from '@nqframework/models';
+import {
+  PropertyValue,
+  Workflow,
+  WorkflowTriggerApi,
+} from '@nqframework/models';
 import { Request } from 'express';
 import { getUniqueName } from '../core/utils';
 import { ActionsRepositoryService } from '../actions/actions-repository/actions-repository.service';
 import { WorkflowRepositoryService } from './workflow-repository.service';
+import { WorkflowTriggerBase } from '@nqframework/models/build/workflow/triggers/workflow-trigger-base';
 
 @Controller('workflow')
 export class WorkflowController {
@@ -43,7 +48,6 @@ export class WorkflowController {
       name,
     );
     return workflow;
-    throw new BadRequestException();
   }
 
   @Get(':id')
@@ -168,6 +172,78 @@ export class WorkflowController {
     return workflow;
   }
 
+  @Post(':id/triggers')
+  async AddTriggerToWorkflow(
+    @Param('id') id: string,
+    @Req() req: Request,
+    @Body('trigger')
+    trigger: WorkflowTriggerBase,
+  ): Promise<Workflow> {
+    if (
+      !trigger.type ||
+      !['api'].includes(trigger.type) ||
+      !trigger.editorConfig
+    ) {
+      throw new BadRequestException();
+    }
+
+    const workflows = await this.workflowService.getWorkflowsForOrganization(
+      req.organizationId,
+    );
+    const workflow = workflows.find((w) => w.id === id);
+    if (!workflow) {
+      throw new NotFoundException();
+    }
+
+    //TODO: move to function that validates!!!
+    workflow.triggers.push(trigger);
+    if (trigger.type === 'api') {
+      this.workflowService.populateWorkflowEndpoints(workflow);
+    }
+
+    await this.workflowService.updateWorkflow(workflow);
+    return workflow;
+  }
+
+  @Patch(':id/triggers/:triggerId')
+  async PatchTriggerProperties(
+    @Param('id') id: string,
+    @Param('triggerId') triggerId: string,
+    @Req() req: Request,
+    @Body('trigger')
+    trigger: WorkflowTriggerBase,
+  ): Promise<Workflow> {
+    if (
+      !triggerId ||
+      !trigger.id ||
+      !(triggerId === trigger.id) ||
+      !trigger.type ||
+      !['api'].includes(trigger.type) ||
+      !trigger.editorConfig
+    ) {
+      throw new BadRequestException();
+    }
+
+    const workflows = await this.workflowService.getWorkflowsForOrganization(
+      req.organizationId,
+    );
+    const workflow = workflows.find((w) => w.id === id);
+    if (!workflow) {
+      throw new NotFoundException();
+    }
+
+    workflow.triggers = workflow.triggers.filter((t) => !(t.id === triggerId));
+
+    //TODO: move to function that validates!!!
+    workflow.triggers.push(trigger);
+    if (trigger.type === 'api') {
+      this.workflowService.populateWorkflowEndpoints(workflow);
+    }
+
+    await this.workflowService.updateWorkflow(workflow);
+    return workflow;
+  }
+
   @Post(':id/action-links')
   async AddActionLinkToWorkflow(
     @Param('id') id: string,
@@ -282,6 +358,37 @@ export class WorkflowController {
     workflow.actionLinks = workflow.actionLinks.filter(
       (al) => al.fromName !== actionName && al.toName !== actionName,
     );
+
+    await this.workflowService.updateWorkflow(workflow);
+    return workflow;
+  }
+
+  @Delete(':id/triggers/:triggerId')
+  async RemoveTriggerFromWorkflow(
+    @Param('id') id: string,
+    @Req() req: Request,
+    @Param('triggerId')
+    triggerId: string,
+  ): Promise<Workflow> {
+    const workflows = await this.workflowService.getWorkflowsForOrganization(
+      req.organizationId,
+    );
+    const workflow = workflows.find((w) => w.id === id);
+    if (!workflow) {
+      throw new NotFoundException();
+    }
+
+    const trigger = workflow.triggers.find((tr) => tr.id === triggerId);
+
+    if (!trigger) {
+      throw new BadRequestException('invalid trigger id');
+    }
+
+    //TODO: move to function that validates!!!
+    workflow.triggers = workflow.triggers.filter((tr) => tr.id !== triggerId);
+    if (trigger.type === 'api') {
+      this.workflowService.populateWorkflowEndpoints(workflow);
+    }
 
     await this.workflowService.updateWorkflow(workflow);
     return workflow;

@@ -6,6 +6,6 @@ export interface WorkflowTriggerBase {
   input: PropertyValue[];
   output: PropertyValue[];
   actions: string[];
-  type: string;
+  type: "api";
   editorConfig: EditorNode;
 }
