@@ -23,6 +23,7 @@ export async function createExecutionContext(
     actions: {},
     input: {},
     triggerInput: input,
+    triggerOutput: null,
     workflow: workflow,
     organization,
   };

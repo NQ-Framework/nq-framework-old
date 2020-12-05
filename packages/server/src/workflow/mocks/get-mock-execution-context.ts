@@ -18,7 +18,8 @@ export const getMockExecutionContext = (): WorkflowExecutionContext =>
       isRunning: true,
       stack: [],
       startTime: new Date('2020-11-20'),
-      triggerInput: { trigInput: 'mock trigger input value' },
+      triggerInput: [{ name: 'trigInput', value: 'mock trigger input value' }],
+      triggerOutput: { output: 'mock trigger output' },
       workflow: mockWorkflow,
     } as WorkflowExecutionContext),
   ) as WorkflowExecutionContext;

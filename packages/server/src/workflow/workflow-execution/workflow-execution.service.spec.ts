@@ -9,10 +9,12 @@ import { mockExecutionResult } from '../mocks/mock-execution-result';
 import { OrganizationService } from '../../organization/organization.service';
 import { mockOrganization } from '../mocks/mock-organization';
 import { persistExecutionContextState } from './persist-execution-context-state';
+import { evaluateTriggerOutput } from './evaluate-trigger-output';
 
 jest.mock('./create-execution-context');
 jest.mock('./execute-stack');
 jest.mock('./persist-execution-context-state');
+jest.mock('./evaluate-trigger-output');
 
 describe('WorkflowExecutionService', () => {
   let service: WorkflowExecutionService;
@@ -102,6 +104,31 @@ describe('WorkflowExecutionService', () => {
       { type: 'mockService' },
     );
     expect(mockOrg).toHaveBeenCalledWith(mockWorkflow.organizationId);
+  });
+  it('should evaluate trigger output', async () => {
+    const mockEvaluate = evaluateTriggerOutput as jest.Mock;
+    mockEvaluate.mockImplementation(() => ({
+      test: 'test value',
+    }));
+    const mockOrg = organizationService.getOrganization as jest.Mock;
+    mockOrg.mockImplementation(() => mockOrganization);
+    (createExecutionContext as jest.Mock).mockImplementation(() => {
+      return getMockExecutionContext();
+    });
+    (executeStack as jest.Mock).mockImplementation(() => {
+      return mockExecutionResult;
+    });
+    const result = await service.executeWorkflow(
+      mockWorkflow,
+      [],
+      mockWorkflow.triggers[0].id,
+      'mock user id',
+    );
+    expect(mockEvaluate).toHaveBeenCalled();
+    expect(result.context).toBeDefined();
+    if (result.context) {
+      expect(result.context.triggerOutput).toEqual({ test: 'test value' });
+    }
   });
 
   it('should throw when starting with invalid trigger id', async () => {

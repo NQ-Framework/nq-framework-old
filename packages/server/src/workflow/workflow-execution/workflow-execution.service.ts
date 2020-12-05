@@ -10,6 +10,7 @@ import { executeStack } from './execute-stack';
 import { createExecutionContext } from './create-execution-context';
 import { OrganizationService } from '../../organization/organization.service';
 import { persistExecutionContextState } from './persist-execution-context-state';
+import { evaluateTriggerOutput } from './evaluate-trigger-output';
 
 @Injectable()
 export class WorkflowExecutionService {
@@ -57,11 +58,15 @@ export class WorkflowExecutionService {
 
     const result = await executeStack(context, this.actionService);
 
+    const triggerOutput = await evaluateTriggerOutput(trigger, result, context);
+
     const finishedContext: WorkflowExecutionContext = {
       ...context,
       endTime: new Date(),
       isRunning: false,
+      triggerOutput,
     };
+    result.context = finishedContext;
     await persistExecutionContextState(finishedContext);
 
     return result;

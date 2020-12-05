@@ -42,6 +42,7 @@ describe('ActionService', () => {
     stack: [],
     input: [],
     triggerInput: [],
+    triggerOutput: {},
     actions: {},
   };
 

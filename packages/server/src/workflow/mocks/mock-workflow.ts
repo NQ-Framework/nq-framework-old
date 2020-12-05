@@ -1,4 +1,4 @@
-import { Workflow } from '@nqframework/models';
+import { Workflow, WorkflowTriggerApi } from '@nqframework/models';
 
 export const mockWorkflow: Workflow = {
   id: 'mock id',
@@ -64,9 +64,10 @@ export const mockWorkflow: Workflow = {
       },
       id: '123',
       input: [],
+      output: [],
       type: 'api',
       verb: ['GET'],
       endpoint: 'test endpoint',
-    },
+    } as WorkflowTriggerApi,
   ],
 };

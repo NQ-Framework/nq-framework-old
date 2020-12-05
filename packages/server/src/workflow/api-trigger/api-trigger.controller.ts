@@ -65,6 +65,9 @@ export class ApiTriggerController {
       trigger?.id || '',
       req.firebaseUser ? req.firebaseUser.uid : req.serviceAccount.name,
     );
-    return result;
+    if (query.debugWorkflow === 'true') {
+      return { ...result.context?.triggerOutput, workflowResult: result };
+    }
+    return result.context?.triggerOutput;
   }
 }
