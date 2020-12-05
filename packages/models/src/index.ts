@@ -21,6 +21,7 @@ export { WorkflowExecutionData } from "./workflow/workflow-execution-data";
 export { WorkflowExecutionResult } from "./workflow/workflow-execution-result";
 export { WorkflowExecutionContext } from "./workflow/workflow-execution-context";
 export { PropertyValue } from "./workflow/property/property-value";
+export { WorkflowTrigger } from "./workflow/triggers/workflow-trigger";
 export { WorkflowTriggerApi } from "./workflow/triggers/workflow-trigger-api";
 export { WorkflowTriggerBase } from "./workflow/triggers/workflow-trigger-base";
 export { UserToken } from "./authentication/user-token";

@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { Action } from '@nqframework/models';
+import { Action, WorkflowTrigger } from '@nqframework/models';
 import { ActionsRepositoryService } from './actions-repository/actions-repository.service';
 
 @Controller('actions')
@@ -9,5 +9,10 @@ export class ActionsController {
   @Get('')
   async getEnabledActions(): Promise<Action[]> {
     return await this.actions.getEnabledActions();
+  }
+
+  @Get('triggers')
+  async getEnabledTriggers(): Promise<WorkflowTrigger[]> {
+    return await this.actions.getEnabledTriggers();
   }
 }

@@ -26,9 +26,11 @@ import { AuthContext, initPromise } from '../firebase/firebase-context';
 import { Redirect, useParams } from 'react-router-dom';
 import { organizationContext } from '../core/organization-context';
 import { ActionProperties } from '../components/action-properties';
+import { TriggerService } from '../services/trigger.service';
 
 export const EditorPage: React.FC = () => {
   const workflowService = useMemo(() => new WorkflowService(), []);
+  const triggerService = useMemo(() => new TriggerService(), []);
   const user = useContext(AuthContext);
   const { organization } = useContext(organizationContext);
   const [workflow, setWorkflow] = useState<Workflow | null>(null);
@@ -118,11 +120,13 @@ export const EditorPage: React.FC = () => {
       actionsService.getAll(organization?.name ?? '').then((ac) => {
         setActions(ac);
       });
-      actionsService.getAllTriggers(organization?.name ?? '').then((tg) => {
-        setTriggers(tg);
-      });
+      triggerService
+        .getAllTriggerDefinitions(organization?.name ?? '')
+        .then((tg) => {
+          setTriggers(tg);
+        });
     });
-  }, [workflowService, user, workflowId, organization]);
+  }, [workflowService, triggerService, user, workflowId, organization]);
 
   useEffect(() => {
     if (!selectedAction) {
