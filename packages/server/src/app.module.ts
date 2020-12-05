@@ -12,7 +12,6 @@ import { OrganizationModule } from './organization/organization.module';
 import { ScheduledJobsModule } from './scheduled-jobs/scheduled-jobs.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { JobHandlerModule } from './job-handler/job-handler.module';
-import { TriggeredJobsModule } from './triggered-jobs/triggered-jobs.module';
 import { GuardsModule } from './guards/guards.module';
 import { ActionsModule } from './actions/actions.module';
 import { WorkflowModule } from './workflow/workflow.module';
@@ -36,7 +35,6 @@ const configImport = ConfigModule.forRoot({
     ScheduledJobsModule,
     ScheduleModule.forRoot(),
     JobHandlerModule,
-    TriggeredJobsModule,
     GuardsModule,
     ActionsModule,
     WorkflowModule,
