@@ -6,7 +6,8 @@ export const Toolbox: React.FC<{
   actions: Action[];
   triggers: WorkflowTrigger[];
   addAction: (action: Action) => void;
-}> = ({ actions, triggers, addAction }) => {
+  addTrigger: (trigger: WorkflowTrigger) => void;
+}> = ({ actions, triggers, addAction, addTrigger }) => {
   return (
     <>
       <Flex dir="row" alignItems="center">
@@ -30,16 +31,16 @@ export const Toolbox: React.FC<{
       <Flex mt={4} dir="row" alignItems="center">
         <Text fontSize="xl">Trigeri:&nbsp;</Text>
         {triggers && triggers.map && triggers.length > 0 ? (
-          triggers.map((a) => (
+          triggers.map((t) => (
             <Button
-              backgroundColor={a.color}
-              key={a.name}
+              backgroundColor={t.color}
+              key={t.name}
               mx={15}
               onClick={() => {
-                console.log(a);
+                addTrigger(t);
               }}
             >
-              {a.name}
+              {t.name}
             </Button>
           ))
         ) : (

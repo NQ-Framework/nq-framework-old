@@ -5,7 +5,8 @@ export interface WorkflowTrigger {
   type: "api";
   description: "";
   color: string;
-  properties: Property[];
+  inputProperties: Property[];
+  outputProperties: Property[];
   isEnabled: boolean;
   handler: string;
 }

@@ -1,7 +1,7 @@
 import {
   Workflow,
   WorkflowTrigger,
-  WorkflowTriggerBase,
+  WorkflowTriggerInstance,
 } from '@nqframework/models';
 import { getUserToken } from './get-user-token';
 
@@ -26,8 +26,8 @@ export class TriggerService {
   async createTrigger(
     organizationId: string,
     workflowId: string,
-    trigger: WorkflowTriggerBase,
-  ): Promise<Workflow[]> {
+    trigger: WorkflowTriggerInstance,
+  ): Promise<Workflow> {
     const res = await fetch(
       url + `/workflow/${workflowId}/triggers?organizationId=${organizationId}`,
       {
@@ -50,8 +50,8 @@ export class TriggerService {
     organizationId: string,
     workflowId: string,
     triggerId: string,
-    trigger: WorkflowTriggerBase,
-  ): Promise<Workflow[]> {
+    trigger: WorkflowTriggerInstance,
+  ): Promise<Workflow> {
     const res = await fetch(
       url +
         `/workflow/${workflowId}/triggers/${triggerId}?organizationId=${organizationId}`,
@@ -74,7 +74,7 @@ export class TriggerService {
     organizationId: string,
     workflowId: string,
     triggerId: string,
-  ): Promise<Workflow[]> {
+  ): Promise<Workflow> {
     const res = await fetch(
       url +
         `/workflow/${workflowId}/triggers/${triggerId}?organizationId=${organizationId}`,

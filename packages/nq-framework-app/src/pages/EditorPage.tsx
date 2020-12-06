@@ -18,6 +18,7 @@ import {
   PropertyValue,
   Workflow,
   WorkflowTrigger,
+  WorkflowTriggerInstance,
 } from '@nqframework/models';
 import { ActionsService } from '../services/actions.service';
 import { Toolbox } from '../components/toolbox';
@@ -27,6 +28,7 @@ import { Redirect, useParams } from 'react-router-dom';
 import { organizationContext } from '../core/organization-context';
 import { ActionProperties } from '../components/action-properties';
 import { TriggerService } from '../services/trigger.service';
+import { TriggerProperties } from '../components/trigger-properties';
 
 export const EditorPage: React.FC = () => {
   const workflowService = useMemo(() => new WorkflowService(), []);
@@ -37,6 +39,10 @@ export const EditorPage: React.FC = () => {
   const [selectedAction, setSelectedAction] = useState<{
     instance: ActionInstance;
     action: Action;
+  } | null>(null);
+  const [selectedTrigger, setSelectedTrigger] = useState<{
+    trigger: WorkflowTriggerInstance;
+    triggerDefinition: WorkflowTrigger;
   } | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: false });
 
@@ -64,6 +70,50 @@ export const EditorPage: React.FC = () => {
         });
     },
     [workflowService, setWorkflow, workflowId, organization],
+  );
+  const addTrigger = useCallback(
+    (trigger: WorkflowTrigger) => {
+      triggerService
+        .createTrigger(organization?.name ?? '', workflowId, {
+          type: trigger.type,
+          editorConfig: {
+            color: trigger.color,
+            x: 100,
+            y: 100,
+          },
+        } as any)
+        .then((workflow) => {
+          setWorkflow(workflow);
+        });
+    },
+    [triggerService, setWorkflow, workflowId, organization],
+  );
+  const updateTrigger = useCallback(
+    (trigger: WorkflowTriggerInstance): Promise<void> => {
+      return triggerService
+        .updateTrigger(
+          organization?.name ?? '',
+          workflowId,
+          trigger.id,
+          trigger,
+        )
+        .then((workflow) => {
+          setWorkflow(workflow);
+        });
+    },
+    [triggerService, setWorkflow, workflowId, organization],
+  );
+
+  const deleteTrigger = useCallback(
+    (triggerId: string): Promise<void> => {
+      return triggerService
+        .deleteTrigger(organization?.name ?? '', workflowId, triggerId)
+        .then((workflow) => {
+          setSelectedTrigger(null);
+          setWorkflow(workflow);
+        });
+    },
+    [triggerService, setWorkflow, setSelectedTrigger, workflowId, organization],
   );
 
   const removeAction = useCallback(
@@ -93,13 +143,41 @@ export const EditorPage: React.FC = () => {
 
   const addConnection = useCallback(
     (from: string, to: string) => {
+      const fromTrigger = workflow?.triggers?.find((t) => t.id === from);
+      if (fromTrigger) {
+        if (!fromTrigger.actions) {
+          fromTrigger.actions = [to];
+        } else {
+          if (!fromTrigger.actions.includes(to)) {
+            fromTrigger.actions.push(to);
+          }
+        }
+        triggerService
+          .updateTrigger(
+            organization?.name ?? '',
+            workflowId,
+            from,
+            fromTrigger,
+          )
+          .then((workflow) => {
+            setWorkflow(workflow);
+          });
+        return;
+      }
       workflowService
         .linkActionNodes(workflowId, from, to, organization?.name ?? '')
         .then((workflow) => {
           setWorkflow(workflow);
         });
     },
-    [workflowService, setWorkflow, workflowId, organization],
+    [
+      workflowService,
+      triggerService,
+      setWorkflow,
+      workflowId,
+      organization,
+      workflow,
+    ],
   );
 
   const [actions, setActions] = useState<Action[]>([]);
@@ -129,37 +207,51 @@ export const EditorPage: React.FC = () => {
   }, [workflowService, triggerService, user, workflowId, organization]);
 
   useEffect(() => {
-    if (!selectedAction) {
+    if (!selectedAction && !selectedTrigger) {
       onClose();
       return;
     }
     onOpen();
-  }, [selectedAction, onClose, onOpen]);
+  }, [selectedAction, selectedTrigger, onClose, onOpen]);
   const mapAction = useCallback(
     (els: Elements) => {
       if (els.length === 0) {
         setSelectedAction(null);
+        setSelectedTrigger(null);
         return;
       }
       const mappedActions = els
         .filter((el) => el.type === 'default')
         .map((el) => workflow?.actionInstances.find((ai) => ai.name === el.id));
-      if (mappedActions.length === 0) {
-        return;
+      if (mappedActions.length !== 0) {
+        const mappedActionInstance = mappedActions[0]!;
+        const actionDefinition = actions.find(
+          (a) => a.id === mappedActionInstance.action.id,
+        );
+        if (!actionDefinition) {
+          return null;
+        }
+        setSelectedAction({
+          action: actionDefinition,
+          instance: mappedActionInstance,
+        });
       }
-      const mappedActionInstance = mappedActions[0]!;
-      const actionDefinition = actions.find(
-        (a) => a.id === mappedActionInstance.action.id,
-      );
-      if (!actionDefinition) {
-        return null;
+      const mappedTriggers = els
+        .filter((el) => el.type !== 'default')
+        .map((el) => workflow?.triggers.find((t) => t.id === el.id));
+      if (mappedTriggers.length !== 0) {
+        const triggerDefinition = triggers.find(
+          (t) => t.type === mappedTriggers[0]!.type,
+        );
+        if (triggerDefinition) {
+          setSelectedTrigger({
+            trigger: mappedTriggers[0]!,
+            triggerDefinition,
+          });
+        }
       }
-      setSelectedAction({
-        action: actionDefinition,
-        instance: mappedActionInstance,
-      });
     },
-    [setSelectedAction, actions, workflow],
+    [setSelectedAction, setSelectedTrigger, actions, triggers, workflow],
   );
 
   const updateActionProperties = useCallback(
@@ -220,6 +312,7 @@ export const EditorPage: React.FC = () => {
               actions={actions}
               triggers={triggers}
               addAction={addAction}
+              addTrigger={addTrigger}
             />
             <Drawer
               isOpen={isOpen}
@@ -228,6 +321,12 @@ export const EditorPage: React.FC = () => {
               size="md"
             >
               <DrawerContent background="white">
+                <TriggerProperties
+                  deleteTrigger={deleteTrigger}
+                  updateTrigger={updateTrigger}
+                  workflow={workflow}
+                  selected={selectedTrigger}
+                />
                 <ActionProperties
                   deleteAction={deleteAction}
                   deleteLink={deleteLink}

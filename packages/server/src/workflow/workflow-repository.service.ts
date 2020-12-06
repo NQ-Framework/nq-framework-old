@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Workflow, WorkflowTriggerApi } from '@nqframework/models';
+import {
+  reducePropertyValuesToObject,
+  Workflow,
+  WorkflowTriggerInstance,
+} from '@nqframework/models';
 import { LoggerService } from '../core/logger.service';
 import { getFirebaseApp } from '../firebase/initialize';
 
@@ -76,14 +80,16 @@ export class WorkflowRepositoryService {
   }
 
   populateWorkflowEndpoints(workflow: Workflow): void {
-    workflow.endpoints = workflow.triggers.reduce((prev, cur) => {
-      if (cur.type === 'api') {
-        const apiTrig = cur as WorkflowTriggerApi;
-        if (apiTrig.endpoint) {
-          prev.push(apiTrig.endpoint);
+    workflow.endpoints =
+      workflow.triggers?.reduce((prev, cur) => {
+        if (cur.type === 'api') {
+          const apiTrig = cur as WorkflowTriggerInstance;
+          const values = reducePropertyValuesToObject(apiTrig.input ?? []);
+          if (values.endpoint) {
+            prev.push(values.endpoint);
+          }
         }
-      }
-      return prev;
-    }, [] as string[]);
+        return prev;
+      }, [] as string[]) ?? [];
   }
 }

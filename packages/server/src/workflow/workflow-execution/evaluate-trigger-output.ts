@@ -3,11 +3,11 @@ import {
   WorkflowExecutionContext,
   WorkflowExecutionResult,
 } from '@nqframework/models';
-import { WorkflowTriggerBase } from '@nqframework/models/build/workflow/triggers/workflow-trigger-base';
+import { WorkflowTriggerInstance } from '@nqframework/models';
 import { evaluateProperties } from '../../core/utils';
 
 export const evaluateTriggerOutput = async (
-  trigger: WorkflowTriggerBase,
+  trigger: WorkflowTriggerInstance,
   result: WorkflowExecutionResult,
   context: WorkflowExecutionContext,
 ): Promise<any> => {

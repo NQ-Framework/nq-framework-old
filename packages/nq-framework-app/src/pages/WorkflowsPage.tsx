@@ -97,17 +97,21 @@ export const WorkflowsPage: React.FC = () => {
                           <TagLeftIcon boxSize="12px" as={TiFlowChildren} />
                           <TagLabel>{w.actionInstances.length}</TagLabel>
                         </Tag>
-                        {w.triggers.map((t) => (
-                          <Tag
-                            size="sm"
-                            key={t.id}
-                            variant="subtle"
-                            colorScheme="cyan"
-                          >
-                            <TagLeftIcon boxSize="12px" as={VscDebugStart} />
-                            <TagLabel>{t.type}</TagLabel>
-                          </Tag>
-                        ))}
+                        {w.triggers
+                          .filter(
+                            (val, index, self) => self.indexOf(val) === index,
+                          )
+                          .map((t) => (
+                            <Tag
+                              size="sm"
+                              key={t.id}
+                              variant="subtle"
+                              colorScheme="cyan"
+                            >
+                              <TagLeftIcon boxSize="12px" as={VscDebugStart} />
+                              <TagLabel>{t.type}</TagLabel>
+                            </Tag>
+                          ))}
                       </HStack>
                     </Link>
                   ))}

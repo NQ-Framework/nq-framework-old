@@ -98,7 +98,7 @@ function mapTriggersToDiagramElements(workflow: Workflow): DiagramElement[] {
       style: { backgroundColor: trigger.editorConfig.color },
       position: { x: trigger.editorConfig.x, y: trigger.editorConfig.y },
     });
-    trigger.actions.forEach((ac) =>
+    (trigger.actions ?? []).forEach((ac) =>
       elements.push({
         id: trigger.id + ac,
         source: trigger.id,

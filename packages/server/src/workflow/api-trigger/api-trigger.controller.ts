@@ -6,7 +6,11 @@ import {
   Query,
   Req,
 } from '@nestjs/common';
-import { Workflow, WorkflowTriggerApi } from '@nqframework/models';
+import {
+  reducePropertyValuesToObject,
+  Workflow,
+  WorkflowTriggerInstance,
+} from '@nqframework/models';
 import { Request } from 'express';
 import { LoggerService } from '../../core/logger.service';
 import { WorkflowExecutionService } from '../workflow-execution/workflow-execution.service';
@@ -32,19 +36,22 @@ export class ApiTriggerController {
       req.organizationId,
       req.params[0],
     );
-    let trigger: WorkflowTriggerApi | undefined;
+    let trigger: WorkflowTriggerInstance | undefined;
 
     const targetWorkflow: Workflow | undefined = wfs.find((w) => {
-      const trig = w.triggers.find(
-        (t) =>
-          t.type === 'api' &&
-          (t as WorkflowTriggerApi).verb.includes(req.method as any),
-      );
+      const trig = w.triggers.find((t) => t.type === 'api');
       if (!trig) {
         return false;
       }
-      trigger = trig as WorkflowTriggerApi;
-      return true;
+      const inputValues = reducePropertyValuesToObject(trig.input);
+      if (
+        inputValues.verbs &&
+        (inputValues.verbs as string[]).includes(req.method)
+      ) {
+        trigger = trig;
+        return true;
+      }
+      return false;
     });
     if (!targetWorkflow) {
       this.logger.warn(
@@ -55,9 +62,8 @@ export class ApiTriggerController {
     this.logger.debug('Triggering workflow: ' + targetWorkflow?.name + ' ');
 
     const inputs = trigger?.input || [];
-    req.query;
     for (const queryKey of Object.keys(query)) {
-      inputs.push({ name: queryKey, value: query[queryKey] });
+      inputs.push({ name: 'q:' + queryKey, value: query[queryKey] });
     }
     const result = await this.workflowExecutionService.executeWorkflow(
       targetWorkflow,

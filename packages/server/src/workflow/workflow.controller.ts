@@ -13,13 +13,12 @@ import {
 import {
   PropertyValue,
   Workflow,
-  WorkflowTriggerApi,
+  WorkflowTriggerInstance,
 } from '@nqframework/models';
 import { Request } from 'express';
-import { getUniqueName } from '../core/utils';
+import { generateUniqueId, getUniqueName } from '../core/utils';
 import { ActionsRepositoryService } from '../actions/actions-repository/actions-repository.service';
 import { WorkflowRepositoryService } from './workflow-repository.service';
-import { WorkflowTriggerBase } from '@nqframework/models/build/workflow/triggers/workflow-trigger-base';
 
 @Controller('workflow')
 export class WorkflowController {
@@ -176,8 +175,8 @@ export class WorkflowController {
   async AddTriggerToWorkflow(
     @Param('id') id: string,
     @Req() req: Request,
-    @Body('trigger')
-    trigger: WorkflowTriggerBase,
+    @Body()
+    trigger: WorkflowTriggerInstance,
   ): Promise<Workflow> {
     if (
       !trigger.type ||
@@ -195,6 +194,7 @@ export class WorkflowController {
       throw new NotFoundException();
     }
 
+    trigger.id = await generateUniqueId();
     //TODO: move to function that validates!!!
     workflow.triggers.push(trigger);
     if (trigger.type === 'api') {
@@ -210,8 +210,8 @@ export class WorkflowController {
     @Param('id') id: string,
     @Param('triggerId') triggerId: string,
     @Req() req: Request,
-    @Body('trigger')
-    trigger: WorkflowTriggerBase,
+    @Body()
+    trigger: WorkflowTriggerInstance,
   ): Promise<Workflow> {
     if (
       !triggerId ||
