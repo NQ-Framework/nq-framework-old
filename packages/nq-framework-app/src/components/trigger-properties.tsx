@@ -163,7 +163,7 @@ export const TriggerProperties: React.FC<{
                 >
                   Save
                 </Button>
-                <pre>{JSON.stringify(props, null, 2)}</pre>
+                {/* <pre>{JSON.stringify(props, null, 2)}</pre> */}
               </Stack>
             </Form>
           )}

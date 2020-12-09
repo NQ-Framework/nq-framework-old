@@ -78,6 +78,9 @@ export const Diagram: React.FC<{
         onElementClick={(event, element) => {
           changeSelection(element ? [element] : []);
         }}
+        // onSelectionChange={(e) => {
+        //   changeSelection(e ?? []);
+        // }}
       >
         <Background variant={BackgroundVariant.Lines} gap={18} size={4} />
       </ReactFlow>

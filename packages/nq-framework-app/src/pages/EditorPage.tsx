@@ -228,13 +228,13 @@ export const EditorPage: React.FC = () => {
         const actionDefinition = actions.find(
           (a) => a.id === mappedActionInstance.action.id,
         );
-        if (!actionDefinition) {
-          return null;
+        if (actionDefinition) {
+          setSelectedAction({
+            action: actionDefinition,
+            instance: mappedActionInstance,
+          });
+          setSelectedTrigger(null);
         }
-        setSelectedAction({
-          action: actionDefinition,
-          instance: mappedActionInstance,
-        });
       }
       const mappedTriggers = els
         .filter((el) => el.type !== 'default')
@@ -248,6 +248,7 @@ export const EditorPage: React.FC = () => {
             trigger: mappedTriggers[0]!,
             triggerDefinition,
           });
+          setSelectedAction(null);
         }
       }
     },
