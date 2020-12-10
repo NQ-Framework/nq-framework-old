@@ -16,6 +16,7 @@ export const FormProperty: React.FC<{
           <FormLabel htmlFor={name}>{prop.description}</FormLabel>
           <InputControl
             fieldProperty={prop}
+            setFieldValue={formikProps.setFieldValue}
             {...field}
             id={name}
             placeholder={prop.description}

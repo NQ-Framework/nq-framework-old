@@ -6,12 +6,33 @@
 // const app = loadFirebase({
 //   projectId: 'nq-framework',
 //   clientEmail: 'firebase-adminsdk-6116k@nq-framework.iam.gserviceaccount.com',
-//   privateKey: '',
+//   privateKey:
+//     '',
 // } as any);
 
 // const map = Object.keys(TYPES).map(k=>{
 //   return {name: k, value: k}
 // });
+
+// app
+//   .firestore()
+//   .doc('organizations/livona')
+//   .get()
+//   .then((doc) => {
+//     const data = doc.data();
+//     if (doc.exists && data) {
+//       app
+//         .firestore()
+//         .doc('organizations/livona--uat')
+//         .create(data)
+//         .then((res) => {
+//           console.log('success! ', res);
+//         });
+//     }
+//   })
+//   .catch((err) => {
+//     console.error(err);
+//   });
 
 // app.firestore().doc('actions/Ucvy1A1vpSXpXNtmpB49').get().then(doc=>{
 //   const data = doc.data();

@@ -15,11 +15,12 @@ import { useContext } from 'react';
 
 export interface InputControlProps {
   fieldProperty: Property;
+  setFieldValue: any;
 }
 
 export const InputControl: React.FC<
   InputControlProps & (InputProps | SelectProps | TextareaProps | CheckboxProps)
-> = ({ fieldProperty, ...rest }) => {
+> = ({ fieldProperty, setFieldValue, ...rest }) => {
   const { organization } = useContext(organizationContext);
 
   if (fieldProperty.type === 'string') {
@@ -29,7 +30,15 @@ export const InputControl: React.FC<
     return <Textarea {...(rest as any)} />;
   }
   if (fieldProperty.type === 'boolean') {
-    return <Checkbox {...(rest as any)} />;
+    return (
+      <Checkbox
+        isChecked={(rest.value as any) === true || rest.value === 'true'}
+        onChange={(e) => {
+          console.log('e je', e.target.checked);
+          setFieldValue(rest.name, e.target.checked);
+        }}
+      />
+    );
   }
   if (fieldProperty.type === 'select-one') {
     if (

@@ -98,7 +98,12 @@ export const TriggerProperties: React.FC<{
     return null;
   }
 
-  const initialValues = convertPropertiesToFormValues(selected.trigger.input);
+  const initialInputValues = convertPropertiesToFormValues(
+    selected.trigger.input,
+  );
+  const initialOutputValues = convertPropertiesToFormValues(
+    selected.trigger.output,
+  );
 
   const outgoingLinksComponent =
     outgoingLinks && outgoingLinks.length > 0 ? (
@@ -134,8 +139,9 @@ export const TriggerProperties: React.FC<{
         <Heading>{selected.trigger.type}</Heading>
       </DrawerHeader>
       <DrawerBody>
+        <Heading>Input properties:</Heading>
         <Formik
-          initialValues={initialValues}
+          initialValues={initialInputValues}
           onSubmit={(values, actions) => {
             const result = convertFormValuesToProperties(values);
             updateTrigger({
@@ -154,6 +160,42 @@ export const TriggerProperties: React.FC<{
                   index={null}
                   formikProps={props}
                   propsToRender={selected.triggerDefinition.inputProperties}
+                />
+                <Button
+                  mt={4}
+                  colorScheme="teal"
+                  isLoading={props.isSubmitting}
+                  type="submit"
+                >
+                  Save
+                </Button>
+                {/* <pre>{JSON.stringify(props, null, 2)}</pre> */}
+              </Stack>
+            </Form>
+          )}
+        </Formik>
+
+        <Heading>Output properties:</Heading>
+        <Formik
+          initialValues={initialOutputValues}
+          onSubmit={(values, actions) => {
+            const result = convertFormValuesToProperties(values);
+            updateTrigger({
+              ...selected.trigger,
+              output: result,
+            } as any).then(() => {
+              actions.setSubmitting(false);
+            });
+          }}
+        >
+          {(props) => (
+            <Form>
+              <Stack>
+                <FormProperties
+                  prefix={null}
+                  index={null}
+                  formikProps={props}
+                  propsToRender={selected.triggerDefinition.outputProperties}
                 />
                 <Button
                   mt={4}

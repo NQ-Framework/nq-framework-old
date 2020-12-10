@@ -74,6 +74,6 @@ export class ApiTriggerController {
     if (query.debugWorkflow === 'true') {
       return { ...result.context?.triggerOutput, workflowResult: result };
     }
-    return result.context?.triggerOutput;
+    return result.context?.triggerOutput.output;
   }
 }
