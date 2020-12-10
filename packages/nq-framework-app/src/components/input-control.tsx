@@ -34,7 +34,6 @@ export const InputControl: React.FC<
       <Checkbox
         isChecked={(rest.value as any) === true || rest.value === 'true'}
         onChange={(e) => {
-          console.log('e je', e.target.checked);
           setFieldValue(rest.name, e.target.checked);
         }}
       />
