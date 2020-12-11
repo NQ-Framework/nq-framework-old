@@ -66,6 +66,14 @@ export const handler: ActionHandler = {
         name: 'response',
         value: jsonResponse,
       },
+      {
+        name: 'status',
+        value: fetchResponse.status,
+      },
+      {
+        name: 'statusText',
+        value: fetchResponse.statusText,
+      },
     ];
   },
 };

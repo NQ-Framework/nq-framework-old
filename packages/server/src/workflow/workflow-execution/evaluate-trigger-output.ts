@@ -1,5 +1,4 @@
 import {
-  reducePropertyValuesToObject,
   WorkflowExecutionContext,
   WorkflowExecutionResult,
 } from '@nqframework/models';
@@ -15,5 +14,5 @@ export const evaluateTriggerOutput = async (
     return [];
   }
   const values = await evaluateProperties(trigger.output, { result, context });
-  return reducePropertyValuesToObject(values);
+  return values;
 };

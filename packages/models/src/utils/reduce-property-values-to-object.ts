@@ -1,8 +1,15 @@
 import { PropertyValue } from "../workflow/property/property-value";
 
-export const reducePropertyValuesToObject = (values: PropertyValue[]) => {
+export const reducePropertyValuesToObject = (
+  values: PropertyValue[],
+  recurse = true
+) => {
   return values.reduce((obj: any, prop: PropertyValue) => {
-    if (Array.isArray(prop.value)) {
+    if (
+      recurse &&
+      Array.isArray(prop.value) &&
+      (prop.value.length === 0 || Array.isArray(prop.value[0].value))
+    ) {
       const arrayValues: any[] = [];
       prop.value.forEach((arrayValue) => {
         arrayValues.push(reducePropertyValuesToObject(arrayValue.value));
