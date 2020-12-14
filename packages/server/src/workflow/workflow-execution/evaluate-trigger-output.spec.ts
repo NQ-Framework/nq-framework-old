@@ -32,8 +32,6 @@ describe('Evalute Trigger Output', () => {
 
   it('should evaluate any output properties defined', async () => {
     const mock = evaluateProperties as jest.Mock;
-    const mockReduce = reducePropertyValuesToObject as jest.Mock;
-    mockReduce.mockImplementation(() => ({}));
     mock.mockImplementation((input) => input);
     const result = await evaluateTriggerOutput(
       {
@@ -45,7 +43,10 @@ describe('Evalute Trigger Output', () => {
       mockExecutionResult,
       getMockExecutionContext(),
     );
-    expect(result).toEqual({});
+    expect(result).toEqual([
+      { name: 'mock prop', value: 'mock prop value' },
+      { name: 'second mock prop', value: 'mock prop value' },
+    ]);
     expect(mock).toHaveBeenCalledWith(
       [
         { name: 'mock prop', value: 'mock prop value' },
@@ -53,6 +54,5 @@ describe('Evalute Trigger Output', () => {
       ],
       expect.any(Object),
     );
-    expect(mockReduce).toHaveBeenCalled();
   });
 });
