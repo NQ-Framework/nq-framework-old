@@ -4,6 +4,7 @@ import {
   Controller,
   NotFoundException,
   Query,
+  Body,
   Req,
 } from '@nestjs/common';
 import {
@@ -28,7 +29,11 @@ export class ApiTriggerController {
     logger.setContext('Api Trigger Controller');
   }
   @All('*')
-  async getSomething(@Req() req: Request, @Query() query: any) {
+  async getSomething(
+    @Req() req: Request,
+    @Query() query: any,
+    @Body() body: any,
+  ) {
     if (!allowedMethods.includes(req.method)) {
       throw new BadRequestException();
     }
@@ -65,6 +70,7 @@ export class ApiTriggerController {
     for (const queryKey of Object.keys(query)) {
       inputs.push({ name: 'q:' + queryKey, value: query[queryKey] });
     }
+    inputs.push({ name: 'request-body', value: body });
     const result = await this.workflowExecutionService.executeWorkflow(
       targetWorkflow,
       trigger?.input || [],
