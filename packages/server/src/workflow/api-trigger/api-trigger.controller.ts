@@ -44,17 +44,20 @@ export class ApiTriggerController {
     let trigger: WorkflowTriggerInstance | undefined;
 
     const targetWorkflow: Workflow | undefined = wfs.find((w) => {
-      const trig = w.triggers.find((t) => t.type === 'api');
-      if (!trig) {
+      const triggers = w.triggers.filter((t) => t.type === 'api');
+      if (!triggers || triggers.length === 0) {
         return false;
       }
-      const inputValues = reducePropertyValuesToObject(trig.input);
-      if (
-        inputValues.verbs &&
-        (inputValues.verbs as string[]).includes(req.method)
-      ) {
-        trigger = trig;
-        return true;
+      for (let i = 0; i < triggers.length; i++) {
+        const trig = triggers[i];
+        const inputValues = reducePropertyValuesToObject(trig.input);
+        if (
+          inputValues.verbs &&
+          (inputValues.verbs as string[]).includes(req.method)
+        ) {
+          trigger = trig;
+          return true;
+        }
       }
       return false;
     });
