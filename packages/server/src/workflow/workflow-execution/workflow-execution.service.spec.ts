@@ -66,11 +66,11 @@ describe('WorkflowExecutionService', () => {
       { type: 'mockService' },
     );
     expect(result).toEqual(mockExecutionResult);
-    expect(persistExecutionContextState).toHaveBeenCalledTimes(2);
-    expect(persistExecutionContextState).toHaveBeenNthCalledWith(
-      1,
-      expect.objectContaining({ isRunning: true }),
-    );
+    expect(persistExecutionContextState).toHaveBeenCalledTimes(1); // was 2 before disabling persistance
+    // expect(persistExecutionContextState).toHaveBeenNthCalledWith(
+    //   1,
+    //   expect.objectContaining({ isRunning: true }),
+    // );
     expect(persistExecutionContextState).toHaveBeenLastCalledWith(
       expect.objectContaining({ isRunning: false }),
     );
