@@ -1,6 +1,6 @@
 {
   "name": "@nqframework/data-fetcher",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "A data fetcher component for the server and the connector client",
   "main": "build/index.js",
   "module": "build/index.es.js",
@@ -61,7 +61,7 @@
     ]
   },
   "dependencies": {
-    "@nqframework/models": "^4.4.3",
+    "@nqframework/models": "^4.4.4",
     "@types/tedious": "^4.0.3",
     "npm-check-updates": "^10.2.5",
     "tedious": "^9.2.3"
